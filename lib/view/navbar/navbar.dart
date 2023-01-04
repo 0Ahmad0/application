@@ -1,0 +1,106 @@
+import 'package:pinkey/view/resourse/assets_manager.dart';
+
+import '/translations/locale_keys.g.dart';
+import '/view/chat/chat_view.dart';
+import '/view/favorite/favorite_view.dart';
+import '/view/home/home_view.dart';
+import '/view/navbar/widgets/build_drawer.dart';
+import '/view/resourse/color_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import '../chart/chart_view.dart';
+
+class NavbarView extends StatefulWidget {
+  @override
+  State<NavbarView> createState() => _NavbarViewState();
+}
+
+class _NavbarViewState extends State<NavbarView> {
+  late List<Map<String, dynamic>> _screens;
+
+  final controller = PersistentTabController();
+
+  @override
+  Widget build(BuildContext context) {
+    _screens = [
+      {
+        "title": tr(LocaleKeys.rate_page),
+        "icon": AssetsManager.appointmentsIMG,
+        "screen": ChartView()
+      },
+      {
+        "title": tr(LocaleKeys.home_page),
+        "icon": AssetsManager.homeIMG,
+        "screen": HomeView(),
+      },
+
+      {
+        "title": tr(LocaleKeys.chat_page),
+        "icon": AssetsManager.menuIMG,
+        "screen": ChatView()
+      },
+      // {
+      //   "title": tr(LocaleKeys.favorite_page),
+      //   "icon": Icons.chrome_reader_mode_sharp,
+      //   "screen": FavoriteView()
+      // },
+    ];
+
+    return Scaffold(
+      // appBar: AppBar(
+      //   title: Text(_screens[controller.index]['title']),
+      //   actions: [
+      //     if (controller.index == 0)
+      //       PopupMenuButton(
+      //           icon: Icon(
+      //             Icons.filter_list,
+      //             color: ColorManager.lightGray,
+      //           ),
+      //           itemBuilder: (context) => [
+      //
+      //               PopupMenuItem(
+      //                 child: Text(tr(LocaleKeys.location)),
+      //                 value: tr(LocaleKeys.location),
+      //               ),
+      //             PopupMenuItem(
+      //                 child: Text(tr(LocaleKeys.price)),
+      //                 value: tr(LocaleKeys.price),
+      //               ),
+      //           ]),
+      //   ],
+      // ),
+      // drawer: Drawer(
+      //   child: BuildDrawer(),
+      // ),
+      body: SafeArea(
+        child: PersistentTabView(
+          context,
+          onItemSelected: (index) {
+            controller.index = index;
+            setState(() {});
+            print(controller.index);
+          },
+          controller: controller,
+          screens: [ ChatView(),HomeView() ,ChartView()],
+          navBarStyle: NavBarStyle.style5,
+          items: [
+            for (int i = 0; i < _screens.length; i++)
+              PersistentBottomNavBarItem(
+                  icon: SvgPicture.asset(
+                    _screens[i]['icon'],
+                    color: i == controller.index
+                        ? ColorManager.secondaryColor
+                        : ColorManager.lightGray,
+                  ),
+                  activeColorSecondary: ColorManager.secondaryColor,
+                  activeColorPrimary: Colors.transparent)
+          ],
+          backgroundColor: Theme.of(context).cardColor,
+        ),
+      ),
+    );
+  }
+}

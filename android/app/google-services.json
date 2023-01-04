@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "916364561753",
+    "project_id": "pinkey-fead2",
+    "storage_bucket": "pinkey-fead2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:916364561753:android:23e8652f4fc93d0e1a5048",
+        "android_client_info": {
+          "package_name": "com.example.pinkey"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "916364561753-rjtr3ddee6k0rai761tcsod67ri8lni3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSyOle5CQ2BM5yRgXbF8CCU9RStxiL7YI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "916364561753-rjtr3ddee6k0rai761tcsod67ri8lni3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
