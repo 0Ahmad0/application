@@ -11,13 +11,23 @@ import '../../resourse/const_manager.dart';
 import '../../resourse/string_manager.dart';
 import '/view/resourse/assets_manager.dart';
 import '/view/resourse/values_manager.dart';
+/*
+StatelessWidget
+يتعامل مع الواجهات والأشياء الثابتة والتي ليس فيها تغيير
+StateFulWidget
+تستخدم مع الواجهات التفاعيلية اللي فيها تفاعل مع المستخدم لو كبست شي رح يصير شي
+
+type Widgets:
+1 - Single Child //=>>> SigleScrollChildView
+2 - Multiple Child
+//column - Row - ListView - Wrap
+ */
 
 class SplashViewBody extends StatelessWidget {
   const SplashViewBody({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(seconds: ConstManager.logoDelay), () => Get.off(() => LoginView()));
+    Future.delayed(const Duration(seconds: ConstManager.logoDelay), () => Get.off(() => const LoginView()));
     return FadeInLeftBig(
       child: Container(
         width: double.infinity,
@@ -33,7 +43,7 @@ class SplashViewBody extends StatelessWidget {
           children: [
             const Spacer(),
             Image.asset(AssetsManager.logoIMG),
-            const SizedBox(height: AppSize.s10,),
+            const SizedBox(height: AppSize.s10,),//بيعد مسافة بين Widget واخرى
             Text(AppStringsManager.splashText,style: getRegularStyle(
               color: ColorManager.white,
               fontSize: 16.sp
@@ -42,9 +52,9 @@ class SplashViewBody extends StatelessWidget {
             SizedBox(
               width: 10.w,
               height: 10.h,
-              child: LoadingIndicator(
+              child: const LoadingIndicator(
                   indicatorType: Indicator.lineSpinFadeLoader, /// Required, The loading type of the widget
-                  colors: const [Colors.white],       /// Optional, The color collections
+                  colors:  [Colors.white],       /// Optional, The color collections
                   strokeWidth: .5,                     /// Optional, The stroke of the line, only applicable to widget which contains line
                   backgroundColor: Colors.transparent,      /// Optional, Background of the widget
                   pathBackgroundColor: ColorManager.lightGray   /// Optional, the stroke backgroundColor

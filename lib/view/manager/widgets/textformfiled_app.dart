@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:pinkey/view/resourse/color_manager.dart';
+import 'package:pinkey/view/resourse/string_manager.dart';
 import '/translations/locale_keys.g.dart';
 import 'package:sizer/sizer.dart';
 
@@ -54,7 +55,7 @@ class _TextFiledAppState extends State<TextFiledApp> {
       readOnly: widget.readOnly,
       autofocus: widget.autofocus,
       validator: widget.validator??(String? val){
-        if(val!.trim().isEmpty) return tr(LocaleKeys.field_required);
+        if(val!.trim().isEmpty) return AppStringsManager.field_required;
         return null;
       },
       onChanged: widget.onChanged,

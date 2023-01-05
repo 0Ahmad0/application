@@ -26,5 +26,6 @@ class AppStringsManager{
   static const String search_trainer = "... أبحثِ عن مدربة";
   static const String all_trainer = "كل المدربات";
   static const String show_trainer_details = "شاهد تفاصيل المدربة";
+  static const String field_required = "هذا الحقل مطلوب";
 
 }

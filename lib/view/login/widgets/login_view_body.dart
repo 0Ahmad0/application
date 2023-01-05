@@ -70,11 +70,14 @@ class LoginViewBody extends StatelessWidget {
                   color: Theme.of(context).textTheme.subtitle1!.color,
                   fontSize: 12.sp),
             ),
+
             const SizedBox(
               height: AppSize.s10,
             ),
             TextFiledApp(
-                iconData: Icons.phone_android, hintText: AppStringsManager.type + " " +AppStringsManager.phone_number ),
+
+                iconData: Icons.phone_android,
+                hintText: AppStringsManager.type + " " +AppStringsManager.phone_number ),
             const SizedBox(
               height: AppSize.s40,
             ),

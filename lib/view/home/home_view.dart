@@ -51,6 +51,8 @@ class _HomeViewState extends State<HomeView> {
         isFav: false
     ),
   ];
+
+
   @override
   Widget build(BuildContext context) {
     return Padding(

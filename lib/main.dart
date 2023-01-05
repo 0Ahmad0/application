@@ -3,7 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:location/location.dart';
 import '/view/resourse/theme_manager.dart';
 import 'package:sizer/sizer.dart';
 
@@ -14,32 +13,7 @@ Future<void> main()async{
   // await Firebase.initializeApp(
   //     options: DefaultFirebaseOptions.currentPlatform
   // );
-  Location location = new Location();
 
-  bool _serviceEnabled;
-  PermissionStatus _permissionGranted;
-  LocationData _locationData;
-
-  _serviceEnabled = await location.serviceEnabled();
-  if (!_serviceEnabled) {
-    _serviceEnabled = await location.requestService();
-    if (!_serviceEnabled) {
-      return;
-    }
-  }
-
-  _permissionGranted = await location.hasPermission();
-  if (_permissionGranted == PermissionStatus.denied) {
-    _permissionGranted = await location.requestPermission();
-    if (_permissionGranted != PermissionStatus.granted) {
-      return;
-    }
-  }
-
-  _locationData = await location.getLocation();
-
-  print(_locationData.latitude);
-  print(_locationData.longitude);
   await EasyLocalization.ensureInitialized();
   runApp(
     EasyLocalization(
@@ -66,7 +40,7 @@ class MyApp extends StatelessWidget {
     return Sizer(
         builder: (context, orientation, deviceType) {
           return GetMaterialApp(
-              title: "Currency",
+              title: "Pinkey",
               supportedLocales: context.supportedLocales,
               localizationsDelegates: context.localizationDelegates,
                locale: Locale('ar'),
@@ -74,11 +48,11 @@ class MyApp extends StatelessWidget {
                // theme: ThemeData.dark(),
              theme: ThemeManager.myTheme,
               // theme: getApplicationTheme(isDark: appProvider.darkTheme),
-              home:SplashView()
+              home:const SplashView()
           );
         }
     );
   }
 }
-
+//GetX  MVC ==> Model View Controller
 //          FocusManager.instance.primaryFocus!.unfocus();
