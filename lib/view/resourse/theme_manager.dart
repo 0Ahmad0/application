@@ -72,9 +72,9 @@ class ThemeManager {
     floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: ColorManager.primaryColor),
     appBarTheme: AppBarTheme(
-        backgroundColor: ColorManager.primaryColor,
+        backgroundColor: ColorManager.white,
         centerTitle: true,
-        elevation: AppSize.s4,
+        elevation: 0.0,
         titleTextStyle:
             getRegularStyle(
                 color: ColorManager.black, fontSize: 14.sp

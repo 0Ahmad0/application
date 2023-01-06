@@ -10,6 +10,16 @@ class AssetsManager{
   static const select_locationIMG = '$imagePath/select_location.png';
   static const fill_heartIMG = '$imagePath/fill_heart.svg';
   static const border_heartIMG = '$imagePath/border_heart.svg';
+  static const triner_emailIMG = '$imagePath/triner_email.svg';
+  static const trainer_phoneIMG = '$imagePath/trainer_phone.svg';
+  static const trainer_locationIMG = '$imagePath/trainer_location.svg';
+  static const trainer_courseIMG = '$imagePath/trainer_course.svg';
+  static const trainer_reviewsIMG = '$imagePath/trainer_reviews.svg';
+  static const trainer_course_nameIMG = '$imagePath/trainer_course_name.svg';
+
+
+
+
   static const emptyIMG = '$imagePath/empty.svg';
   static const drinksIMG = '$imagePath/drinks.jpg';
   static const mainDishesIMG = '$imagePath/maindishes.jpg';

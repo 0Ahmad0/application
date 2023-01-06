@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="11.776" height="11.776" viewBox="0 0 11.776 11.776">
+  <g id="vuesax_linear_star" data-name="vuesax/linear/star" transform="translate(-108 -188)">
+    <g id="star" transform="translate(108 188)">
+      <path id="Vector" d="M5.755.7,6.619,2.43a1.066,1.066,0,0,0,.7.515l1.565.26c1,.167,1.237.893.515,1.609L8.179,6.032a1.065,1.065,0,0,0-.255.888l.348,1.506c.275,1.192-.358,1.654-1.413,1.03L5.392,8.588a1.061,1.061,0,0,0-.972,0l-1.467.868c-1.05.623-1.688.157-1.413-1.03L1.889,6.92a1.065,1.065,0,0,0-.255-.888L.417,4.815C-.3,4.1-.069,3.372.932,3.205L2.5,2.945a1.069,1.069,0,0,0,.692-.515L4.052.7C4.524-.234,5.289-.234,5.755.7Z" transform="translate(0.982 1.019)" fill="none" stroke="#bdbdbf" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0H11.776V11.776H0Z" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

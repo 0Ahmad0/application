@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:pinkey/view/manager/widgets/button_app.dart';
 import 'package:pinkey/view/manager/widgets/textformfiled_app.dart';
 import 'package:pinkey/view/resourse/string_manager.dart';
+import 'package:pinkey/view/test_ppp.dart';
+import 'package:pinkey/view/triner_details/trainer_details_view.dart';
 
 import '../../model/models.dart';
 import '/translations/locale_keys.g.dart';
@@ -235,7 +237,11 @@ class _BuildTrainerItemState extends State<BuildTrainerItem> {
                           height: AppSize.s40,
                             fontSize: 12.sp,
                             text: AppStringsManager.show_trainer_details, onPressed: (){
-                          //TODO : Navigator to DetailsScreen
+
+                              Get.to(()=> TrainerDetailsView(
+                            trainer: widget.trainer,
+                          ));
+
                         }),
                       ),
                       SizedBox(width: AppSize.s4,),
