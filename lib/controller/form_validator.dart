@@ -1,3 +1,4 @@
+import '../view/resourse/string_manager.dart';
 import '/translations/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:get/get.dart';
@@ -46,6 +47,26 @@ class FormValidator {
     if (confirmPassword.trim().isEmpty) {
       return tr(LocaleKeys.field_required);
     }
+    return null;
+  }
+
+  ///@cvvCard Validator
+  static String? cvvCardValidator(String? val){
+    if(val!.trim().isEmpty)
+      return AppStringsManager.filed_Required;
+    if(val.length != 3)
+      return AppStringsManager.cvv_3letter;
+
+    return null;
+  }
+
+  ///@cvvCard Validator
+  static String? cardNumberValidator(String? val){
+    if(val!.trim().isEmpty)
+      return AppStringsManager.filed_Required;
+    if(val.length != 16)
+      return AppStringsManager.card_number_16letter;
+
     return null;
   }
 

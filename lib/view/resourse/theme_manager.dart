@@ -21,6 +21,7 @@ Map<int, Color> color = {
 
 class ThemeManager {
   static var myTheme = ThemeData(
+
     textTheme: TextTheme(
         subtitle2:getRegularStyle(color: ColorManager.lightGray)
     ),

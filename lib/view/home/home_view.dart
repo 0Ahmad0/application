@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:pinkey/view/manager/widgets/button_app.dart';
 import 'package:pinkey/view/manager/widgets/textformfiled_app.dart';
 import 'package:pinkey/view/resourse/string_manager.dart';
-import 'package:pinkey/view/test_ppp.dart';
 import 'package:pinkey/view/triner_details/trainer_details_view.dart';
 
 import '../../model/models.dart';
@@ -57,131 +56,127 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return ListView(
       padding: const EdgeInsets.all(AppPadding.p16),
-      child: Column(
-        children: [
-       ListTile(
-         contentPadding: EdgeInsets.zero,
-         title:  Text(AppStringsManager.home,style: getRegularStyle(
-             color: Colors.black,
-             fontSize: 18.sp
-         ),),
-         trailing: InkWell(
-             onTap: (){
-               //TODO: notficatrion  do it
-             },
-             child: SvgPicture.asset(AssetsManager.notficationIMG)),
-       ),
-          Row(
-            children: [
-              SvgPicture.asset(AssetsManager.locationIMG),
-              Expanded(
-                child: DropdownButtonFormField(
-                  icon: Icon(Icons.keyboard_arrow_down,size: 14.sp,),
-                    style: getRegularStyle(color: ColorManager.black,fontSize: 10.sp),
-                    items: [
-                 for(int i = 0 ; i < 10 ; i++)
-                   DropdownMenuItem(
-                     child: Text('مكة , الزاهر ، حي الشهداء${i+1}',
-                       style: getRegularStyle(color: ColorManager.black,
-                       fontSize: 10.sp
-                       ),),
-                     value: i,
-                   )
+      children: [
+     ListTile(
+       contentPadding: EdgeInsets.zero,
+       title:  Text(AppStringsManager.home,style: getRegularStyle(
+           color: Colors.black,
+           fontSize: 18.sp
+       ),),
+       trailing: InkWell(
+           onTap: (){
+             //TODO: notficatrion  do it
+           },
+           child: SvgPicture.asset(AssetsManager.notficationIMG)),
+     ),
+        Row(
+          children: [
+            SvgPicture.asset(AssetsManager.locationIMG),
+            Expanded(
+              child: DropdownButtonFormField(
+                icon: Icon(Icons.keyboard_arrow_down,size: 14.sp,),
+                  style: getRegularStyle(color: ColorManager.black,fontSize: 10.sp),
+                  items: [
+               for(int i = 0 ; i < 10 ; i++)
+                 DropdownMenuItem(
+                   child: Text('مكة , الزاهر ، حي الشهداء${i+1}',
+                     style: getRegularStyle(color: ColorManager.black,
+                     fontSize: 10.sp
+                     ),),
+                   value: i,
+                 )
 
-                ],
-                    decoration: InputDecoration(
-                      hintStyle: getRegularStyle(color: ColorManager.black,fontSize: 10.sp),
-                      contentPadding: EdgeInsets.zero,
-                      hintText: AppStringsManager.select_location,
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      filled: false
-                    ),
-                    onChanged: (value){
-                  print(value);
-                }),
+              ],
+                  decoration: InputDecoration(
+                    hintStyle: getRegularStyle(color: ColorManager.black,fontSize: 10.sp),
+                    contentPadding: EdgeInsets.zero,
+                    hintText: AppStringsManager.select_location,
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    filled: false
+                  ),
+                  onChanged: (value){
+                print(value);
+              }),
+            ),
+            Expanded(child: SizedBox())
+          ],
+        ),
+        const SizedBox(height: AppSize.s10,),
+        TextFiledApp(iconData: Icons.search_outlined, hintText: AppStringsManager.search_trainer),
+        const SizedBox(height: AppSize.s10,),
+        Container(
+          padding: const EdgeInsets.all(AppPadding.p14),
+          width: double.infinity,
+          decoration: BoxDecoration(
+              color: ColorManager.secondaryColor,
+              borderRadius: BorderRadius.circular(6.sp)
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                left: 0,
+                child: Image.asset(AssetsManager.select_locationIMG,
+                  width: 45.w,
+                ),
               ),
-              Expanded(child: SizedBox())
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(AppStringsManager.select_your_location,style: getRegularStyle(
+                    color: ColorManager.white,
+                    fontSize: 14.sp
+                  ),),
+                  const SizedBox(height: AppSize.s10,),
+                  Text(AppStringsManager.you_have_select_location,style: getRegularStyle(
+                    color: ColorManager.white
+                  ),),
+                  const SizedBox(height: AppSize.s10,),
+                  SizedBox(
+                    height: 6.sp,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 3,
+                      itemBuilder: (_,index){
+                        return InkWell(
+                          onTap: (){
+                            setState(() {
+                              _selectedIndex = index;
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(AppPadding.p10),
+                            margin: const EdgeInsets.only(right: AppMargin.m4),
+                            decoration: BoxDecoration(
+                              color: _selectedIndex == index?ColorManager.thirdlyColor:ColorManager.white,
+                              borderRadius: BorderRadius.circular(AppSize.s100)
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                ],
+              ),
             ],
           ),
-          const SizedBox(height: AppSize.s10,),
-          TextFiledApp(iconData: Icons.search_outlined, hintText: AppStringsManager.search_trainer),
-          const SizedBox(height: AppSize.s10,),
-          Container(
-            padding: const EdgeInsets.all(AppPadding.p14),
-            width: double.infinity,
-            decoration: BoxDecoration(
-                color: ColorManager.secondaryColor,
-                borderRadius: BorderRadius.circular(6.sp)
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  left: 0,
-                  child: Image.asset(AssetsManager.select_locationIMG,
-                    width: 45.w,
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(AppStringsManager.select_your_location,style: getRegularStyle(
-                      color: ColorManager.white,
-                      fontSize: 14.sp
-                    ),),
-                    const SizedBox(height: AppSize.s10,),
-                    Text(AppStringsManager.you_have_select_location,style: getRegularStyle(
-                      color: ColorManager.white
-                    ),),
-                    const SizedBox(height: AppSize.s10,),
-                    SizedBox(
-                      height: 6.sp,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 3,
-                        itemBuilder: (_,index){
-                          return InkWell(
-                            onTap: (){
-                              setState(() {
-                                _selectedIndex = index;
-                              });
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(AppPadding.p10),
-                              margin: const EdgeInsets.only(right: AppMargin.m4),
-                              decoration: BoxDecoration(
-                                color: _selectedIndex == index?ColorManager.thirdlyColor:ColorManager.white,
-                                borderRadius: BorderRadius.circular(AppSize.s100)
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ),
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            title:  Text(AppStringsManager.all_trainer,style: getRegularStyle(
-                color: Colors.black,
-                fontSize: 18.sp
-            ),),
-          ),
-          const SizedBox(height: AppSize.s10,),
-          Expanded(child: ListView.builder(
-            //ToDO: set Api length list
-          itemCount: _trainerList.length,
-            itemBuilder: (_,index)=>BuildTrainerItem(trainer: _trainerList[index],),
-          ))
+        ),
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          title:  Text(AppStringsManager.all_trainer,style: getRegularStyle(
+              color: Colors.black,
+              fontSize: 18.sp
+          ),),
+        ),
+        const SizedBox(height: AppSize.s10,),
+        for(int i = 0 ; i <_trainerList.length;i++ )
+          BuildTrainerItem(trainer: _trainerList[i],)
 
-        ],
-      ),
+
+      ],
     );
   }
 }

@@ -1,5 +1,7 @@
+import 'package:pinkey/view/appointments/appointments_view.dart';
 import 'package:pinkey/view/resourse/assets_manager.dart';
 
+import '../menu/menu_view.dart';
 import '/translations/locale_keys.g.dart';
 import '/view/chat/chat_view.dart';
 import '/view/favorite/favorite_view.dart';
@@ -29,7 +31,7 @@ class _NavbarViewState extends State<NavbarView> {
       {
         "title": tr(LocaleKeys.rate_page),
         "icon": AssetsManager.appointmentsIMG,
-        "screen": ChartView()
+        "screen": AppointmentsView()
       },
       {
         "title": tr(LocaleKeys.home_page),
@@ -40,7 +42,7 @@ class _NavbarViewState extends State<NavbarView> {
       {
         "title": tr(LocaleKeys.chat_page),
         "icon": AssetsManager.menuIMG,
-        "screen": ChatView()
+        "screen": MenuView()
       },
       // {
       //   "title": tr(LocaleKeys.favorite_page),
@@ -50,6 +52,7 @@ class _NavbarViewState extends State<NavbarView> {
     ];
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       // appBar: AppBar(
       //   title: Text(_screens[controller.index]['title']),
       //   actions: [
@@ -84,8 +87,9 @@ class _NavbarViewState extends State<NavbarView> {
             print(controller.index);
           },
           controller: controller,
-          screens: [ ChatView(),HomeView() ,ChartView()],
+          screens: [ AppointmentsView(),HomeView() ,MenuView()],
           navBarStyle: NavBarStyle.style5,
+
           items: [
             for (int i = 0; i < _screens.length; i++)
               PersistentBottomNavBarItem(

@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import '/translations/locale_keys.g.dart';
 import '/view/resourse/assets_manager.dart';
@@ -14,8 +15,8 @@ import '../../resourse/values_manager.dart';
 import 'dart:ui' as ui;
 
 class ChatRoom extends StatelessWidget {
-  const ChatRoom({super.key});
-
+   ChatRoom({super.key});
+final messageController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +26,19 @@ class ChatRoom extends StatelessWidget {
         ),
           elevation: 0.0,
           backgroundColor: ColorManager.white,
-          title: Text('عبير عبد الغني')),
+          title: ListTile(
+            title: Text('عبير عبد الغني'),
+            leading: ClipOval(
+              child: Image.asset('assets/images/1.png',
+              width: 10.w,
+                height: 10.w,
+              ),
+            ),
+            subtitle: Text('رخصة عمل حر',style: getRegularStyle(
+              color: ColorManager.hintColor,
+              fontSize: 10.sp
+            ),),
+          )),
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
@@ -53,14 +66,17 @@ class ChatRoom extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                    child: TextField(
+                    child: TextFormField(
+                      controller: messageController,
                   style: getRegularStyle(
-                      color: Theme.of(context).cardColor, fontSize: 14.sp),
+                      color: Theme.of(context).textTheme.subtitle1!.color, fontSize: 14.sp),
                   decoration: InputDecoration(
                       border: BorderType,
                       enabledBorder: BorderType,
                       focusedBorder: BorderType,
                       hintText: 'اكتب رسالتك هنا...',
+                      hintStyle: getRegularStyle(
+    color: ColorManager.hintColor, fontSize: 12.sp),
                       suffixIcon: IconButton(
                         onPressed: () async {
                           var file = await ImagePicker().pickImage(
@@ -70,20 +86,20 @@ class ChatRoom extends StatelessWidget {
                             print('yes');
                           }
                         },
-                        icon: Icon(Icons.image),
+                        icon: SvgPicture.asset(AssetsManager.chat_pictureIMG)
                       )),
                 )),
                 const SizedBox(
                   width: AppSize.s10,
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    messageController.clear();
+                  },
                   child: CircleAvatar(
-                      radius: 20.sp,
-                      child: Icon(
-                        Icons.send,
-                        color: Theme.of(context).cardColor,
-                      )),
+                    radius: 20.sp,
+                      backgroundColor: ColorManager.primaryColor,
+                      child: SvgPicture.asset(AssetsManager.sendIconIMG)),
                 )
               ],
             ),

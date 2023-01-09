@@ -13,6 +13,7 @@ class ColorManager{
 
 
  static const borderColor = Color(0xffF0F0F0);
+ static const hintColor = Color(0xffDADADA);
 
 
 

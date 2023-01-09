@@ -11,9 +11,11 @@ class ButtonApp extends StatelessWidget {
      this.width = double.infinity,
      this.height =60,
      this.fontSize,
+    this.borderColor = Colors.transparent,
   }) : super(key: key);
   final Color? color;
   final Color? textColor;
+  final Color borderColor;
   final String text;
   final double? radius;
   final double width;
@@ -30,7 +32,8 @@ class ButtonApp extends StatelessWidget {
         backgroundColor: color,
         minimumSize: Size(width, height),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(radius!)
+          borderRadius: BorderRadius.circular(radius!),
+          side: BorderSide(color: borderColor)
         )
       ),
       onPressed: onPressed,

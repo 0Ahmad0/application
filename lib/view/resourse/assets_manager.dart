@@ -16,6 +16,19 @@ class AssetsManager{
   static const trainer_courseIMG = '$imagePath/trainer_course.svg';
   static const trainer_reviewsIMG = '$imagePath/trainer_reviews.svg';
   static const trainer_course_nameIMG = '$imagePath/trainer_course_name.svg';
+  static const starIMG = '$imagePath/star.svg';
+  static const walletIMG = '$imagePath/wallet.svg';
+  static const sendIconIMG = '$imagePath/send_message_icon.svg';
+  static const chat_pictureIMG = '$imagePath/chat_picture.svg';
+  static const profileIMG = '$imagePath/profile.svg';
+  static const send_complaintIMG = '$imagePath/send_complaint.svg';
+  static const connection_customer_servicesIMG = '$imagePath/connection_customer_services.svg';
+  static const terms_of_useIMG = '$imagePath/terms_of_use.svg';
+  static const privacy_policyIMG = '$imagePath/privacy_policy.svg';
+  static const languageIMG = '$imagePath/language.svg';
+  static const log_outIMG = '$imagePath/log_out.svg';
+  static const add_creditIMG = '$imagePath/add_credit.svg';
+  static const book_doneIMG = '$imagePath/book_done.png';
 
 
 

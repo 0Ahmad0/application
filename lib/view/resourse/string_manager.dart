@@ -31,5 +31,71 @@ class AppStringsManager{
   static const String trainer_courses = "الدورات";
   static const String trainer_courses_name = "اسم الدورة";
   static const String show_trainer_course_details = "مشاهدة التفاصيل";
+  static const String course_booking = "حجز الدورة";
+  static const String payment_for_course = "الدفع للدورة";
+  static const String total_wallet = "اجمالي المحفظة";
+  static const String course_cars = "السيارة الخاصة بالدورة";
+  static const String my_car = "سيارتي الخاصة";
+  static const String trainer_car = "سيارة المتدربة";
+  static const String course_details = "تفاصيل الدورة";
+  static const String booking_confirmation = "تأكيد الحجز";
+  static const String successfulBoking = "تم ارسال طلبكم برقم #";
+  static const String appointments = "المواعيد";
+  static const String ongoing = "جارية";
+  static const String completed = "مكتملة";
+  static const String cancelled = "ملغية";
+  static const String start_conversation = "بدأ المحادثة";
+  static const String cancellation_booking = "الغاء الحجز";
+  static const String menu = "القائمة";
+  static const String join_to_control_the_options = "يجيب عليك الإنضمام للتحكم في الخيارات";
+  static const String contact_customer_service = "التواصل مع خدمة العملاء";
+  static const String contact_customer_service_subtitle = "تواصل مع خدمة العملاء لطلب مخصص";
+  static const String language = "اللغة";
+  static const String language_subtitle = "تغيير لغة التطبيق بما يتناسب معك";
+  static const String terms_of_use = "شروط الإستخدام";
+  static const String terms_of_use_subtitle = "الشروط الازم اتباعها عند استخدام التطبيق";
+  static const String privacy_policy = "سياسة الخصوصية";
+  static const String privacy_policy_subtitle = "إجراءات التطبيق في خصوصياته";
+  static const String profile = "الملف الشخصي";
+  static const String profile_subtitle = "يمكنك شراء الدورات من خلال محفظتك";
+  static const String wallet = "المحفظة";
+  static const String wallet_subtitile = "يمكنك شراء الدورات من خلال محفظتك";
+  static const String send_complaint = "إرسال شكوى";
+  static const String send_complaint_subtitle = "قم بتقديم شكوى او مشكلة تواجهك";
+  static const String log_out = "تسجيل خروج";
+  static const String log_out_subtitle = "تسجيل خروج من التطبيق";
+  static const String join_as_a_coach = "تريدي الإنضمام كمدربة؟";
+  static const String offer_courses_and_assistance = "يمكنك الانضمام كمدربة قيادة وتقديم الدورات والمساعدة لمن يحتاجها";
+  static const String join_now = "أنضمي الأن";
+  static const String add_credit = "إضافة رصيد";
+  static const String all_movements = "كل الحركات";
+  static const String movement = "الحركة";
+  static const String add_balance = "اضافة رصيد";
+  static const String participate_in_course = "الاشتراك في دورة";
+  static const String charge_wallet = "شحن المحفظة";
+  static const String select_a_payment_method = "يرجى اختيار وسيلة الدفع";
+  static const String your_paymentdetails = "يرجى تعبئة بيانات الدفع";
+  static const String card_number = "رقم البطاقة";
+  static const String card_holder = "صاحب البطاقة";
+  static const String pin_cvv = "cvv الرقم السري";
+  static const String expiry_date = "تاريخ الانتهاء";
+  static const String confirm_payment = "تأكيد الدفع";
+  static const String complaint = "الشكاوي";
+  static const String complaint_details = "تفاصيل الشكوى";
+  static const String please_enter_complaint_details = "يرجى إدخال تفاصيل الشكوى المقدمة";
+  static const String send_complaint_al = "إرسال الشكوى";
+  static const String all_complaint = "الشكاوي السابقة";
+  static const String number_complaint = "رقم الشكوى";
+  static const String date_complaint = "تاريخ الشكوى";
+  static const String complaint_replay = "الإجابة على الشكوى";
+  static const String send_new__complaint = "إرسال شكوى جديدة";
+
+
+
+
+
+  static const String filed_Required = "هذا الحقل مطلوب";
+  static const String cvv_3letter = "الطول الاعظم هو 3";
+  static const String card_number_16letter = "يجب أن يكون الرقم من 16";
 
 }
