@@ -1,3 +1,5 @@
+import 'package:pinkey/view/trainer/complete_information/complete_information_view.dart';
+
 import '/view/splash/splash_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +50,8 @@ class MyApp extends StatelessWidget {
                // theme: ThemeData.dark(),
              theme: ThemeManager.myTheme,
               // theme: getApplicationTheme(isDark: appProvider.darkTheme),
-              home:const SplashView()
+              // home:const SplashView()
+              home:const CompleteInformationView()
           );
         }
     );

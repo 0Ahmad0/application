@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:pinkey/view/resourse/assets_manager.dart';
 import 'package:pinkey/view/resourse/color_manager.dart';
 import 'package:pinkey/view/resourse/string_manager.dart';
 import '/translations/locale_keys.g.dart';
@@ -10,22 +12,24 @@ class TextFiledApp extends StatefulWidget {
      this.textInputAction = TextInputAction.next,
      this.keyboardType = TextInputType.text,
     this.controller,
-    required this.iconData,
-    required this.hintText,
+     this.iconData,
+     this.hintText,
     this.obscureText = false,
      this.suffixIcon = false,
       this.validator,
       this.onChanged,
       this.onTap,
       this.autofocus = false,
-      this.readOnly = false
+      this.readOnly = false,
+     this.maxline = 1,
+     this.minline = 1
   }) : super(key: key);
 
   final TextInputAction textInputAction;
   final TextInputType keyboardType;
   final TextEditingController? controller;
-  final IconData iconData;
-  final String hintText;
+  final IconData? iconData;
+  final String? hintText;
   final bool suffixIcon;
   final bool autofocus;
   final bool readOnly;
@@ -33,6 +37,8 @@ class TextFiledApp extends StatefulWidget {
   final String? Function(String?)? validator;
   final Function(String)? onChanged;
   final VoidCallback? onTap;
+  final int? maxline;
+  final int? minline;
 
 
   @override
@@ -52,6 +58,8 @@ class _TextFiledAppState extends State<TextFiledApp> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: widget.maxline,
+      minLines: widget.minline,
       readOnly: widget.readOnly,
       autofocus: widget.autofocus,
       validator: widget.validator??(String? val){
@@ -68,21 +76,20 @@ class _TextFiledAppState extends State<TextFiledApp> {
       obscureText: widget.obscureText,
       controller: widget.controller,
       decoration: InputDecoration(
-
         hintStyle: TextStyle(
-            fontSize: SizerUtil.width / 32
+            fontSize: 12.sp,
+          color: ColorManager.hintColor
         ),
-          prefixIcon: Icon(widget.iconData
+          prefixIcon: widget.iconData==null?null: Icon(widget.iconData
             , size: SizerUtil.width / 24,
           ),
-          suffixIcon: widget.suffixIcon?IconButton(
-            icon: Icon(!widget.obscureText?Icons.visibility:Icons.visibility_off_sharp,
-              size: SizerUtil.width / 24,
-            ),
-            onPressed: (){
-              showPassword();
-            },
-          ):null,
+          suffixIcon: widget.suffixIcon?
+              SvgPicture.asset(
+                AssetsManager.show_passwordIMG,
+                color: !widget.obscureText
+                    ? ColorManager.primaryColor
+                    :ColorManager.hintColor,
+              ):null,
           hintText: widget.hintText
       ),
     );

@@ -28,6 +28,8 @@ class AssetsManager{
   static const languageIMG = '$imagePath/language.svg';
   static const log_outIMG = '$imagePath/log_out.svg';
   static const add_creditIMG = '$imagePath/add_credit.svg';
+  static const edit_imageIMG = '$imagePath/edit_image.svg';
+  static const show_passwordIMG = '$imagePath/show_password.svg';
   static const book_doneIMG = '$imagePath/book_done.png';
 
 
