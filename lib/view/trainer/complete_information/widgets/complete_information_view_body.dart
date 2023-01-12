@@ -35,6 +35,7 @@ class _CompleteInformationViewBodyState
   final _formKey2 = GlobalKey<FormState>();
   final _formKey3 = GlobalKey<FormState>();
   final _formKey4 = GlobalKey<FormState>();
+  final _formKey5 = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -54,7 +55,7 @@ class _CompleteInformationViewBodyState
             CompleteInfo2(formKey: _formKey2,pageController: _pageController,),
             CompleteInfo3(formKey: _formKey3,pageController: _pageController,),
             CompleteInfo4(formKey: _formKey4,pageController: _pageController,),
-            CompleteInfo5(),
+            CompleteInfo5(pageController: _pageController,),
           ],
         ),
       ),

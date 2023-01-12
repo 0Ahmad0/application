@@ -115,6 +115,14 @@ class AppStringsManager{
   static const String price_in_your_personal_car = 'سعر ساعة التدريب المتوقعة بسيارتك الشخصية';
   static const String price_in_the_trainees_car = 'سعر ساعة التدريب المتوقعة بسيارة المتدربة';
   static const String price = 'السعر';
+  static const String image_id = 'صورة الهوية';
+  static const String car_license = 'رخصة السيارة';
+  static const String car_registration = 'استمارة السيارة';
+  static const String car_image = 'صورة السيارة';
+  static const String self_employment_license = 'رخصة عمل حر';
+  static const String other_image = 'صور اخرى';
+  static const String uploade_image = 'ارفاق صورة';
+  static const String please_uploade_all_images = 'الرجاء ارفاق كافة الصور';
 
 
 
