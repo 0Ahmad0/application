@@ -2,7 +2,9 @@ import 'package:pinkey/view/appointments/appointments_view.dart';
 import 'package:pinkey/view/resourse/assets_manager.dart';
 
 import '../menu/menu_view.dart';
+import '../trainer/appointments/trainer_appointments_view.dart';
 import '../trainer/my_courses/my_courses_view.dart';
+import '../trainer/requests/requests_view.dart';
 import '/translations/locale_keys.g.dart';
 import '/view/chat/chat_view.dart';
 import '/view/favorite/favorite_view.dart';
@@ -41,9 +43,15 @@ class _NavbarViewState extends State<NavbarView> {
       },
       {
         "title": tr(LocaleKeys.home_page),
+        "icon": AssetsManager.privacy_policyIMG,
+        "screen": RequestsView(),
+      },
+      {
+        "title": tr(LocaleKeys.home_page),
         "icon": AssetsManager.homeIMG,
         "screen": HomeView(),
       },
+
 
       {
         "title": tr(LocaleKeys.chat_page),
@@ -89,7 +97,8 @@ class _NavbarViewState extends State<NavbarView> {
             print(controller.index);
           },
           controller: controller,
-          screens: [ MyCoursesView(),AppointmentsView(),HomeView() ,MenuView()],
+          screens: [ MyCoursesView(),/*AppointmentsView()*/TrainerAppointmentsView(),
+            RequestsView(),HomeView() ,MenuView()],
           navBarStyle: NavBarStyle.style5,
 
           items: [

@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:pinkey/view/chat/widgets/chat_room.dart';
-import 'package:pinkey/view/manager/widgets/button_app.dart';
-import 'package:pinkey/view/resourse/values_manager.dart';
+import '/view/chat/widgets/chat_room.dart';
+import '/view/manager/widgets/button_app.dart';
+import '/view/resourse/values_manager.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../manager/widgets/container_icons.dart';

@@ -141,6 +141,18 @@ class AppStringsManager{
   static const String  course_price_in_trainer_car = 'بسيارة المتدربة';
   static const String  course_price_in_personal_car = 'بالسيارة الخاصة';
   static const String  course_description = 'نفاصيل الدورة';
+  static const String  my_schedule = 'جدولي';
+  static const String  date = 'التاريخ';
+  static const String  day = 'اليوم';
+  static const String  requests = 'الطلبات';
+  static const String  new_requests = 'الطلبات الجديدة';
+  static const String  ongoing_requests = 'الطلبات الجارية';
+  static const String  expired_and_cancelled_requests = 'المنتهية والملغية';
+  static const String  show_details_custom_course = 'مشاهدة تفاصيل الدورة المطلوبة';
+  static const String  student_name = 'اسم الطالبة';
+  static const String  rejection_request = 'رفض الطلب';
+  static const String  acception_request = 'قبول الطلب';
+  static const String  end_Course = 'انهاء الدورة';
 
 
 

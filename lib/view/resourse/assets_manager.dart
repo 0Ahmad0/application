@@ -30,6 +30,7 @@ class AssetsManager{
   static const add_creditIMG = '$imagePath/add_credit.svg';
   static const edit_imageIMG = '$imagePath/edit_image.svg';
   static const show_passwordIMG = '$imagePath/show_password.svg';
+  static const date_in_dayIMG = '$imagePath/date_in_day.svg';
   static const book_doneIMG = '$imagePath/book_done.png';
 
 

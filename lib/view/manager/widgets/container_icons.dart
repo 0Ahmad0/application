@@ -8,7 +8,10 @@ Widget buildContainerDetailsTrainer({icon, text}) {
   return Expanded(
     child: Container(
       alignment: Alignment.center,
-      padding: const EdgeInsets.all(AppPadding.p6),
+      padding: const EdgeInsets.symmetric(
+        vertical: AppPadding.p8,
+        horizontal: AppPadding.p4
+      ),
       margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.sp),
@@ -17,10 +20,13 @@ Widget buildContainerDetailsTrainer({icon, text}) {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           icon,
-          Text(
-            text,
-            style: getRegularStyle(color: ColorManager.black, fontSize: 8.sp),
-          ),
+          FittedBox(
+            child:  Text(
+              text,
+              style: getRegularStyle(color: ColorManager.black, fontSize: 8.sp),
+            ),
+          )
+
         ],
       ),
     ),
