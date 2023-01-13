@@ -2,6 +2,7 @@ import 'package:pinkey/view/appointments/appointments_view.dart';
 import 'package:pinkey/view/resourse/assets_manager.dart';
 
 import '../menu/menu_view.dart';
+import '../trainer/my_courses/my_courses_view.dart';
 import '/translations/locale_keys.g.dart';
 import '/view/chat/chat_view.dart';
 import '/view/favorite/favorite_view.dart';
@@ -28,6 +29,11 @@ class _NavbarViewState extends State<NavbarView> {
   @override
   Widget build(BuildContext context) {
     _screens = [
+       {
+         "title": tr(LocaleKeys.favorite_page),
+         "icon": AssetsManager.trainer_course_nameIMG,
+         "screen": MyCoursesView()
+      },
       {
         "title": tr(LocaleKeys.rate_page),
         "icon": AssetsManager.appointmentsIMG,
@@ -44,11 +50,7 @@ class _NavbarViewState extends State<NavbarView> {
         "icon": AssetsManager.menuIMG,
         "screen": MenuView()
       },
-      // {
-      //   "title": tr(LocaleKeys.favorite_page),
-      //   "icon": Icons.chrome_reader_mode_sharp,
-      //   "screen": FavoriteView()
-      // },
+
     ];
 
     return Scaffold(
@@ -87,7 +89,7 @@ class _NavbarViewState extends State<NavbarView> {
             print(controller.index);
           },
           controller: controller,
-          screens: [ AppointmentsView(),HomeView() ,MenuView()],
+          screens: [ MyCoursesView(),AppointmentsView(),HomeView() ,MenuView()],
           navBarStyle: NavBarStyle.style5,
 
           items: [

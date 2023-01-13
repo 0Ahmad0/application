@@ -82,6 +82,44 @@ class MenuViewBody extends StatelessWidget {
             subtitle: AppStringsManager.profile_subtitle,
           ),
         ),
+        /// //////////////////////
+        //TODO:trainer only
+        Visibility(
+          visible: not_login,
+          child: const SizedBox(
+            height: AppSize.s20,
+          ),
+        ),
+        Visibility(
+          visible: not_login,
+          child: buildMenuListTile(
+            onTap: () {
+              //TODO: Navigator
+            },
+            image: AssetsManager.notficationIMG,
+            title: AppStringsManager.notfication,
+            subtitle: AppStringsManager.notfication_subtitle,
+          ),
+        ),
+        //TODO:trainer only
+        Visibility(
+          visible: not_login,
+          child: const SizedBox(
+            height: AppSize.s20,
+          ),
+        ),
+        Visibility(
+          visible: not_login,
+          child: buildMenuListTile(
+            onTap: () {
+              //TODO: Navigator
+            },
+            image: AssetsManager.locationIMG,
+            title: AppStringsManager.select_location_in_map,
+            subtitle: AppStringsManager.select_location_in_map_subtitle,
+          ),
+        ),
+        /// /////////////////////
         Visibility(
           visible: not_login,
           child: const SizedBox(

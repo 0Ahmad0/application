@@ -63,7 +63,7 @@ class _HomeViewState extends State<HomeView> {
        contentPadding: EdgeInsets.zero,
        title:  Text(AppStringsManager.home,style: getRegularStyle(
            color: Colors.black,
-           fontSize: 18.sp
+           fontSize: 16.sp
        ),),
        trailing: InkWell(
            onTap: (){
@@ -168,7 +168,7 @@ class _HomeViewState extends State<HomeView> {
           contentPadding: EdgeInsets.zero,
           title:  Text(AppStringsManager.all_trainer,style: getRegularStyle(
               color: Colors.black,
-              fontSize: 18.sp
+              fontSize: 16.sp
           ),),
         ),
         const SizedBox(height: AppSize.s10,),

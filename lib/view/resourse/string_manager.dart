@@ -31,6 +31,7 @@ class AppStringsManager{
   static const String trainer_courses = 'الدورات';
   static const String trainer_courses_name = 'اسم الدورة';
   static const String show_trainer_course_details = 'مشاهدة التفاصيل';
+  static const String hidden_trainer_course_details = 'اخفاء التفاصيل';
   static const String course_booking = 'حجز الدورة';
   static const String payment_for_course = 'الدفع للدورة';
   static const String total_wallet = 'اجمالي المحفظة';
@@ -64,6 +65,10 @@ class AppStringsManager{
   static const String send_complaint_subtitle = 'قم بتقديم شكوى او مشكلة تواجهك';
   static const String log_out = 'تسجيل خروج';
   static const String log_out_subtitle = 'تسجيل خروج من التطبيق';
+  static const String notfication = 'التنبيهات';
+  static const String notfication_subtitle = 'التنبيهات';
+  static const String select_location_in_map = 'تحديد موقعي على الخريطة';
+  static const String select_location_in_map_subtitle = 'تحديد موقعي على الخريطة';
   static const String join_as_a_coach = 'تريدي الإنضمام كمدربة؟';
   static const String offer_courses_and_assistance = 'يمكنك الانضمام كمدربة قيادة وتقديم الدورات والمساعدة لمن يحتاجها';
   static const String join_now = 'أنضمي الأن';
@@ -123,6 +128,20 @@ class AppStringsManager{
   static const String other_image = 'صور اخرى';
   static const String uploade_image = 'ارفاق صورة';
   static const String please_uploade_all_images = 'الرجاء ارفاق كافة الصور';
+  static const String  hello = 'مرحبا بك';
+  static const String  my_courses = 'دوراتي';
+  static const String  edit = 'تعديل';
+  static const String  add_new_course = 'إضافة دورة جديدة';
+  static const String  publication_course = 'نشر الدورة';
+  static const String  course_category = 'فئة الدورة';
+  static const String  course_name = 'اسم الدورة';
+  static const String  course_duration = 'مدة الدورة';
+  static const String  course_duration_in_days = 'المدة بالايام';
+  static const String  course_price = 'السعر';
+  static const String  course_price_in_trainer_car = 'بسيارة المتدربة';
+  static const String  course_price_in_personal_car = 'بالسيارة الخاصة';
+  static const String  course_description = 'نفاصيل الدورة';
+
 
 
 

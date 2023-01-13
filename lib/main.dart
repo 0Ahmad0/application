@@ -50,8 +50,8 @@ class MyApp extends StatelessWidget {
                // theme: ThemeData.dark(),
              theme: ThemeManager.myTheme,
               // theme: getApplicationTheme(isDark: appProvider.darkTheme),
-              // home:const SplashView()
-              home:const CompleteInformationView()
+              home:const SplashView()
+              // home:const CompleteInformationView()
           );
         }
     );
