@@ -3,6 +3,7 @@ class AppStringsManager{
   static const String app_name = 'بنكي';
   static const String welcome_back = 'أهلا بعودتك';
   static const String login_to_complete_book = 'قومي بتسجيل الدخول حتى تستطيعي إجراء حجوزاتك';
+  static const String login_to_managment_account = 'قومي بتسجيل الدخول حتى تستطيعي إدارة الحساب';
   static const String login_now = 'سجلي دخولك الان';
   static const String phone_number = 'رقم الهاتف';
   static const String login_by_email = 'سجلي باستخدام البريد الالكتروني';
@@ -23,7 +24,7 @@ class AppStringsManager{
   static const String select_location = 'حددي موقعك';
   static const String select_your_location = 'حددي الموقع الخاص بك';
   static const String you_have_select_location = 'عليكِ تحديد موقعك الجغرافي للحصول \n.على مدربين من المنطقة';
-  static const String search_trainer = '... أبحثِ عن مدربة';
+  static const String search_trainer = 'أبحثِ عن مدربة...';
   static const String all_trainer = 'كل المدربات';
   static const String show_trainer_details = 'شاهد تفاصيل المدربة';
   static const String field_required = 'هذا الحقل مطلوب';
@@ -153,6 +154,12 @@ class AppStringsManager{
   static const String  rejection_request = 'رفض الطلب';
   static const String  acception_request = 'قبول الطلب';
   static const String  end_Course = 'انهاء الدورة';
+  static const String  acception_trainer = 'قبول المدربة';
+  static const String  trainer_details = 'تفاصيل المدربة';
+  static const String  new_complaint = 'الجديدة';
+  static const String  old_complaint = 'القديمة';
+  static const String  answer = 'الاجابة';
+  static const String  complainant = 'المشتكي';
 
 
 

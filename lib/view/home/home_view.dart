@@ -52,6 +52,7 @@ class _HomeViewState extends State<HomeView> {
         isFav: false
     ),
   ];
+  final searchController = TextEditingController();
 
 
   @override
@@ -106,7 +107,18 @@ class _HomeViewState extends State<HomeView> {
           ],
         ),
         const SizedBox(height: AppSize.s10,),
-        TextFiledApp(iconData: Icons.search_outlined, hintText: AppStringsManager.search_trainer),
+        TextFormField(
+          decoration: InputDecoration(
+            prefixIcon: Padding(
+              padding: const EdgeInsets.all(AppPadding.p10),
+              child: SvgPicture.asset(AssetsManager.search_iconIMG),
+            ),
+            hintText: AppStringsManager.search_trainer,
+            hintStyle: getRegularStyle(color: ColorManager.hintColor,
+            fontSize: 12.sp,
+            )
+          ),
+        ),
         const SizedBox(height: AppSize.s10,),
         Container(
           padding: const EdgeInsets.all(AppPadding.p14),

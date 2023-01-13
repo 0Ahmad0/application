@@ -31,6 +31,8 @@ class AssetsManager{
   static const edit_imageIMG = '$imagePath/edit_image.svg';
   static const show_passwordIMG = '$imagePath/show_password.svg';
   static const date_in_dayIMG = '$imagePath/date_in_day.svg';
+  static const admin_requestIMG = '$imagePath/admin_request.svg';
+  static const search_iconIMG = '$imagePath/search_icon.svg';
   static const book_doneIMG = '$imagePath/book_done.png';
 
 

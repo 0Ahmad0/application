@@ -1,15 +1,16 @@
-import 'package:pinkey/view/appointments/appointments_view.dart';
-import 'package:pinkey/view/resourse/assets_manager.dart';
+import 'package:pinkey/view/complaint/complaint_view.dart';
+
+import '../admin/complaints/admin_complaints_view.dart';
+import '/view/admin/request/admin_request_view.dart';
+import '/view/appointments/appointments_view.dart';
+import '/view/resourse/assets_manager.dart';
 
 import '../menu/menu_view.dart';
 import '../trainer/appointments/trainer_appointments_view.dart';
 import '../trainer/my_courses/my_courses_view.dart';
 import '../trainer/requests/requests_view.dart';
 import '/translations/locale_keys.g.dart';
-import '/view/chat/chat_view.dart';
-import '/view/favorite/favorite_view.dart';
 import '/view/home/home_view.dart';
-import '/view/navbar/widgets/build_drawer.dart';
 import '/view/resourse/color_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,16 @@ class _NavbarViewState extends State<NavbarView> {
   @override
   Widget build(BuildContext context) {
     _screens = [
+      {
+        "title": tr(LocaleKeys.favorite_page),
+        "icon": AssetsManager.admin_requestIMG,
+        "screen": AdminRequestView()
+      },
+      {
+        "title": tr(LocaleKeys.favorite_page),
+        "icon": AssetsManager.send_complaintIMG,
+        "screen": ComplaintView()
+      },
        {
          "title": tr(LocaleKeys.favorite_page),
          "icon": AssetsManager.trainer_course_nameIMG,
@@ -53,11 +64,11 @@ class _NavbarViewState extends State<NavbarView> {
       },
 
 
-      {
-        "title": tr(LocaleKeys.chat_page),
-        "icon": AssetsManager.menuIMG,
-        "screen": MenuView()
-      },
+      // {
+      //   "title": tr(LocaleKeys.chat_page),
+      //   "icon": AssetsManager.menuIMG,
+      //   "screen": MenuView()
+      // },
 
     ];
 
@@ -97,8 +108,8 @@ class _NavbarViewState extends State<NavbarView> {
             print(controller.index);
           },
           controller: controller,
-          screens: [ MyCoursesView(),/*AppointmentsView()*/TrainerAppointmentsView(),
-            RequestsView(),HomeView() ,MenuView()],
+          screens: [ AdminRequestView(),AdminComplaintsView(),MyCoursesView(),/*AppointmentsView()*/TrainerAppointmentsView(),
+            RequestsView(),HomeView() /*,MenuView()*/],
           navBarStyle: NavBarStyle.style5,
 
           items: [
