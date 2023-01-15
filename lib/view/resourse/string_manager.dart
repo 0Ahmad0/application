@@ -160,6 +160,8 @@ class AppStringsManager{
   static const String  old_complaint = 'القديمة';
   static const String  answer = 'الاجابة';
   static const String  complainant = 'المشتكي';
+  static const String show_more = 'عرض المزيد';
+  static const String show_less = 'عرض أقل';
 
 
 

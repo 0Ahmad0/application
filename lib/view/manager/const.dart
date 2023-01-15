@@ -9,6 +9,7 @@ import '../resourse/assets_manager.dart';
 import '../resourse/color_manager.dart';
 
 class ConstApp {
+  static int readMoreTextHeight = 5;
 static List<String> answer  = [
   AppStringsManager.yes,
   AppStringsManager.no,

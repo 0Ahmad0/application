@@ -1,6 +1,10 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pinkey/view/manager/const.dart';
+import 'package:pinkey/view/resourse/string_manager.dart';
+import 'package:pinkey/view/resourse/string_manager.dart';
+import 'package:readmore/readmore.dart';
 import '/translations/locale_keys.g.dart';
 import '/view/resourse/assets_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -166,8 +170,21 @@ class MessageFile extends StatelessWidget {
                   child: ListTile(
                       title: Padding(
                         padding: const EdgeInsets.all(AppPadding.p4),
-                        child: Text(
-                    "Message Message Message Message Message Message Message Message Message Message Message Message ",
+                        child: ReadMoreText(
+                    "Message Message Message Message Message Message Message Message Message Message Message MessageMessage Message Message Message Message Message Message Message ",
+                          trimLines: ConstApp.readMoreTextHeight,
+                          colorClickableText: Colors.pink,
+                          trimMode: TrimMode.Line,
+                          trimCollapsedText: AppStringsManager.show_more,
+                          trimExpandedText:  AppStringsManager.show_less ,
+                          moreStyle: getRegularStyle( color: index.isOdd
+                              ? ColorManager.black
+                              : ColorManager.white,
+                          fontSize: 10.sp),
+                          lessStyle: getRegularStyle( color: index.isOdd
+                              ? ColorManager.black
+                              : ColorManager.white,
+                          fontSize: 10.sp),
                     style: getRegularStyle(
                           color: index.isEven
                               ? ColorManager.black
