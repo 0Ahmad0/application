@@ -92,6 +92,7 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                         /*
                           InkWell(
                             onTap: () {},
                             child: CircleAvatar(
@@ -104,6 +105,7 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
                           const SizedBox(
                             width: AppSize.s16,
                           ),
+                         */
                           InkWell(
                             onTap: () {},
                             child: CircleAvatar(
@@ -119,7 +121,7 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
                           InkWell(
                             onTap: () async {
                               await  AppLauncher.launchEmail(
-                                  email: 'ah74129@gmail.com');
+                                  email: 'mawadah2000@outlook.com');
                             },
                             child: CircleAvatar(
                               backgroundColor:
@@ -134,7 +136,7 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
                           InkWell(
                             onTap: () async {
                               await AppLauncher.launchPhone(
-                                  phoneNumber: '0954872922');
+                                  phoneNumber: '+966544854535');
                             },
                             child: CircleAvatar(
                               backgroundColor:
@@ -148,20 +150,29 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
                       const SizedBox(
                         height: AppSize.s10,
                       ),
-                      Divider(
+                      const Divider(
                         color: ColorManager.lightGray,
                         thickness: .8,
                       ),
-                      Text('عن ${widget.trainer.name}'),
+                      Row(
+                        children: [
+                          Text('عن ${widget.trainer.name}'),
+                        ],
+                      ),
                       const SizedBox(
                         height: AppSize.s10,
                       ),
-                      Text(
-                          'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد'
-                          'تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل'
-                          'هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد'
-                          'الحروف التى يولدها التطبيق شاهدي المزيد'),
-                      Divider(
+                    Row(
+                      children: [
+                        Expanded(child:   Text(
+                            'حاصله على رخصة عمل حر'
+                                'خبره في التدريب على قيادة السيارات'
+                                'دربت اكثر من 50 متدربة'
+                                'اقدم شروحات نموذجيه لقيادة امنه واحترافيه '),),
+                        Expanded(child: SizedBox())
+                      ],
+                    ),
+                      const Divider(
                         color: ColorManager.lightGray,
                         thickness: .8,
                       ),
@@ -195,7 +206,7 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
                               width: AppSize.s4,
                             ),
                             Text(
-                              AppStringsManager.trainer_courses + " " + "(8)",
+                              AppStringsManager.trainer_courses + " " + "(3)",
                               style: getRegularStyle(
                                   color: _tabController.index == 0
                                       ? ColorManager.black
@@ -218,7 +229,7 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
                               width: AppSize.s4,
                             ),
                             Text(
-                              AppStringsManager.trainer_review + " " + "(30)",
+                              AppStringsManager.trainer_review + " " + "(2)",
                               style: getRegularStyle(
                                   color: _tabController.index == 1
                                       ? ColorManager.black
@@ -236,7 +247,7 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
                       children: [
                         ///Courses
                         ListView.builder(
-                          itemCount: 10,
+                          itemCount: 3,
                           itemBuilder: (_, index) {
                             return buildTrainerCourseItem();
                           },
@@ -253,7 +264,7 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
                                 color: ColorManager.lightGray,
                               );
                             },
-                            itemCount: 5)
+                            itemCount: 2)
                       ],
                     ),
                   ),
@@ -266,6 +277,7 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
 
   Column buildContainerReviews() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ListTile(
           contentPadding: EdgeInsets.zero,
@@ -286,7 +298,7 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
             ),
           ),
           title: Text(
-            widget.trainer.name,
+            'لمى يوسف',
           ),
           subtitle: Row(
             children: [
@@ -296,8 +308,7 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
           ),
         ),
         Text(
-          'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة'
-          'لقد تم توليد هذا النص من مولد النص العربى',
+          'ممتازه وشرحها اكثر من رائع ',
           style:
               getRegularStyle(color: ColorManager.lightGray, fontSize: 12.sp),
         )
@@ -337,9 +348,10 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
             subtitle: Padding(
               padding: const EdgeInsets.only(right: AppPadding.p30),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: AppSize.s10,),
-                  const Text('هذه المكان مخصص لوضع عنوان مناسب للدورة المقدمة',),
+                  const Text('تعلمي قيادة السيارة من الصفر',),
                   Row(
                     children: [
                       TextButton(

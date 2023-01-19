@@ -19,7 +19,7 @@ class BookCourseViewBody extends StatefulWidget {
 }
 
 class _BookCourseViewBodyState extends State<BookCourseViewBody> {
-  int _selectedIndex = -1;
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +82,7 @@ class _BookCourseViewBodyState extends State<BookCourseViewBody> {
         ),
         Wrap(
           children: [
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 2; i++)
               GestureDetector(
                 onTap: () {
                   _selectedIndex = i;
@@ -101,7 +101,7 @@ class _BookCourseViewBodyState extends State<BookCourseViewBody> {
                       DateTime.now(),
                     )} - ${DateFormat().add_Hm().format(
                       DateTime.now(),
-                    )}',style: getLightStyle(
+                    )}',style: getRegularStyle(
                         color: _selectedIndex == i?ColorManager.primaryColor:ColorManager.black,
                         fontSize: 8.sp
 

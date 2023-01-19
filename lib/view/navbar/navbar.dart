@@ -32,44 +32,42 @@ class _NavbarViewState extends State<NavbarView> {
   @override
   Widget build(BuildContext context) {
     _screens = [
-      {
-        "title": tr(LocaleKeys.favorite_page),
-        "icon": AssetsManager.admin_requestIMG,
-        "screen": AdminRequestView()
-      },
-      {
-        "title": tr(LocaleKeys.favorite_page),
-        "icon": AssetsManager.send_complaintIMG,
-        "screen": ComplaintView()
-      },
-       {
-         "title": tr(LocaleKeys.favorite_page),
-         "icon": AssetsManager.trainer_course_nameIMG,
-         "screen": MyCoursesView()
-      },
+      // {
+      //   "title": tr(LocaleKeys.favorite_page),
+      //   "icon": AssetsManager.admin_requestIMG,
+      //   "screen": AdminRequestView()
+      // },
+      // {
+      //   "title": tr(LocaleKeys.favorite_page),
+      //   "icon": AssetsManager.send_complaintIMG,
+      //   "screen": ComplaintView()
+      // },
+      // {
+      //   "title": tr(LocaleKeys.favorite_page),
+      //   "icon": AssetsManager.trainer_course_nameIMG,
+      //   "screen": MyCoursesView()
+      // },
       {
         "title": tr(LocaleKeys.rate_page),
         "icon": AssetsManager.appointmentsIMG,
         "screen": AppointmentsView()
       },
-      {
-        "title": tr(LocaleKeys.home_page),
-        "icon": AssetsManager.privacy_policyIMG,
-        "screen": RequestsView(),
-      },
+      // {
+      //   "title": tr(LocaleKeys.home_page),
+      //   "icon": AssetsManager.privacy_policyIMG,
+      //   "screen": RequestsView(),
+      // },
       {
         "title": tr(LocaleKeys.home_page),
         "icon": AssetsManager.homeIMG,
         "screen": HomeView(),
       },
 
-
-      // {
-      //   "title": tr(LocaleKeys.chat_page),
-      //   "icon": AssetsManager.menuIMG,
-      //   "screen": MenuView()
-      // },
-
+      {
+        "title": tr(LocaleKeys.chat_page),
+        "icon": AssetsManager.menuIMG,
+        "screen": MenuView()
+      },
     ];
 
     return Scaffold(
@@ -108,10 +106,17 @@ class _NavbarViewState extends State<NavbarView> {
             print(controller.index);
           },
           controller: controller,
-          screens: [ AdminRequestView(),AdminComplaintsView(),MyCoursesView(),/*AppointmentsView()*/TrainerAppointmentsView(),
-            RequestsView(),HomeView() /*,MenuView()*/],
+          screens: [
+            // AdminRequestView(),
+            // AdminComplaintsView(),
+            // MyCoursesView(),
+            // AppointmentsView(),
+            TrainerAppointmentsView(),
+            // RequestsView(),
+            HomeView(),
+            MenuView()
+          ],
           navBarStyle: NavBarStyle.style5,
-
           items: [
             for (int i = 0; i < _screens.length; i++)
               PersistentBottomNavBarItem(

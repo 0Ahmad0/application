@@ -158,9 +158,9 @@ class SignupViewBody extends StatelessWidget {
                   height: AppSize.s20,
                 ),
                 ButtonApp(text: AppStringsManager.sign_up, onPressed: (){
-                  Get.to(()=>ChatRoom());
                   if(formKey.currentState!.validate()){
                     Get.snackbar("title", "message");
+                    Get.to(()=>LoginView());
                   }
                 }),
                 const SizedBox(

@@ -33,21 +33,21 @@ class _HomeViewState extends State<HomeView> {
     Trainer(image: 'assets/images/1.png',
         name: 'عبير عبد الغني',
         type_of_work_permit: 'رخصة عمل حر',
-        location: 'جدة, حي نظار, شارع النور',
+        location: 'مكة, حي الشوقية,',
         rate: 4.9,
         isFav: true
     ),
     Trainer(image: 'assets/images/2.png',
         name: 'نهي منير',
-        type_of_work_permit: 'رخصة عمل حر',
-        location: 'جدة, حي نظار, شارع النور',
+        type_of_work_permit: '',
+        location: 'مكة, النواريه',
         rate: 4.9,
         isFav: false
     ),
     Trainer(image: 'assets/images/3.png',
         name: 'نور رحمة',
         type_of_work_permit: 'رخصة عمل حر',
-        location: 'السعودية, الدار البيضاء, حي الرادرات',
+        location: 'مكة, العزيزية',
         rate: 4.9,
         isFav: false
     ),
@@ -251,7 +251,8 @@ class _BuildTrainerItemState extends State<BuildTrainerItem> {
 
                         }),
                       ),
-                      SizedBox(width: AppSize.s4,),
+                    /// favorite button
+                    /* const SizedBox(width: AppSize.s4,),
                       Expanded(
                         child: InkWell(
                           onTap: (){
@@ -278,7 +279,7 @@ class _BuildTrainerItemState extends State<BuildTrainerItem> {
                             ),
                           ),
                         ),
-                      )
+                      )*/
                     ],
                   )
                 ],
@@ -291,7 +292,7 @@ class _BuildTrainerItemState extends State<BuildTrainerItem> {
           top: AppSize.s20,
           child: Row(
             children: [
-              Icon(Icons.star,color: Colors.amberAccent,),
+              const Icon(Icons.star,color: Colors.amberAccent,),
               const SizedBox(width: AppSize.s4,),
               Text('${widget.trainer.rate}'),
             ],

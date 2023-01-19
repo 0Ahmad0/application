@@ -12,7 +12,7 @@ import 'package:pinkey/view/wallet/wallet_view.dart';
 import 'package:sizer/sizer.dart';
 
 class MenuViewBody extends StatelessWidget {
-  bool not_login = true;
+  bool not_login = false;
 
   @override
   Widget build(BuildContext context) {
