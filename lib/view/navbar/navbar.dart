@@ -47,11 +47,13 @@ class _NavbarViewState extends State<NavbarView> {
       //   "icon": AssetsManager.trainer_course_nameIMG,
       //   "screen": MyCoursesView()
       // },
-      {
-        "title": tr(LocaleKeys.rate_page),
-        "icon": AssetsManager.appointmentsIMG,
-        "screen": AppointmentsView()
-      },
+      ///
+      // {
+      //   "title": tr(LocaleKeys.rate_page),
+      //   "icon": AssetsManager.appointmentsIMG,
+      //   "screen": AppointmentsView()
+      // },
+      ///
       // {
       //   "title": tr(LocaleKeys.home_page),
       //   "icon": AssetsManager.privacy_policyIMG,
@@ -110,8 +112,9 @@ class _NavbarViewState extends State<NavbarView> {
             // AdminRequestView(),
             // AdminComplaintsView(),
             // MyCoursesView(),
+            ///
             // AppointmentsView(),
-            TrainerAppointmentsView(),
+            // TrainerAppointmentsView(),
             // RequestsView(),
             HomeView(),
             MenuView()

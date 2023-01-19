@@ -28,7 +28,8 @@ class AppointmentsViewBody extends StatelessWidget {
         const SizedBox(
           height: AppSize.s10,
         ),
-        for (int i = 0; i < 3; i++)
+        //TODO :
+        for (int i = 0; i < 2; i++)
           buildCoursesDetails(
               onProgress: i == 0 ? true : false,
               color: i == 0
