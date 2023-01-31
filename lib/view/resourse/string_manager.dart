@@ -162,6 +162,18 @@ class AppStringsManager{
   static const String  complainant = 'المشتكي';
   static const String show_more = 'عرض المزيد';
   static const String show_less = 'عرض أقل';
+  static const String edit_profile = 'تعديل الملف الشخصي';
+  static const String save = 'حفظ';
+  static const String edit_password = 'تغيير كلمة المرور';
+  static const String now_password = 'كلمة المرور الحالية';
+  static const String new_password = 'كلمة المرور الجديدة';
+  static const String confirm_new_password = 'تأكيد كلمة المرور الجديدة';
+  static const String add_course_time = 'إضافة أوقات الدورة';
+  static const String add_course_date = 'تاريخ الدورة';
+  static const String add_course_day = 'يوم الدورة';
+  static const String add_course_time_from_to = 'الوقت(من - الي)';
+  static const String to = 'الى';
+  static const String from = 'من';
 
 
 

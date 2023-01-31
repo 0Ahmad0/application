@@ -42,18 +42,18 @@ class _NavbarViewState extends State<NavbarView> {
       //   "icon": AssetsManager.send_complaintIMG,
       //   "screen": ComplaintView()
       // },
-      // {
-      //   "title": tr(LocaleKeys.favorite_page),
-      //   "icon": AssetsManager.trainer_course_nameIMG,
-      //   "screen": MyCoursesView()
-      // },
-      ///
-      // {
-      //   "title": tr(LocaleKeys.rate_page),
-      //   "icon": AssetsManager.appointmentsIMG,
-      //   "screen": AppointmentsView()
-      // },
-      ///
+      {
+        "title": tr(LocaleKeys.favorite_page),
+        "icon": AssetsManager.trainer_course_nameIMG,
+        "screen": MyCoursesView()
+      },
+
+      {
+        "title": tr(LocaleKeys.rate_page),
+        "icon": AssetsManager.appointmentsIMG,
+        "screen": AppointmentsView()
+      },
+
       // {
       //   "title": tr(LocaleKeys.home_page),
       //   "icon": AssetsManager.privacy_policyIMG,
@@ -112,9 +112,8 @@ class _NavbarViewState extends State<NavbarView> {
             // AdminRequestView(),
             // AdminComplaintsView(),
             // MyCoursesView(),
-            ///
-            // AppointmentsView(),
-            // TrainerAppointmentsView(),
+            AppointmentsView(),
+            TrainerAppointmentsView(),
             // RequestsView(),
             HomeView(),
             MenuView()

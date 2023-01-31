@@ -6,6 +6,7 @@ import 'package:pinkey/view/resourse/string_manager.dart';
 import 'package:pinkey/view/triner_details/trainer_details_view.dart';
 
 import '../../model/models.dart';
+import '../notifications/notifications_view.dart';
 import '/translations/locale_keys.g.dart';
 import '/view/currency_office/currency_office_view.dart';
 import '/view/manager/widgets/ShadowContainer.dart';
@@ -68,7 +69,9 @@ class _HomeViewState extends State<HomeView> {
        ),),
        trailing: InkWell(
            onTap: (){
-             //TODO: notficatrion  do it
+             Get.to(()=>NotificationView(),
+             transition: Transition.leftToRightWithFade
+             );
            },
            child: SvgPicture.asset(AssetsManager.notficationIMG)),
      ),

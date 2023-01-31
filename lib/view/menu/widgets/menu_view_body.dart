@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pinkey/view/complaint/complaint_view.dart';
 import 'package:pinkey/view/login/login_view.dart';
+import 'package:pinkey/view/profile/profile_view.dart';
 import 'package:pinkey/view/resourse/assets_manager.dart';
 import 'package:pinkey/view/resourse/color_manager.dart';
 import 'package:pinkey/view/resourse/string_manager.dart';
@@ -11,8 +12,10 @@ import 'package:pinkey/view/resourse/values_manager.dart';
 import 'package:pinkey/view/wallet/wallet_view.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../notifications/notifications_view.dart';
+
 class MenuViewBody extends StatelessWidget {
-  bool not_login = false;
+  bool not_login = true;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +78,7 @@ class MenuViewBody extends StatelessWidget {
           visible: not_login,
           child: buildMenuListTile(
             onTap: () {
-              //TODO: Navigator
+              Get.to(()=>ProfileView(),transition: Transition.size);
             },
             image: AssetsManager.profileIMG,
             title: AppStringsManager.profile,
@@ -94,7 +97,9 @@ class MenuViewBody extends StatelessWidget {
           visible: not_login,
           child: buildMenuListTile(
             onTap: () {
-              //TODO: Navigator
+              Get.to(()=>NotificationView(),
+                  transition: Transition.rightToLeftWithFade
+              );
             },
             image: AssetsManager.notficationIMG,
             title: AppStringsManager.notfication,

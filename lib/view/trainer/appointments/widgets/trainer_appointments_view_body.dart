@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import '../../add_new_course/add_new_course_view.dart';
 import '/view/chat/widgets/chat_room.dart';
 import '/view/manager/widgets/button_app.dart';
 import '/view/resourse/values_manager.dart';
@@ -95,7 +96,8 @@ class TrainerAppointmentsViewBody extends StatelessWidget {
                   )),
               InkWell(
                 onTap: (){
-                  //TODO: Navigation to screen
+                  Get.to(()=>AddNewCourseView(),transition: Transition.rightToLeftWithFade);
+
                 },
                 child: Container(
                   alignment: Alignment.center,

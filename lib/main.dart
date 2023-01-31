@@ -1,3 +1,4 @@
+import 'package:pinkey/view/trainer/add_new_course/add_new_course_view.dart';
 import 'package:pinkey/view/trainer/complete_information/complete_information_view.dart';
 
 import '/view/splash/splash_view.dart';
@@ -51,7 +52,7 @@ class MyApp extends StatelessWidget {
              theme: ThemeManager.myTheme,
               // theme: getApplicationTheme(isDark: appProvider.darkTheme),
               home:const SplashView()
-              // home:const CompleteInformationView()
+              // home:const AddNewCourseView()
           );
         }
     );

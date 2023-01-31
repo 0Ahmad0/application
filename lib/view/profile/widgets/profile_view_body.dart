@@ -1,28 +1,41 @@
 import 'dart:io';
+import '/view/edit_password/edit_passord_view.dart';
 
+import '/view/resourse/style_manager.dart';
+import '../../resourse/string_manager.dart';
+import 'package:flutter/material.dart';
+import '../../login/login_view.dart';
+import '/view/manager/widgets/textformfiled_app.dart';
+import '/view/resourse/values_manager.dart';
+import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
+import '../../manager/widgets/button_app.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import '/view/resourse/assets_manager.dart';
 import '/translations/locale_keys.g.dart';
-import '/view/manager/widgets/textformfiled_app.dart';
 import '/view/resourse/color_manager.dart';
-import '/view/resourse/style_manager.dart';
-import 'package:sizer/sizer.dart';
-
-import '../../manager/widgets/button_app.dart';
-import '../../resourse/values_manager.dart';
 
 class ProfileViewBody extends StatefulWidget {
   final bool isIgnor;
 
   const ProfileViewBody({super.key, required this.isIgnor});
+
   @override
   State<ProfileViewBody> createState() => _ProfileViewState();
 }
 
 class _ProfileViewState extends State<ProfileViewBody> {
+  final FnameController = TextEditingController(text: 'عبير');
+  final LnameController = TextEditingController(text: 'عبد الغني');
+  final emailController = TextEditingController(text: 'haya,143@gmail.com');
+  final phoneController = TextEditingController(text: '05965626202');
+  final passwordController = TextEditingController(text: '123AA@#fg');
+  final confirmPassworddController = TextEditingController(text: '123AA@#fg');
+  final formKey = GlobalKey<FormState>();
+
   // final name = TextEditingController(text: "أحمد الحريري");
 
   bool nameIgnor = true;
@@ -72,154 +85,213 @@ class _ProfileViewState extends State<ProfileViewBody> {
     // profileProvider.serial_number.text=profileProvider.user.serialNumber;
     return IgnorePointer(
       ignoring: widget.isIgnor,
-      child: Container(
-          padding: EdgeInsets.symmetric(
-              vertical: AppPadding.p10, horizontal: AppPadding.p20),
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Stack(
-                    children: [
-                      Container(
-                        width: 35.w,
-                        height: 35.w,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                                color: Theme.of(context).primaryColor,
-                                width: AppSize.s4)),
+      child: Padding(
+          padding: const EdgeInsets.symmetric(
+              vertical: AppPadding.p10, horizontal: AppPadding.p16),
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Stack(
+                  children: [
+                    ClipOval(
+                      child: CircleAvatar(
+                        radius: 12.5.w,
+                        backgroundColor: ColorManager.borderColor,
                         child: image == null
                             ? CachedNetworkImage(
-                            imageUrl:
-                                // "${AppUrl.baseUrlImage}${widget.restaurant.imageLogo!}",
-                                "https://images.techhive.com/images/article/2017/05/pcw-translate-primary-100723319-large.jpg",
-                            imageBuilder: (context, imageProvider) =>
-                                Container(
-                                  width: 5.w,
-                                  height: 5.h,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                  image: imageProvider,
-                                  fit: BoxFit.cover,
-                                  //    colorFilter: ColorFilter.mode(Colors.red, BlendMode.colorBurn)
-                                ),
-                              ),
-                            ),
-                            placeholder: (context, url) =>
-                                Center(child: CircularProgressIndicator()),
-                              )
-                            :   ClipOval(
-                              child: Image.file(File(image!.path),
-                                width: 5.w,
-                                height: 5.w,
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Container(
-                          width: 12.w,
-                          height: 12.w,
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).cardColor,
-                              border: Border.all(
-                                  color: Theme.of(context).primaryColor),
-                              shape: BoxShape.circle),
-                          child: IconButton(
-                            onPressed: () {
-                              _showDialog(context);
-                            },
-                            icon: Icon(Icons.edit,size: 15.sp,),
+                          fit: BoxFit.cover,
+                          imageUrl:
+                          // "${AppUrl.baseUrlImage}${widget.restaurant.imageLogo!}",
+                          "https://th.bing.com/th/id/R.1b3a7efcd35343f64a9ae6ad5b5f6c52?rik=HGgUvyvtG4jbAQ&riu=http%3a%2f%2fwww.riyadhpost.live%2fuploads%2f7341861f7f918c109dfc33b73d8356b2.jpg&ehk=3Z4lADOKvoivP8Tbzi2Y56dxNrCWd0r7w7CHQEvpuUg%3d&risl=&pid=ImgRaw&r=0",
+                          imageBuilder: (context, imageProvider) =>
+                              Image(image: imageProvider),
+                          placeholder: (context, url) =>
+                              Center(child: CircularProgressIndicator()),
+                        )
+                            : ClipOval(
+                          child: Image.file(File(image!.path),
+                            width: 4.w,
+                            height: 4.w,
+                            fit: BoxFit.fill,
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: AppSize.s10,),
-                  TextFiledApp(
-                      iconData: Icons.person,
-                      hintText: tr(LocaleKeys.full_name)
-                  ),
-                  const SizedBox(height: AppSize.s10,),
-                  TextFiledApp(
-                      iconData: Icons.email,
-                      hintText: tr(LocaleKeys.email_address)
-                  ),
-                  const SizedBox(height: AppSize.s10,),
-                  TextFiledApp(
-                      iconData: Icons.phone_iphone,
-                      hintText: tr(LocaleKeys.mobile_number)
-                  ),
-                  const SizedBox(height: AppSize.s10,),
-                  TextFiledApp(
-                      iconData: Icons.lock,
-                      hintText: tr(LocaleKeys.password)
-                  ),
-                 Visibility(
-                   // TODO if user is office
-                   visible: true == true,
-                   child: Column(
-                     children: [
-                       const SizedBox(height: AppSize.s10,),
-                       TextFiledApp(
-                           iconData: Icons.money_off,
-                           hintText: tr(LocaleKeys.amount)
-                       ),
-                     ],
-                   ),
-                 ),
-                  const SizedBox(height: AppSize.s20,),
-                  ButtonApp(text: tr(LocaleKeys.edit_password), onPressed: (){
-                    Get.dialog(
-                        Center(
-                          child: Material(
-                            color: Colors.transparent,
-                            child: Container(
-                              padding: EdgeInsets.all(AppPadding.p20),
-                              margin: EdgeInsets.all(AppMargin.m20),
-                              height: 34.h,
-                              decoration: BoxDecoration(
-                                  color: ColorManager.white,
-                                  borderRadius: BorderRadius.circular(AppSize.s24)
-                              ),
-                              child: Column(
-                                children: [
-                                  TextFiledApp(
-                                      iconData: Icons.lock,
-                                      hintText: tr(LocaleKeys.new_password)
-                                  ),
-                                  const SizedBox(height: AppSize.s10,),
-                                  TextFiledApp(
-                                      iconData: Icons.lock,
-                                      hintText: tr(LocaleKeys.confirm_new_password)
-                                  ),
-                                  Spacer(),
-                                  ButtonApp(text: tr(LocaleKeys.done),
-                                      onPressed: (){
-                                        Get.back();
-                                      })
-                                ],
-                              ),
+                      ),
+                    ),
+                    Positioned(
+                        bottom: 0,
+                        left: 0,
+                        child: CircleAvatar(
+                          radius: 4.w,
+                          backgroundColor: ColorManager.borderColor,
+                          child: SvgPicture.asset(
+                              AssetsManager.edit_imageIMG),
+                        )
+                    )
+                  ],
+                ),
+                const SizedBox(height: AppSize.s20,),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  AppStringsManager.first_name,
+                                  style: getRegularStyle(
+                                      color: Theme
+                                          .of(context)
+                                          .textTheme
+                                          .subtitle1!
+                                          .color,
+                                      fontSize: 12.sp),
+                                ),
+                                const SizedBox(
+                                  height: AppSize.s10,
+                                ),
+                                TextFiledApp(
+                                    controller: FnameController,
+                                    hintText: AppStringsManager.first_name),
+                              ],
                             ),
                           ),
-                        )
-                    );
+                          const SizedBox(
+                            width: AppSize.s20,
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  AppStringsManager.last_name,
+                                  style: getRegularStyle(
+                                      color: Theme
+                                          .of(context)
+                                          .textTheme
+                                          .subtitle1!
+                                          .color,
+                                      fontSize: 12.sp),
+                                ),
+                                const SizedBox(
+                                  height: AppSize.s10,
+                                ),
+                                TextFiledApp(
+                                    controller: LnameController,
+                                    hintText: AppStringsManager.last_name),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: AppSize.s20,
+                      ),
+                      Text(
+                        AppStringsManager.phone_number,
+                        style: getRegularStyle(
+                            color: Theme
+                                .of(context)
+                                .textTheme
+                                .subtitle1!
+                                .color,
+                            fontSize: 12.sp),
+                      ),
+                      const SizedBox(
+                        height: AppSize.s10,
+                      ),
+                      TextFiledApp(
+                        controller: phoneController,
+                        hintText: AppStringsManager.type + " " +
+                            AppStringsManager.phone_number,
+                      ),
+                      const SizedBox(
+                        height: AppSize.s20,
+                      ),
+                      Text(
+                        AppStringsManager.email,
+                        style: getRegularStyle(
+                            color: Theme
+                                .of(context)
+                                .textTheme
+                                .subtitle1!
+                                .color,
+                            fontSize: 12.sp),
+                      ),
+                      const SizedBox(
+                        height: AppSize.s10,
+                      ),
+                      TextFiledApp(
+                        controller: emailController,
+                        hintText: AppStringsManager.type + " " +
+                            AppStringsManager.email,
+                      ),
+                      const SizedBox(
+                        height: AppSize.s20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            AppStringsManager.password,
+                            style: getRegularStyle(
+                                color: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .subtitle1!
+                                    .color,
+                                fontSize: 12.sp),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Get.to(() => EditPassordView(),
+                                  transition: Transition.leftToRight);
+                            },
+                            child: Text(
+                              AppStringsManager.edit_password,
+                              style: getRegularStyle(
+                                  color: ColorManager.thirdlyColor,
+                                  fontSize: 8.sp),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: AppSize.s10,
+                      ),
+                      TextFiledApp(
+                        controller: passwordController,
+                        hintText: AppStringsManager.type + " " +
+                            AppStringsManager.password,
+                        obscureText: true,
+                        suffixIcon: true,
+                      ),
+                      const SizedBox(height: AppSize.s10,),
 
-                  }),
-                  const SizedBox(height: AppSize.s10,),
-                  ButtonApp(text: tr(LocaleKeys.edit), onPressed: (){}),
-                ],
-              ),
+
+                    ],
+                  ),
+                ),
+                ButtonApp(
+                    color: ColorManager.thirdlyColor,
+                    text: AppStringsManager.save, onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    print('yes');
+                  }
+                }),
+
+              ],
             ),
           )),
     );
   }
-  void _showDialog(BuildContext context){
+
+  void _showDialog(BuildContext context) {
     showDialog(
         context: context,
         builder: (_) {
@@ -227,7 +299,9 @@ class _ProfileViewState extends State<ProfileViewBody> {
             child: Container(
               height: 20.h,
               width: SizerUtil.width - 30.0,
-              color: Theme.of(context).cardColor,
+              color: Theme
+                  .of(context)
+                  .cardColor,
               child: Material(
                 color: Colors.transparent,
                 child: Column(
@@ -259,8 +333,7 @@ class _ProfileViewState extends State<ProfileViewBody> {
                     ),
                     Expanded(
                       child: InkWell(
-                        onTap: ()  {
-
+                        onTap: () {
                           pickFromGallery();
                           Navigator.pop(context);
                         },
@@ -285,8 +358,7 @@ class _ProfileViewState extends State<ProfileViewBody> {
                     ),
                     Expanded(
                       child: InkWell(
-                        onTap: ()  {
-
+                        onTap: () {
                           // removeGallery();
                           Navigator.pop(context);
                         },

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pinkey/view/manager/widgets/button_app.dart';
-import 'package:pinkey/view/manager/widgets/textformfiled_app.dart';
-import 'package:pinkey/view/resourse/string_manager.dart';
-import 'package:pinkey/view/resourse/values_manager.dart';
+import 'package:get/get.dart';
+import '/view/manager/widgets/button_app.dart';
+import '/view/manager/widgets/textformfiled_app.dart';
+import '/view/resourse/string_manager.dart';
+import '/view/resourse/values_manager.dart';
+import '/view/trainer/add_course_time/add_course_time_view.dart';
 
 class AddNewCourseViewBody extends StatelessWidget {
   AddNewCourseViewBody({Key? key}) : super(key: key);
@@ -93,8 +95,10 @@ class AddNewCourseViewBody extends StatelessWidget {
           const SizedBox(
             height: AppSize.s20,
           ),
-          ButtonApp(text: AppStringsManager.publication_course, onPressed: (){
-            if(_formKey.currentState!.validate()){}
+          ButtonApp(text: AppStringsManager.next, onPressed: (){
+            if(_formKey.currentState!.validate()){
+              Get.to(()=>AddCourseTimeView(),transition: Transition.upToDown);
+            }
           })
         ],
       ),

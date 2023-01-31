@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:pinkey/view/resourse/color_manager.dart';
+import 'package:pinkey/view/resourse/string_manager.dart';
 import '/translations/locale_keys.g.dart';
 
 import 'widgets/profile_view_body.dart';
@@ -18,15 +20,18 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(
+          color: ColorManager.black,
+        ),
         actions: [
           IconButton(onPressed: (){
             setState((){
               isIgnor = !isIgnor;
               print(isIgnor);
             });
-          }, icon: Icon(Icons.edit))
+          }, icon: Icon(Icons.edit,color: ColorManager.primaryColor,))
         ],
-        title: Text(tr(LocaleKeys.profile)),
+        title: Text(AppStringsManager.edit_profile),
       ),
       body: ProfileViewBody(isIgnor: isIgnor),
     );
