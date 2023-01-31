@@ -8,7 +8,6 @@ import 'package:pinkey/view/triner_details/trainer_details_view.dart';
 import '../../model/models.dart';
 import '../notifications/notifications_view.dart';
 import '/translations/locale_keys.g.dart';
-import '/view/currency_office/currency_office_view.dart';
 import '/view/manager/widgets/ShadowContainer.dart';
 import '/view/resourse/assets_manager.dart';
 import '/view/resourse/color_manager.dart';
@@ -20,7 +19,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-import '../manager/widgets/build_office_item.dart';
 
 class HomeView extends StatefulWidget {
   @override

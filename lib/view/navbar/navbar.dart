@@ -17,7 +17,6 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../chart/chart_view.dart';
 
 class NavbarView extends StatefulWidget {
   @override
@@ -32,33 +31,33 @@ class _NavbarViewState extends State<NavbarView> {
   @override
   Widget build(BuildContext context) {
     _screens = [
-      // {
-      //   "title": tr(LocaleKeys.favorite_page),
-      //   "icon": AssetsManager.admin_requestIMG,
-      //   "screen": AdminRequestView()
-      // },
-      // {
-      //   "title": tr(LocaleKeys.favorite_page),
-      //   "icon": AssetsManager.send_complaintIMG,
-      //   "screen": ComplaintView()
-      // },
+      {
+        "title": tr(LocaleKeys.favorite_page),
+        "icon": AssetsManager.admin_requestIMG,
+        "screen": AdminRequestView()
+      },
+      {
+        "title": tr(LocaleKeys.favorite_page),
+        "icon": AssetsManager.send_complaintIMG,
+        "screen": ComplaintView()
+      },
       {
         "title": tr(LocaleKeys.favorite_page),
         "icon": AssetsManager.trainer_course_nameIMG,
         "screen": MyCoursesView()
       },
 
-      {
-        "title": tr(LocaleKeys.rate_page),
-        "icon": AssetsManager.appointmentsIMG,
-        "screen": AppointmentsView()
-      },
-
       // {
-      //   "title": tr(LocaleKeys.home_page),
-      //   "icon": AssetsManager.privacy_policyIMG,
-      //   "screen": RequestsView(),
+      //   "title": tr(LocaleKeys.rate_page),
+      //   "icon": AssetsManager.appointmentsIMG,
+      //   "screen": AppointmentsView()
       // },
+
+      {
+        "title": tr(LocaleKeys.home_page),
+        "icon": AssetsManager.privacy_policyIMG,
+        "screen": RequestsView(),
+      },
       {
         "title": tr(LocaleKeys.home_page),
         "icon": AssetsManager.homeIMG,
@@ -109,10 +108,10 @@ class _NavbarViewState extends State<NavbarView> {
           },
           controller: controller,
           screens: [
-            // AdminRequestView(),
-            // AdminComplaintsView(),
-            // MyCoursesView(),
-            AppointmentsView(),
+            AdminRequestView(),
+            AdminComplaintsView(),
+            MyCoursesView(),
+            // AppointmentsView(),
             TrainerAppointmentsView(),
             // RequestsView(),
             HomeView(),

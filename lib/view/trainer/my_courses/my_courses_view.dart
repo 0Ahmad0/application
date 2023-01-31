@@ -9,7 +9,6 @@ import 'package:pinkey/view/triner_details/trainer_details_view.dart';
 import '../../../model/models.dart';
 import '../../manager/widgets/container_icons.dart';
 import '/translations/locale_keys.g.dart';
-import '/view/currency_office/currency_office_view.dart';
 import '/view/manager/widgets/ShadowContainer.dart';
 import '/view/resourse/assets_manager.dart';
 import '/view/resourse/color_manager.dart';
