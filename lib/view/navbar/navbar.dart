@@ -32,17 +32,17 @@ class _NavbarViewState extends State<NavbarView> {
   Widget build(BuildContext context) {
     _screens = [
       {
-        "title": tr(LocaleKeys.favorite_page),
+        "title": 'tr(LocaleKeys.favorite_page)',
         "icon": AssetsManager.admin_requestIMG,
         "screen": AdminRequestView()
       },
       {
-        "title": tr(LocaleKeys.favorite_page),
+        "title":' tr(LocaleKeys.favorite_page)',
         "icon": AssetsManager.send_complaintIMG,
         "screen": ComplaintView()
       },
       {
-        "title": tr(LocaleKeys.favorite_page),
+        "title": 'tr(LocaleKeys.favorite_page)',
         "icon": AssetsManager.trainer_course_nameIMG,
         "screen": MyCoursesView()
       },
@@ -54,18 +54,18 @@ class _NavbarViewState extends State<NavbarView> {
       // },
 
       {
-        "title": tr(LocaleKeys.home_page),
+        "title": 'tr(LocaleKeys.home_page)',
         "icon": AssetsManager.privacy_policyIMG,
         "screen": RequestsView(),
       },
       {
-        "title": tr(LocaleKeys.home_page),
+        "title": 'tr(LocaleKeys.home_page)',
         "icon": AssetsManager.homeIMG,
         "screen": HomeView(),
       },
 
       {
-        "title": tr(LocaleKeys.chat_page),
+        "title":' tr(LocaleKeys.chat_page)',
         "icon": AssetsManager.menuIMG,
         "screen": MenuView()
       },

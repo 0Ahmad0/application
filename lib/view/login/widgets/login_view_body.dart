@@ -170,11 +170,11 @@ class LoginViewBody extends StatelessWidget {
               TextFiledApp(
                   controller: forgetPasswordController,
                   iconData: Icons.email,
-                  hintText: tr(LocaleKeys.recovery_email)),
+                  hintText: 'tr(LocaleKeys.recovery_email)'),
               Spacer(),
               ButtonApp(
                   textColor: Theme.of(context).textTheme.bodyMedium!.color,
-                  text: tr(LocaleKeys.done),
+                  text:' tr(LocaleKeys.done)',
                   onPressed: () {
                     Get.back();
                   })

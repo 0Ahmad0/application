@@ -18,7 +18,7 @@ class SettingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(tr(LocaleKeys.setting)),
+        title: Text('الاعدادات'),
         elevation: 0.0,
       ),
       body: Padding(
@@ -47,14 +47,14 @@ class SettingView extends StatelessWidget {
                   ),
                   title: ListTile(
                     title: Text(
-                      tr(LocaleKeys.language),
+                      'tr(LocaleKeys.language)',
                       style: getRegularStyle(
                           color: Theme.of(context).textTheme.bodyText1!.color,
                           fontSize: 15.sp),
                     ),
                     leading: Icon(Icons.language),
                     subtitle: Text(
-                      true ? tr(LocaleKeys.english) : tr(LocaleKeys.arabic),
+                      true ? 'tr(LocaleKeys.english)' :' tr(LocaleKeys.arabic)',
                       style: getLightStyle(
                         fontSize: 12.sp,
                           color: Theme.of(context).textTheme.bodyText1!.color),
@@ -63,7 +63,7 @@ class SettingView extends StatelessWidget {
                   children: [
                     ListTile(
                       title: Text(
-                        tr(LocaleKeys.english),
+                       ' tr(LocaleKeys.english)',
                         style: getRegularStyle(
                           color: Theme.of(context).textTheme.bodyText1!.color,
                           fontSize: 14.sp,
@@ -83,7 +83,7 @@ class SettingView extends StatelessWidget {
                     ),
                     ListTile(
                       title: Text(
-                        tr(LocaleKeys.arabic),
+                        'tr(LocaleKeys.arabic)',
                         style: getRegularStyle(
                           color: Theme.of(context).textTheme.bodyText1!.color,
                           fontSize: 14.sp,
@@ -114,13 +114,13 @@ class SettingView extends StatelessWidget {
                   color: ColorManager.lightGray.withOpacity(.2)),
               child: ListTile(
                   title: Text(
-                    tr(LocaleKeys.theme),
+                    'tr(LocaleKeys.theme)',
                     style: getRegularStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color,
                         fontSize: 15.sp),
                   ),
                   subtitle: Text(
-                    true ? tr(LocaleKeys.dark_mode) : tr(LocaleKeys.light_mode),
+                    true ? 'tr(LocaleKeys.dark_mode)' : 'tr(LocaleKeys.light_mode)',
                     style: getLightStyle(
                         fontSize: 14.sp,
                         color: Theme.of(context).textTheme.bodyText1!.color),
