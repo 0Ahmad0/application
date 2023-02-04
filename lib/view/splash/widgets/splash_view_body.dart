@@ -27,7 +27,7 @@ class SplashViewBody extends StatelessWidget {
   const SplashViewBody({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: ConstManager.logoDelay), () => Get.off(() => const LoginView()));
+   // Future.delayed(const Duration(seconds: ConstManager.logoDelay), () => Get.off(() => const LoginView()));
     return FadeInLeftBig(
       child: Container(
         width: double.infinity,
