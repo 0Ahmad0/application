@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '/view/resourse/style_manager.dart';
 import '../../view/resourse/color_manager.dart';
 import '../../view/resourse/values_manager.dart';
@@ -8,23 +9,23 @@ import 'app_sizer.dart';
 import 'package:intl/intl.dart';
 
 class Const {
-  // static LOADIG(context){
-  //   Get.dialog(
-  //       Center(
-  //         child: Container(
-  //             alignment: Alignment.center,
-  //             width: Sizer.getW(context) * 0.2,
-  //             height: Sizer.getW(context) * 0.2,
-  //             decoration: BoxDecoration(
-  //                 color: ColorManager.white,
-  //                 borderRadius: BorderRadius.circular(AppSize.s8)),
-  //             child: LoadingAnimationWidget.inkDrop(
-  //                 color: ColorManager.primaryColor,
-  //                 size: Sizer.getW(context) * 0.1)),
-  //       ),
-  //       barrierDismissible: false
-  //   );
-  // }
+  static LOADIG(context){
+    Get.dialog(
+        Center(
+          child: Container(
+              alignment: Alignment.center,
+              width: AppSizer.getW(context) * 0.2,
+              height: AppSizer.getW(context) * 0.2,
+              decoration: BoxDecoration(
+                  color: ColorManager.white,
+                  borderRadius: BorderRadius.circular(AppSize.s8)),
+              child: LoadingAnimationWidget.inkDrop(
+                  color: ColorManager.primaryColor,
+                  size: AppSizer.getW(context) * 0.1)),
+        ),
+        barrierDismissible: false
+    );
+  }
 
   static SelectDate(
       {required BuildContext context, required TextEditingController controller})async {
