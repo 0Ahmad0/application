@@ -6,12 +6,14 @@ import '../../book_course/book_course_view.dart';
 import '/view/home/home_view.dart';
 import '/view/navbar/navbar.dart';
 import '/view/signup/signup_view.dart';
-import '/translations/locale_keys.g.dart';
+import 'package:intl/intl.dart';
+
+
 import '/view/manager/widgets/ShadowContainer.dart';
 import '/view/manager/widgets/textformfiled_app.dart';
 import '/view/resourse/assets_manager.dart';
 import '/view/resourse/values_manager.dart';
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
@@ -24,7 +26,6 @@ class LoginViewBody extends StatelessWidget {
   final passwordController = TextEditingController();
   final forgetPasswordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -170,11 +171,11 @@ class LoginViewBody extends StatelessWidget {
               TextFiledApp(
                   controller: forgetPasswordController,
                   iconData: Icons.email,
-                  hintText: tr(LocaleKeys.recovery_email)),
+                  hintText: 'tr(LocaleKeys.recovery_email)'),
               Spacer(),
               ButtonApp(
                   textColor: Theme.of(context).textTheme.bodyMedium!.color,
-                  text: tr(LocaleKeys.done),
+                  text: 'tr(LocaleKeys.done)',
                   onPressed: () {
                     Get.back();
                   })

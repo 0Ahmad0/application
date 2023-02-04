@@ -1,8 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
-
+import 'package:intl/intl.dart';
 import '../../../manager/widgets/button_app.dart';
 import '../../../resourse/assets_manager.dart';
 import '../../../resourse/color_manager.dart';

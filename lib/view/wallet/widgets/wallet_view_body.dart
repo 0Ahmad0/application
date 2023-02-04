@@ -1,4 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
+
+import 'package:intl/intl.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinkey/view/charge_wallet/charge_wallet_view.dart';

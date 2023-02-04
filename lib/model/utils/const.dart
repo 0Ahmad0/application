@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import '/view/resourse/style_manager.dart';
-import 'package:easy_localization/easy_localization.dart';
 import '../../view/resourse/color_manager.dart';
 import '../../view/resourse/values_manager.dart';
 import 'app_sizer.dart';
+import 'package:intl/intl.dart';
 
 class Const {
   // static LOADIG(context){

@@ -1,20 +1,18 @@
 import 'dart:async';
 
-import 'package:pinkey/view/manager/widgets/button_app.dart';
-import 'package:pinkey/view/manager/widgets/textformfiled_app.dart';
-import 'package:pinkey/view/resourse/string_manager.dart';
-import 'package:pinkey/view/trainer/add_new_course/add_new_course_view.dart';
-import 'package:pinkey/view/triner_details/trainer_details_view.dart';
+import '/view/manager/widgets/button_app.dart';
+import '/view/manager/widgets/textformfiled_app.dart';
+import '/view/resourse/string_manager.dart';
+import '/view/trainer/add_new_course/add_new_course_view.dart';
+import '/view/triner_details/trainer_details_view.dart';
 
 import '../../../model/models.dart';
 import '../../manager/widgets/container_icons.dart';
-import '/translations/locale_keys.g.dart';
 import '/view/manager/widgets/ShadowContainer.dart';
 import '/view/resourse/assets_manager.dart';
 import '/view/resourse/color_manager.dart';
 import '/view/resourse/style_manager.dart';
 import '/view/resourse/values_manager.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
