@@ -8,9 +8,7 @@ import 'package:pinkey/view/resourse/string_manager.dart';
 import 'package:pinkey/view/resourse/style_manager.dart';
 import 'package:pinkey/view/resourse/values_manager.dart';
 import 'package:sizer/sizer.dart';
-import 'package:intl/intl.dart';
-
-
+import 'package:easy_localization/easy_localization.dart';
 
 import '../../../../model/utils/const.dart';
 import '../../../manager/widgets/button_app.dart';
