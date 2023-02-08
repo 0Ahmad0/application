@@ -22,10 +22,10 @@ import 'translations/codegen_loader.g.dart';
 Future<void> main()async{
 
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(
-  //     options: DefaultFirebaseOptions.currentPlatform
-  // );
-  // GetStorage.init();
+  await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform
+  );
+  GetStorage.init();
   await EasyLocalization.ensureInitialized();
   runApp(
     EasyLocalization(
@@ -50,15 +50,15 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
     ]);
     return
-    //   MultiProvider(providers: [
-    //   // Provider<HomeProvider>(create: (_)=>HomeProvider()),
-    //   ListenableProvider<AuthProvider>(create: (_) => AuthProvider()),
-    //   ListenableProvider<ProfileProvider>(create: (_)=>ProfileProvider()),
-    //   ListenableProvider<ProcessProvider>(create: (_)=>ProcessProvider()),
-    // //  ListenableProvider<ChatProvider>(create: (_)=>ChatProvider()),
-    //   ListenableProvider<CreateEnvironmentProvider>(create: (_)=>CreateEnvironmentProvider()),
-    // ],
-    //     child:
+      MultiProvider(providers: [
+      // Provider<HomeProvider>(create: (_)=>HomeProvider()),
+      ListenableProvider<AuthProvider>(create: (_) => AuthProvider()),
+      ListenableProvider<ProfileProvider>(create: (_)=>ProfileProvider()),
+      ListenableProvider<ProcessProvider>(create: (_)=>ProcessProvider()),
+    //  ListenableProvider<ChatProvider>(create: (_)=>ChatProvider()),
+      ListenableProvider<CreateEnvironmentProvider>(create: (_)=>CreateEnvironmentProvider()),
+    ],
+        child:
         Sizer(
         builder: (context, orientation, deviceType) {
           return GetMaterialApp(
@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
               // home:const AddNewCourseView()
           );
         }
-    //)
+    )
     );
   }
 }

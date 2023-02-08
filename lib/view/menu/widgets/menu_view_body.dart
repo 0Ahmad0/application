@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pinkey/controller/provider/profile_provider.dart';
+import 'package:pinkey/model/utils/consts_manager.dart';
 import 'package:pinkey/view/complaint/complaint_view.dart';
 import 'package:pinkey/view/login/login_view.dart';
 import 'package:pinkey/view/profile/profile_view.dart';
@@ -10,15 +12,20 @@ import 'package:pinkey/view/resourse/string_manager.dart';
 import 'package:pinkey/view/resourse/style_manager.dart';
 import 'package:pinkey/view/resourse/values_manager.dart';
 import 'package:pinkey/view/wallet/wallet_view.dart';
+import 'package:pinkey/view/welcome/welcome_view.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../model/utils/const.dart';
 import '../../notifications/notifications_view.dart';
 
 class MenuViewBody extends StatelessWidget {
   bool not_login = true;
-
+  final ProfileProvider profileProvider;
+  MenuViewBody({required this.profileProvider});
   @override
   Widget build(BuildContext context) {
+    if(AppConstants.collectionTrainer.contains(profileProvider.user.typeUser))
+      not_login=false;
     return ListView(
       padding: const EdgeInsets.all(AppPadding.p16),
       children: [
@@ -26,41 +33,47 @@ class MenuViewBody extends StatelessWidget {
           AppStringsManager.menu,
           style: getRegularStyle(color: ColorManager.black, fontSize: 14.sp),
         ),
-        const SizedBox(
-          height: AppSize.s30,
+        Visibility(
+          visible: !not_login,
+          child: const SizedBox(
+            height: AppSize.s30,
+          ),
         ),
-        InkWell(
-          onTap: () => Get.off(() => LoginView(), transition: Transition.size),
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: AppPadding.p20),
-            decoration: BoxDecoration(
-              color: ColorManager.primaryColor,
-              borderRadius: BorderRadius.circular(6.sp),
-            ),
-            child: ListTile(
-              leading: Container(
-                alignment: Alignment.center,
-                width: 20.w,
-                height: 20.w,
-                decoration: BoxDecoration(
-                    color: ColorManager.white.withOpacity(.5),
-                    shape: BoxShape.circle),
-                child: Icon(
-                  Icons.add_circle_outlined,
-                  color: ColorManager.white,
-                  size: 24.sp,
+        Visibility(
+          visible: !not_login,
+          child: InkWell(
+            onTap: () => Get.off(() => LoginView(), transition: Transition.size),
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: AppPadding.p20),
+              decoration: BoxDecoration(
+                color: ColorManager.primaryColor,
+                borderRadius: BorderRadius.circular(6.sp),
+              ),
+              child: ListTile(
+                leading: Container(
+                  alignment: Alignment.center,
+                  width: 20.w,
+                  height: 20.w,
+                  decoration: BoxDecoration(
+                      color: ColorManager.white.withOpacity(.5),
+                      shape: BoxShape.circle),
+                  child: Icon(
+                    Icons.add_circle_outlined,
+                    color: ColorManager.white,
+                    size: 24.sp,
+                  ),
                 ),
-              ),
-              title: Text(
-                '${AppStringsManager.login + ' / ' + AppStringsManager.sign_up}',
-                style: getRegularStyle(color: ColorManager.white),
-              ),
-              subtitle: Padding(
-                padding: const EdgeInsets.symmetric(vertical: AppPadding.p10),
-                child: Text(
-                  AppStringsManager.join_to_control_the_options,
-                  style: getRegularStyle(
-                      color: ColorManager.white, fontSize: 10.sp),
+                title: Text(
+                  '${AppStringsManager.login + ' / ' + AppStringsManager.sign_up}',
+                  style: getRegularStyle(color: ColorManager.white),
+                ),
+                subtitle: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: AppPadding.p10),
+                  child: Text(
+                    AppStringsManager.join_to_control_the_options,
+                    style: getRegularStyle(
+                        color: ColorManager.white, fontSize: 10.sp),
+                  ),
                 ),
               ),
             ),
@@ -219,8 +232,13 @@ class MenuViewBody extends StatelessWidget {
         Visibility(
           visible: not_login,
           child: buildMenuListTile(
-            onTap: () {
+            onTap: () async {
               //TODO: Navigator
+              Const.LOADIG(context);
+              final result =await profileProvider.logout(context);
+              Get.back();
+              if(result['status'])
+                Get.off(()=>WelcomeView());
             },
             image: AssetsManager.log_outIMG,
             title: AppStringsManager.log_out,
@@ -241,64 +259,67 @@ class MenuViewBody extends StatelessWidget {
         const SizedBox(
           height: AppSize.s10,
         ),
-        Container(
-          padding: const EdgeInsets.all(AppPadding.p20),
-          decoration: BoxDecoration(
-            color: ColorManager.secondaryColor,
-            borderRadius: BorderRadius.circular(6.sp),
-          ),
-          child: Column(
-            children: [
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(
-                  AppStringsManager.join_as_a_coach,
-                  style: getRegularStyle(color: ColorManager.white),
-                ),
-                subtitle: Padding(
-                  padding: EdgeInsets.only(
-                      left: AppPadding.p60, top: AppPadding.p10),
-                  child: Text(
-                    AppStringsManager.offer_courses_and_assistance,
-                    style: getRegularStyle(
-                        color: ColorManager.white, fontSize: 10.sp),
+        Visibility(
+          visible: ([AppConstants.collectionUser,AppConstants.collectionTrainer].contains(profileProvider.user.typeUser)),
+          child: Container(
+            padding: const EdgeInsets.all(AppPadding.p20),
+            decoration: BoxDecoration(
+              color: ColorManager.secondaryColor,
+              borderRadius: BorderRadius.circular(6.sp),
+            ),
+            child: Column(
+              children: [
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(
+                    AppStringsManager.join_as_a_coach,
+                    style: getRegularStyle(color: ColorManager.white),
                   ),
-                ),
-              ),
-              const SizedBox(
-                height: AppSize.s10,
-              ),
-              Row(
-                children: [
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: (SizerUtil.width / 2) - 32.0,
-                      padding: const EdgeInsets.all(AppPadding.p16),
-                      decoration: BoxDecoration(
-                          color: ColorManager.thirdlyColor,
-                          borderRadius: BorderRadius.circular(6.sp)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            AppStringsManager.join_now,
-                            style: getRegularStyle(
-                                color: ColorManager.white, fontSize: 12.sp),
-                          ),
-                          Icon(
-                            Icons.arrow_back_ios_new,
-                            color: ColorManager.white,
-                            size: 12.sp,
-                          )
-                        ],
-                      ),
+                  subtitle: Padding(
+                    padding: EdgeInsets.only(
+                        left: AppPadding.p60, top: AppPadding.p10),
+                    child: Text(
+                      AppStringsManager.offer_courses_and_assistance,
+                      style: getRegularStyle(
+                          color: ColorManager.white, fontSize: 10.sp),
                     ),
                   ),
-                ],
-              )
-            ],
+                ),
+                const SizedBox(
+                  height: AppSize.s10,
+                ),
+                Row(
+                  children: [
+                    InkWell(
+                      onTap: () {},
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: (SizerUtil.width / 2) - 32.0,
+                        padding: const EdgeInsets.all(AppPadding.p16),
+                        decoration: BoxDecoration(
+                            color: ColorManager.thirdlyColor,
+                            borderRadius: BorderRadius.circular(6.sp)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              AppStringsManager.join_now,
+                              style: getRegularStyle(
+                                  color: ColorManager.white, fontSize: 12.sp),
+                            ),
+                            Icon(
+                              Icons.arrow_back_ios_new,
+                              color: ColorManager.white,
+                              size: 12.sp,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         )
       ],

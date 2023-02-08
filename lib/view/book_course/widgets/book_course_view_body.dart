@@ -8,7 +8,7 @@ import '../../manager/widgets/button_app.dart';
 import '../../resourse/color_manager.dart';
 import '../../resourse/style_manager.dart';
 import '../../resourse/values_manager.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+// import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 
 class BookCourseViewBody extends StatefulWidget {
@@ -46,18 +46,18 @@ class _BookCourseViewBodyState extends State<BookCourseViewBody> {
                     color: ColorManager.lightGray.withOpacity(.3),
                     blurRadius: AppSize.s4)
               ]),
-          child: SfDateRangePicker(
-            initialDisplayDate: DateTime.now(),
-
-
-            onSelectionChanged: (date) {
-              print(date.value);
-            },
-            selectionMode: DateRangePickerSelectionMode.multiple,
-            initialSelectedRange: PickerDateRange(
-                DateTime.now().subtract(const Duration(days: 4)),
-                DateTime.now().add(const Duration(days: 3))),
-          ),
+          // child: SfDateRangePicker(
+          //   initialDisplayDate: DateTime.now(),
+          //
+          //
+          //   onSelectionChanged: (date) {
+          //     print(date.value);
+          //   },
+          //   selectionMode: DateRangePickerSelectionMode.multiple,
+          //   initialSelectedRange: PickerDateRange(
+          //       DateTime.now().subtract(const Duration(days: 4)),
+          //       DateTime.now().add(const Duration(days: 3))),
+          // ),
         ),
         const SizedBox(
           height: AppSize.s20,
@@ -125,20 +125,20 @@ class _BookCourseViewBodyState extends State<BookCourseViewBody> {
   String _dateCount = '';
   String _range = '';
   String _rangeCount = '';
-
-  void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
-    setState(() {
-      if (args.value is PickerDateRange) {
-        _range = '${DateFormat('dd/MM/yyyy').format(args.value.startDate)} -'
-            // ignore: lines_longer_than_80_chars
-            ' ${DateFormat('dd/MM/yyyy').format(args.value.endDate ?? args.value.startDate)}';
-      } else if (args.value is DateTime) {
-        _selectedDate = args.value.toString();
-      } else if (args.value is List<DateTime>) {
-        _dateCount = args.value.length.toString();
-      } else {
-        _rangeCount = args.value.length.toString();
-      }
-    });
-  }
+  //
+  // void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
+  //   setState(() {
+  //     if (args.value is PickerDateRange) {
+  //       _range = '${DateFormat('dd/MM/yyyy').format(args.value.startDate)} -'
+  //           // ignore: lines_longer_than_80_chars
+  //           ' ${DateFormat('dd/MM/yyyy').format(args.value.endDate ?? args.value.startDate)}';
+  //     } else if (args.value is DateTime) {
+  //       _selectedDate = args.value.toString();
+  //     } else if (args.value is List<DateTime>) {
+  //       _dateCount = args.value.length.toString();
+  //     } else {
+  //       _rangeCount = args.value.length.toString();
+  //     }
+  //   });
+  // }
 }

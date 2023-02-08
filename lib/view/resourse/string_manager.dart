@@ -5,12 +5,15 @@ class AppStringsManager{
   static const String login_to_complete_book = 'قومي بتسجيل الدخول حتى تستطيعي إجراء حجوزاتك';
   static const String login_to_managment_account = 'قومي بتسجيل الدخول حتى تستطيعي إدارة الحساب';
   static const String login_now = 'سجلي دخولك الان';
+  static const String recovery_password = 'استعادة كلمة المرور';
+  static const String recovery_email = 'البريد الالكتروني لاستعادة الحساب';
   static const String phone_number = 'رقم الهاتف';
   static const String login_by_email = 'سجلي باستخدام البريد الالكتروني';
   static const String password = 'كلمة المرور';
   static const String type = 'إدخال';
   static const String forget_password = 'نسيتي كلمة المرور؟';
   static const String login = 'تسجبل دخول';
+  static const String login_visit = 'دخول كزائر';
   static const String do_not_have_account = 'لا أملك حساب في التطبيق؟ ';
   static const String sign_up = 'إنشاء حساب';
   static const String fill_data_account = 'قومي بتعبئة بياناتك في التطبيق بشكل صحيح';
@@ -167,6 +170,9 @@ class AppStringsManager{
   static const String edit_password = 'تغيير كلمة المرور';
   static const String now_password = 'كلمة المرور الحالية';
   static const String new_password = 'كلمة المرور الجديدة';
+  static const String fault_now_password = 'كلمة المرور الحالية غير صحيحة';
+  static const String no_match_new_password = 'كلمة المرور الجديدة غير متطابقة';
+  static const String match_now_password = 'كلمة المرور الجديدة متطابقة مع الحالية';
   static const String confirm_new_password = 'تأكيد كلمة المرور الجديدة';
   static const String add_course_time = 'إضافة أوقات الدورة';
   static const String add_course_date = 'تاريخ الدورة';
@@ -174,6 +180,9 @@ class AppStringsManager{
   static const String add_course_time_from_to = 'الوقت(من - الي)';
   static const String to = 'الى';
   static const String from = 'من';
+  static const String camera = 'الكاميرا';
+  static const String gallery = 'الاستوديو';
+  static const String remove = 'إزالة';
 
 
 

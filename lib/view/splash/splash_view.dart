@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:pinkey/view/welcome/welcome_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../controller/provider/auth_provider.dart';
@@ -55,14 +56,14 @@ class _SplashViewState extends State<SplashView> {
       }else{
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-                builder: (ctx) => LoginView()));
+                builder: (ctx) => WelcomeView()));
 
       }
 
     }else{
       Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => LoginView()
+          MaterialPageRoute(builder: (context) => WelcomeView()
             //HomeView()
             // LoginView()
           ));

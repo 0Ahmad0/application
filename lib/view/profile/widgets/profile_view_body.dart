@@ -1,4 +1,9 @@
 import 'dart:io';
+import '../../../controller/auth_controller.dart';
+import '../../../controller/provider/profile_provider.dart';
+import '../../../model/utils/const.dart';
+import '../../app/picture/cach_picture_widget.dart';
+import '../../app/picture/profile_picture_widget.dart';
 import '/view/edit_password/edit_passord_view.dart';
 
 import '/view/resourse/style_manager.dart';
@@ -21,7 +26,10 @@ import '/view/resourse/color_manager.dart';
 class ProfileViewBody extends StatefulWidget {
   final bool isIgnor;
 
-  const ProfileViewBody({super.key, required this.isIgnor});
+
+  final ProfileProvider profileProvider;
+  ProfileViewBody({super.key, required this.isIgnor,required this.profileProvider});
+  @override
 
   @override
   State<ProfileViewBody> createState() => _ProfileViewState();
@@ -32,7 +40,7 @@ class _ProfileViewState extends State<ProfileViewBody> {
   final LnameController = TextEditingController(text: 'عبد الغني');
   final emailController = TextEditingController(text: 'haya,143@gmail.com');
   final phoneController = TextEditingController(text: '05965626202');
-  final passwordController = TextEditingController(text: '123AA@#fg');
+  final passwordController = TextEditingController(text: '*******');
   final confirmPassworddController = TextEditingController(text: '123AA@#fg');
   final formKey = GlobalKey<FormState>();
 
@@ -57,7 +65,12 @@ class _ProfileViewState extends State<ProfileViewBody> {
     // await uploadImage( );
     setState(() {});
   }
-
+  removeGallery() async {
+    image =null ;
+    widget.profileProvider.user.photoUrl=" ";
+    ///print(" ${image==null}");
+    setState(() {});
+  }
 //   Future uploadImage() async {
 //     try {
 //       String path = basename(image!.path);
@@ -100,20 +113,44 @@ class _ProfileViewState extends State<ProfileViewBody> {
                         radius: 12.5.w,
                         backgroundColor: ColorManager.borderColor,
                         child: image == null
-                            ? CachedNetworkImage(
-                          fit: BoxFit.cover,
-                          imageUrl:
-                          // "${AppUrl.baseUrlImage}${widget.restaurant.imageLogo!}",
-                          "https://th.bing.com/th/id/R.1b3a7efcd35343f64a9ae6ad5b5f6c52?rik=HGgUvyvtG4jbAQ&riu=http%3a%2f%2fwww.riyadhpost.live%2fuploads%2f7341861f7f918c109dfc33b73d8356b2.jpg&ehk=3Z4lADOKvoivP8Tbzi2Y56dxNrCWd0r7w7CHQEvpuUg%3d&risl=&pid=ImgRaw&r=0",
-                          imageBuilder: (context, imageProvider) =>
-                              Image(image: imageProvider),
-                          placeholder: (context, url) =>
-                              Center(child: CircularProgressIndicator()),
+                            ?
+                        ClipOval( child :
+                        CacheNetworkImage(
+                          photoUrl:   // "https://th.bing.com/th/id/R.1b3a7efcd35343f64a9ae6ad5b5f6c52?rik=HGgUvyvtG4jbAQ&riu=http%3a%2f%2fwww.riyadhpost.live%2fuploads%2f7341861f7f918c109dfc33b73d8356b2.jpg&ehk=3Z4lADOKvoivP8Tbzi2Y56dxNrCWd0r7w7CHQEvpuUg%3d&risl=&pid=ImgRaw&r=0",
+                          '${widget.profileProvider.user.photoUrl}',
+                          width: 23.5.w,
+                          height: 23.5.w,
+                          boxFit: BoxFit.cover,
+                          waitWidget: WidgetProfilePicture(
+                            name: widget.profileProvider.user.name,
+                            radius: 5.w,
+                            fontSize: 6.w,
+                            backgroundColor: ColorManager.borderColor,
+                            textColor: ColorManager.primaryColor,
+                          ),
+                          errorWidget: WidgetProfilePicture(
+                            name: widget.profileProvider.user.name,
+                            radius: 5.w,
+                            fontSize: 6.w,
+                            backgroundColor: ColorManager.borderColor,
+                            textColor: ColorManager.primaryColor,
+                          ),
                         )
+                        )
+                        // CachedNetworkImage(
+                        //   fit: BoxFit.cover,
+                        //   imageUrl:
+                        //   // "${AppUrl.baseUrlImage}${widget.restaurant.imageLogo!}",
+                        //   "https://th.bing.com/th/id/R.1b3a7efcd35343f64a9ae6ad5b5f6c52?rik=HGgUvyvtG4jbAQ&riu=http%3a%2f%2fwww.riyadhpost.live%2fuploads%2f7341861f7f918c109dfc33b73d8356b2.jpg&ehk=3Z4lADOKvoivP8Tbzi2Y56dxNrCWd0r7w7CHQEvpuUg%3d&risl=&pid=ImgRaw&r=0",
+                        //   imageBuilder: (context, imageProvider) =>
+                        //       Image(image: imageProvider),
+                        //   placeholder: (context, url) =>
+                        //       Center(child: CircularProgressIndicator()),
+                        // )
                             : ClipOval(
                           child: Image.file(File(image!.path),
-                            width: 4.w,
-                            height: 4.w,
+                            width: 23.5.w,
+                            height: 23.5.w,
                             fit: BoxFit.fill,
                           ),
                         ),
@@ -125,8 +162,13 @@ class _ProfileViewState extends State<ProfileViewBody> {
                         child: CircleAvatar(
                           radius: 4.w,
                           backgroundColor: ColorManager.borderColor,
-                          child: SvgPicture.asset(
-                              AssetsManager.edit_imageIMG),
+                          child: InkWell(
+                            onTap:() {
+                              _showDialog(context);
+                            },
+                            child: SvgPicture.asset(
+                                AssetsManager.edit_imageIMG),
+                          ),
                         )
                     )
                   ],
@@ -156,7 +198,7 @@ class _ProfileViewState extends State<ProfileViewBody> {
                                   height: AppSize.s10,
                                 ),
                                 TextFiledApp(
-                                    controller: FnameController,
+                                    controller: widget.profileProvider.firstName,
                                     hintText: AppStringsManager.first_name),
                               ],
                             ),
@@ -182,7 +224,7 @@ class _ProfileViewState extends State<ProfileViewBody> {
                                   height: AppSize.s10,
                                 ),
                                 TextFiledApp(
-                                    controller: LnameController,
+                                    controller: widget.profileProvider.lastName,
                                     hintText: AppStringsManager.last_name),
                               ],
                             ),
@@ -206,7 +248,7 @@ class _ProfileViewState extends State<ProfileViewBody> {
                         height: AppSize.s10,
                       ),
                       TextFiledApp(
-                        controller: phoneController,
+                        controller: widget.profileProvider.phoneNumber,
                         hintText: AppStringsManager.type + " " +
                             AppStringsManager.phone_number,
                       ),
@@ -227,7 +269,7 @@ class _ProfileViewState extends State<ProfileViewBody> {
                         height: AppSize.s10,
                       ),
                       TextFiledApp(
-                        controller: emailController,
+                        controller: widget.profileProvider.email,
                         hintText: AppStringsManager.type + " " +
                             AppStringsManager.email,
                       ),
@@ -270,6 +312,7 @@ class _ProfileViewState extends State<ProfileViewBody> {
                             AppStringsManager.password,
                         obscureText: true,
                         suffixIcon: true,
+                        readOnly: true,
                       ),
                       const SizedBox(height: AppSize.s10,),
 
@@ -279,9 +322,13 @@ class _ProfileViewState extends State<ProfileViewBody> {
                 ),
                 ButtonApp(
                     color: ColorManager.thirdlyColor,
-                    text: AppStringsManager.save, onPressed: () {
+                    text: AppStringsManager.save, onPressed: () async {
                   if (formKey.currentState!.validate()) {
-                    print('yes');
+                    Const.LOADIG(context);
+                    if(image!=null)
+                      await widget.profileProvider.uploadImage(context, image!);
+                    await widget.profileProvider.editUser(context);
+                    Navigator.of(context).pop();
                   }
                 }),
 
@@ -322,7 +369,7 @@ class _ProfileViewState extends State<ProfileViewBody> {
                               const SizedBox(
                                 width: AppSize.s8,
                               ),
-                              Text("Camera"),
+                              Text(AppStringsManager.camera),
                             ],
                           ),
                         ),
@@ -347,7 +394,7 @@ class _ProfileViewState extends State<ProfileViewBody> {
                               const SizedBox(
                                 width: AppSize.s8,
                               ),
-                              Text("Gallery"),
+                              Text(AppStringsManager.gallery),
                             ],
                           ),
                         ),
@@ -359,7 +406,7 @@ class _ProfileViewState extends State<ProfileViewBody> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          // removeGallery();
+                           removeGallery();
                           Navigator.pop(context);
                         },
                         child: Container(
@@ -372,7 +419,7 @@ class _ProfileViewState extends State<ProfileViewBody> {
                               const SizedBox(
                                 width: AppSize.s8,
                               ),
-                              Text("Remove"),
+                              Text(AppStringsManager.remove),
                             ],
                           ),
                         ),

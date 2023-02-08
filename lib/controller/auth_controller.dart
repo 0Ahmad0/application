@@ -16,6 +16,11 @@ class AuthController{
   AuthController({required this.context}){
     authProvider= Provider.of<AuthProvider>(context);
   }
+
+  visitor() async {
+    await authProvider.visitor(context);
+    Get.off(()=>NavbarView());
+  }
   login(BuildContext context,{required String email,required String password,}) async {
     Const.LOADIG(context);
     authProvider.user.email=email;
@@ -27,10 +32,13 @@ class AuthController{
           transition: Transition.circularReveal);
 
   }
-  signUp(BuildContext context,{required String fullName,required String gender,required DateTime dateBirth,required String email,required String password,required String phoneNumber,required String photoUrl,required String typeUser}) async {
+
+  signUp(BuildContext context,{required String firstName,required String lastName,required String gender,required DateTime dateBirth,required String email,required String password,required String phoneNumber,required String photoUrl,required String typeUser}) async {
     Const.LOADIG(context);
     authProvider.user=User(id: '', uid: '',
-        name: fullName,
+        name: '$firstName $lastName',
+        firstName: firstName,
+        lastName: lastName,
         email: email,
         phoneNumber: phoneNumber
         , password: password,

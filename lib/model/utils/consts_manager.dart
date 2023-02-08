@@ -29,8 +29,9 @@ class AppConstants {
 
   //collection
   static String collection = "";
+  static String collectionVisitor = "Visitor";
   static String collectionAdmin = "Admin";
-  static String collectionLawyer = "Lawyer";
+  static String collectionTrainer = "Trainer";
   static String collectionUser = "User";
   static String collectionDateLawyer = "DateLawyer";
   static String collectionInternship = "Internship";

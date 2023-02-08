@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:pinkey/view/resourse/const_manager.dart';
 import 'package:pinkey/view/resourse/string_manager.dart';
 import 'package:pinkey/view/resourse/style_manager.dart';
+import '../../../controller/auth_controller.dart';
 import '../../book_course/book_course_view.dart';
 import '/view/home/home_view.dart';
 import '/view/navbar/navbar.dart';
@@ -24,7 +25,8 @@ class LoginViewBody extends StatelessWidget {
   final passwordController = TextEditingController();
   final forgetPasswordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-
+  final AuthController authController;
+  LoginViewBody({required this.authController});
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -75,7 +77,7 @@ class LoginViewBody extends StatelessWidget {
               height: AppSize.s10,
             ),
             TextFiledApp(
-
+              controller: emailController,
                 iconData: Icons.phone_android,
                 hintText: AppStringsManager.type + " " +AppStringsManager.phone_number ),
             const SizedBox(
@@ -91,6 +93,7 @@ class LoginViewBody extends StatelessWidget {
               height: AppSize.s10,
             ),
             TextFiledApp(
+              controller: passwordController,
               iconData: Icons.lock,
               hintText: AppStringsManager.type + " " +AppStringsManager.password,
               obscureText: true,
@@ -117,11 +120,11 @@ class LoginViewBody extends StatelessWidget {
             const SizedBox(
               height: AppSize.s20,
             ),
-            ButtonApp(text: AppStringsManager.login, onPressed: () {
+            ButtonApp(text: AppStringsManager.login, onPressed: () async {
               if(!formKey.currentState!.validate()){
-                Get.snackbar("title", "message");
+                Get.snackbar("خطأ", "قم بملئ الحقول أولا");
               }else{
-                Get.to(()=>NavbarView());
+                await authController.login(context, email: emailController.text, password: passwordController.text);
               }
             }),
             const SizedBox(
@@ -170,12 +173,13 @@ class LoginViewBody extends StatelessWidget {
               TextFiledApp(
                   controller: forgetPasswordController,
                   iconData: Icons.email,
-                  hintText: 'tr(LocaleKeys.recovery_email)'),
+                  hintText: AppStringsManager.recovery_email),
               Spacer(),
               ButtonApp(
                   textColor: Theme.of(context).textTheme.bodyMedium!.color,
-                  text:' tr(LocaleKeys.done)',
-                  onPressed: () {
+                  text: AppStringsManager.yes,
+                  onPressed: () async {
+                    await authController.sendPasswordResetEmail(context, email: forgetPasswordController.text);
                     Get.back();
                   })
             ],

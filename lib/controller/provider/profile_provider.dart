@@ -17,10 +17,14 @@ import '../utils/firebase.dart';
 
 
 class ProfileProvider with ChangeNotifier{
+  var firstName = TextEditingController(text: 'عبير');
+  var lastName = TextEditingController(text: 'عبد الغني');
+  var email = TextEditingController(text: 'haya,143@gmail.com');
+  var phoneNumber = TextEditingController(text: '05965626202');
+   var name = TextEditingController(text: '');
 
-   var name = TextEditingController(text: "أحمد الحريري");
-  var email = TextEditingController(text: "Ahmad2001@gmail.com");
-   var phoneNumber = TextEditingController(text: "");
+  // var email = TextEditingController(text: "Ahmad2001@gmail.com");
+  //  var phoneNumber = TextEditingController(text: "");
   bool nameIgnor = true;
   bool emailIgnor = true;
   models.User user= models.User(id: "id",uid: "uid", name: "name", email: "email", phoneNumber: "phoneNumber", password: "password",photoUrl: "photoUrl",typeUser: "typeUser",dateBirth: DateTime.now(),gender: "Male");
@@ -30,6 +34,10 @@ class ProfileProvider with ChangeNotifier{
      name = TextEditingController(text: user.name);
      email = TextEditingController(text: user.email);
      phoneNumber = TextEditingController(text: user.phoneNumber);
+    firstName = TextEditingController(text: user.phoneNumber);
+    lastName = TextEditingController(text: user.phoneNumber);
+    if(name.text=='');
+    name.text='${firstName.text} ${lastName.text}';
      notifyListeners();
   }
    editUser(context) async {
@@ -37,6 +45,8 @@ class ProfileProvider with ChangeNotifier{
      tempUser.email =email.text;
      tempUser.name=name.text;
      tempUser.phoneNumber=phoneNumber.text;
+     tempUser.firstName=firstName.text;
+     tempUser.lastName=lastName.text;
     /// print(tempUser.toJson());
      var result =await FirebaseFun.updateUserEmail(user: tempUser);
      if(result['status']){

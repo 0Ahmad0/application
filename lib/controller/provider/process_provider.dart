@@ -30,7 +30,7 @@ class ProcessProvider with ChangeNotifier{
     if(cacheUser.containsKey(idUser)) return cacheUser[idUser];
     var result =await FirebaseFun.fetchUserId(id: idUser,typeUser: AppConstants.collectionUser);
     if(result['status']&&result['body']==null){
-      result =await FirebaseFun.fetchUserId(id: idUser,typeUser: AppConstants.collectionLawyer);
+      result =await FirebaseFun.fetchUserId(id: idUser,typeUser: AppConstants.collectionTrainer);
       if(result['status']&&result['body']==null){
         result =await FirebaseFun.fetchUserId(id: idUser,typeUser: AppConstants.collectionAdmin);
       }

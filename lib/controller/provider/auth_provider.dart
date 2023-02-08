@@ -24,8 +24,13 @@ class AuthProvider with ChangeNotifier{
   var phoneNumber = TextEditingController();
   var password = TextEditingController();
   var confirmPassword = TextEditingController();
-  List<String> listTypeUserWithActive=[AppConstants.collectionLawyer];
+  List<String> listTypeUserWithActive=[AppConstants.collectionTrainer];
   models.User user= models.User(id: "id",uid: "uid", name: "name", email: "email", phoneNumber: "phoneNumber", password: "password",photoUrl: "photoUrl",typeUser: "typeUser",dateBirth: DateTime.now(),gender: "Male");
+  visitor(context) async{
+    final profileProvider = Provider.of<ProfileProvider>(context,listen: false);
+    user=User(id: '', uid: '', name: AppConstants.collectionTrainer, email: '', phoneNumber: '', password: '', typeUser: AppConstants.collectionTrainer, photoUrl: '', gender: '', dateBirth: DateTime.now());
+    profileProvider.updateUser(user: user);
+  }
   signup(context) async{
     final profileProvider = Provider.of<ProfileProvider>(context,listen: false);
     bool checkPhoneOrEmailFound =await FirebaseFun.checkPhoneOrEmailFound(email:user.email, phone: user.phoneNumber);
@@ -46,7 +51,7 @@ class AuthProvider with ChangeNotifier{
       }
     }}
     else{
-      result=FirebaseFun.errorUser("the email or phoneNumber already uses");
+      result=await FirebaseFun.errorUser("the email or phoneNumber already uses");
     }
     print(result);
     Const.TOAST(context,textToast: FirebaseFun.findTextToast(result['message'].toString()));
@@ -99,7 +104,7 @@ class AuthProvider with ChangeNotifier{
 
     var resultUser =await FirebaseFun.loginWithPhoneNumber(phoneNumber: user.email, password: user.password,typeUser: AppConstants.collectionUser);
     if(!resultUser["status"])
-      resultUser =await FirebaseFun.loginWithPhoneNumber(phoneNumber: user.email, password: user.password,typeUser: AppConstants.collectionLawyer);
+      resultUser =await FirebaseFun.loginWithPhoneNumber(phoneNumber: user.email, password: user.password,typeUser: AppConstants.collectionTrainer);
     if(!resultUser["status"])
       resultUser =await FirebaseFun.loginWithPhoneNumber(phoneNumber: user.email, password: user.password,typeUser: AppConstants.collectionAdmin);
     if(resultUser['status'])

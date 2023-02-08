@@ -1,3 +1,6 @@
+import 'package:pinkey/model/utils/consts_manager.dart';
+
+import '../../../controller/auth_controller.dart';
 import '/view/resourse/style_manager.dart';
 import '../../resourse/string_manager.dart';
 import 'package:flutter/material.dart';
@@ -9,13 +12,16 @@ import 'package:sizer/sizer.dart';
 import '../../manager/widgets/button_app.dart';
 
 class SignupViewBody extends StatelessWidget {
-  final nameController = TextEditingController();
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPassworddController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-
+  final AuthController authController;
+  final String typeUser;
+  SignupViewBody({required this.authController,this.typeUser='User'});
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -63,6 +69,7 @@ class SignupViewBody extends StatelessWidget {
                             height: AppSize.s10,
                           ),
                           TextFiledApp(
+                            controller: firstNameController,
                               iconData: Icons.phone_android, hintText: AppStringsManager.first_name),
                         ],
                       ),
@@ -84,6 +91,7 @@ class SignupViewBody extends StatelessWidget {
                             height: AppSize.s10,
                           ),
                           TextFiledApp(
+                            controller: lastNameController,
                               iconData: Icons.phone_android, hintText: AppStringsManager.last_name),
                         ],
                       ),
@@ -103,6 +111,7 @@ class SignupViewBody extends StatelessWidget {
                   height: AppSize.s10,
                 ),
                 TextFiledApp(
+                  controller: phoneController,
                   iconData: Icons.phone_android,
                   hintText: AppStringsManager.type + " " + AppStringsManager.phone_number,
                 ),
@@ -119,6 +128,7 @@ class SignupViewBody extends StatelessWidget {
                   height: AppSize.s10,
                 ),
                 TextFiledApp(
+                  controller: emailController,
                   iconData: Icons.email,
                   hintText: AppStringsManager.type + " " + AppStringsManager.email,
                 ),
@@ -135,6 +145,7 @@ class SignupViewBody extends StatelessWidget {
                   height: AppSize.s10,
                 ),
                 TextFiledApp(
+                  controller: passwordController,
                   iconData: Icons.lock,
                   hintText: AppStringsManager.type + " " + AppStringsManager.password,
                   obscureText: true,
@@ -144,10 +155,14 @@ class SignupViewBody extends StatelessWidget {
                 const SizedBox(
                   height: AppSize.s20,
                 ),
-                ButtonApp(text: AppStringsManager.sign_up, onPressed: (){
+                ButtonApp(text: AppStringsManager.sign_up, onPressed: () async {
+
                   if(formKey.currentState!.validate()){
-                    Get.snackbar("title", "message");
-                    Get.to(()=>LoginView());
+                    // Get.snackbar("title", "message");
+                    // Get.to(()=>LoginView());
+                    await authController.signUp(context, firstName: firstNameController.text,lastName: lastNameController.text, gender: 'Female',
+                        dateBirth: DateTime.now(), email: emailController.text, password: passwordController.text,
+                        phoneNumber: phoneController.text, photoUrl: '', typeUser: typeUser);
                   }
                 }),
                 const SizedBox(

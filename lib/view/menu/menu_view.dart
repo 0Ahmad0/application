@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../controller/provider/profile_provider.dart';
 import 'widgets/menu_view_body.dart';
 
 class MenuView extends StatelessWidget {
@@ -8,7 +10,10 @@ class MenuView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: MenuViewBody(),
+      body: ChangeNotifierProvider<ProfileProvider>.value(
+    value: Provider.of<ProfileProvider>(context),
+    child: Consumer<ProfileProvider>(
+    builder: (context, profileProvider, child) => MenuViewBody(profileProvider:profileProvider))),
     );
   }
 }
