@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../translations/locale_keys.g.dart';
 import '../resourse/color_manager.dart';
 import '../resourse/style_manager.dart';
 import '../resourse/values_manager.dart';

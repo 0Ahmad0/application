@@ -9,7 +9,6 @@ import 'package:sizer/sizer.dart';
 import '../../../controller/auth_controller.dart';
 import '../../../controller/utils/create_environment_provider.dart';
 import '../../../model/utils/consts_manager.dart';
-import '../../../translations/locale_keys.g.dart';
 import '../../login/login_view.dart';
 import '../../manager/widgets/button_app.dart';
 import '../../resourse/assets_manager.dart';

@@ -20,7 +20,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import '/view/resourse/assets_manager.dart';
-import '/translations/locale_keys.g.dart';
 import '/view/resourse/color_manager.dart';
 
 class ProfileViewBody extends StatefulWidget {

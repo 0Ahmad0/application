@@ -7,7 +7,6 @@ import '../../book_course/book_course_view.dart';
 import '/view/home/home_view.dart';
 import '/view/navbar/navbar.dart';
 import '/view/signup/signup_view.dart';
-import '/translations/locale_keys.g.dart';
 import '/view/manager/widgets/ShadowContainer.dart';
 import '/view/manager/widgets/textformfiled_app.dart';
 import '/view/resourse/assets_manager.dart';

@@ -9,7 +9,6 @@ import '../menu/menu_view.dart';
 import '../trainer/appointments/trainer_appointments_view.dart';
 import '../trainer/my_courses/my_courses_view.dart';
 import '../trainer/requests/requests_view.dart';
-import '/translations/locale_keys.g.dart';
 import '/view/home/home_view.dart';
 import '/view/resourse/color_manager.dart';
 import 'package:easy_localization/easy_localization.dart';

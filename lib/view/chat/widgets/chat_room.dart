@@ -5,7 +5,6 @@ import '/view/manager/const.dart';
 import '/view/resourse/string_manager.dart';
 import '/view/resourse/string_manager.dart';
 import 'package:readmore/readmore.dart';
-import '/translations/locale_keys.g.dart';
 import '/view/resourse/assets_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';

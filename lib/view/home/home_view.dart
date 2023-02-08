@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:pinkey/view/manager/widgets/button_app.dart';
 import 'package:pinkey/view/manager/widgets/textformfiled_app.dart';
 import 'package:pinkey/view/resourse/string_manager.dart';
@@ -7,7 +9,7 @@ import 'package:pinkey/view/triner_details/trainer_details_view.dart';
 
 import '../../model/models.dart';
 import '../notifications/notifications_view.dart';
-import '/translations/locale_keys.g.dart';
+import '../translations/locale_keys.g.dart';
 import '/view/manager/widgets/ShadowContainer.dart';
 import '/view/resourse/assets_manager.dart';
 import '/view/resourse/color_manager.dart';
@@ -52,6 +54,9 @@ class _HomeViewState extends State<HomeView> {
     ),
   ];
   final searchController = TextEditingController();
+  final  latitudeController = TextEditingController(text: '0');
+  final  longitudeController = TextEditingController(text: '0');
+  final  locationController = TextEditingController();
 
 
   @override
@@ -78,19 +83,30 @@ class _HomeViewState extends State<HomeView> {
             SvgPicture.asset(AssetsManager.locationIMG),
             Expanded(
               child: DropdownButtonFormField(
+                  onTap: () async {
+                    GeoPoint? p = await showSimplePickerLocation(
+                      context: context,
+                      isDismissible: true,
+                      title: AppStringsManager.select_your_location,
+                      textConfirmPicker: AppStringsManager.select_location,
+                      initCurrentUserPosition: true,
+                    );
+                    latitudeController.text=p!.latitude.toString();
+                    longitudeController.text=p.longitude.toString();
+                    List<Placemark> placemarks =
+                    await placemarkFromCoordinates(p.latitude, p.longitude);
+                    print(placemarks.first.street);
+                    locationController.text = '${placemarks.first.country}'
+                        ' ${placemarks.first.name}';
+                    setState(() {
+
+                    });
+                },
                 icon: Icon(Icons.keyboard_arrow_down,size: 14.sp,),
                   style: getRegularStyle(color: ColorManager.black,fontSize: 10.sp),
                   items: [
-               for(int i = 0 ; i < 10 ; i++)
-                 DropdownMenuItem(
-                   child: Text('مكة , الزاهر ، حي الشهداء${i+1}',
-                     style: getRegularStyle(color: ColorManager.black,
-                     fontSize: 10.sp
-                     ),),
-                   value: i,
-                 )
-
-              ],
+                    DropdownMenuItem(child: Text(locationController.text))
+                  ],
                   decoration: InputDecoration(
                     hintStyle: getRegularStyle(color: ColorManager.black,fontSize: 10.sp),
                     contentPadding: EdgeInsets.zero,

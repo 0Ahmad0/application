@@ -5,7 +5,6 @@ import 'package:pinkey/view/resourse/string_manager.dart';
 import 'package:provider/provider.dart';
 import '../../controller/auth_controller.dart';
 import '../../controller/provider/profile_provider.dart';
-import '/translations/locale_keys.g.dart';
 
 import 'widgets/profile_view_body.dart';
 

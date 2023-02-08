@@ -5,7 +5,6 @@ import 'package:pinkey/view/resourse/assets_manager.dart';
 import 'package:pinkey/view/resourse/color_manager.dart';
 import 'package:pinkey/view/resourse/string_manager.dart';
 import 'package:pinkey/view/resourse/values_manager.dart';
-import '/translations/locale_keys.g.dart';
 import 'package:sizer/sizer.dart';
 
 class TextFiledApp extends StatefulWidget {
