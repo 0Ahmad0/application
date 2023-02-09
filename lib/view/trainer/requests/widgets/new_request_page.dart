@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../controller/provider/account_provider.dart';
 import '../../../../model/models.dart';
+import '../../../../model/utils/const.dart';
 import '../../../manager/widgets/button_app.dart';
 import '../../../manager/widgets/container_icons.dart';
 import '../../../resourse/assets_manager.dart';
@@ -13,7 +16,12 @@ import '../../../resourse/string_manager.dart';
 import '../../../resourse/style_manager.dart';
 import '../../../resourse/values_manager.dart';
 
-class NewRequestPage extends StatelessWidget {
+class NewRequestPage extends StatefulWidget {
+  @override
+  State<NewRequestPage> createState() => _NewRequestPageState();
+}
+
+class _NewRequestPageState extends State<NewRequestPage> {
   List<Trainer> _trainerList = [
     Trainer(image: 'assets/images/1.png',
         name: 'نور محمد الخالدي',
@@ -37,20 +45,60 @@ class NewRequestPage extends StatelessWidget {
         isFav: false
     ),
   ];
+  late  AccountProvider accountProvider;
+  var getAccount;
 
+
+  getAccountFun() async {
+    getAccount = accountProvider.fetchTrainerRequestsStream(context);
+    return getAccount;
+  }
+  @override
+  void initState() {
+    getAccountFun();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        for(int i = 0 ; i <_trainerList.length;i++ )
-          BuildNewRequestItem(trainer: _trainerList[i],)
-      ],
-    );
+    return  StreamBuilder<QuerySnapshot>(
+      //prints the messages to the screen0
+        stream: getAccount,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return
+              Const.SHOWLOADINGINDECATOR();
+
+          }
+          else if (snapshot.connectionState ==
+              ConnectionState.active) {
+            if (snapshot.hasError) {
+              return const Text('Error');
+            } else if (snapshot.hasData) {
+              Const.SHOWLOADINGINDECATOR();
+              if(snapshot.data!.docs!.length>0){
+                accountProvider.trainerRequests=Users.fromJson(snapshot.data!.docs!);
+              }
+
+              return ListView(
+                children: [
+                  for(int i = 0 ; i <accountProvider.trainerRequests.users.length;i++ )
+                    BuildNewRequestItem(trainer: accountProvider.trainerRequests.users[i],)
+                ],
+              );
+              /// }));
+            } else {
+              return const Text('Empty data');
+            }
+          }
+          else {
+            return Text('State: ${snapshot.connectionState}');
+          }
+        });
   }
 }
 
 class BuildNewRequestItem extends StatefulWidget {
-  final Trainer trainer;
+  final User trainer;
 
   const BuildNewRequestItem({super.key, required this.trainer});
 

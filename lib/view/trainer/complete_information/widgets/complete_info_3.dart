@@ -14,19 +14,27 @@ import 'package:pinkey/view/resourse/values_manager.dart';
 import 'package:sizer/sizer.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import '../../../../controller/provider/auth_provider.dart';
 import '../../../../model/utils/const.dart';
 import '../../../manager/const.dart';
 import '../../../manager/widgets/button_app.dart';
 import '../../../manager/widgets/linear_progress.dart';
 
 class CompleteInfo3 extends StatelessWidget {
-  final idLicenceCarController = TextEditingController();
+  var idLicenceCarController = TextEditingController();
   var haveCar = '';
   var trainedFemaleStudents = '';
   var workInDrivingSchools = '';
   final GlobalKey<FormState> formKey;
   final PageController pageController;
-  CompleteInfo3({super.key, required this.formKey, required this.pageController});
+  final AuthProvider authProvider;
+
+  CompleteInfo3({super.key, required this.formKey, required this.pageController, required this.authProvider}){
+  idLicenceCarController = TextEditingController(text: authProvider.user.trainerInfo?.idLicence);
+  haveCar =  '${authProvider.user.trainerInfo?.haveCar}';
+   trainedFemaleStudents = '${ authProvider.user.trainerInfo?.trainedFemaleStudents}';
+   workInDrivingSchools = '${ authProvider.user.trainerInfo?.workInDrivingSchools}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +168,13 @@ class CompleteInfo3 extends StatelessWidget {
             ),
           ),
           ButtonApp(text: AppStringsManager.next, onPressed: (){
-            if(!formKey.currentState!.validate()){
+            if(formKey.currentState!.validate()){
+              Const.LOADIG(context);
+              authProvider.user.trainerInfo?.idLicence=idLicenceCarController.text;
+              authProvider.user.trainerInfo?.haveCar=haveCar;
+              authProvider.user.trainerInfo?.trainedFemaleStudents=trainedFemaleStudents;
+              authProvider.user.trainerInfo?.workInDrivingSchools=workInDrivingSchools;
+              Get.back();
               pageController.nextPage(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut);

@@ -1,10 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pinkey/view/resourse/values_manager.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../controller/provider/account_provider.dart';
+import '../../../../model/models.dart';
+import '../../../../model/utils/const.dart';
+import '../../../../model/utils/consts_manager.dart';
 import '../../../manager/widgets/button_app.dart';
 import '../../../manager/widgets/container_icons.dart';
 import '../../../resourse/assets_manager.dart';
@@ -12,9 +18,31 @@ import '../../../resourse/color_manager.dart';
 import '../../../resourse/string_manager.dart';
 import '../../../resourse/style_manager.dart';
 
-class AdminRequestViewBody extends StatelessWidget {
-  const AdminRequestViewBody({Key? key}) : super(key: key);
+class AdminRequestViewBody extends StatefulWidget {
+  const AdminRequestViewBody({Key? key, required this.accountProvider}) : super(key: key);
+  final  AccountProvider accountProvider;
+  @override
+  State<AdminRequestViewBody> createState() => _AdminRequestViewBodyState();
+}
 
+class _AdminRequestViewBodyState extends State<AdminRequestViewBody> {
+
+  var getAccount;
+
+
+  getAccountFun()  {
+    getAccount = FirebaseFirestore.instance.collection(AppConstants.collectionTrainer)
+        .where('active',isEqualTo: false)
+    .snapshots();
+        //.orderBy('dateTime').snapshots();
+    //widget.accountProvider.fetchTrainerRequestsStream(context);
+    return getAccount;
+  }
+  @override
+  void initState() {
+    getAccountFun();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -30,10 +58,38 @@ class AdminRequestViewBody extends StatelessWidget {
             height: AppSize.s10,
           ),
           Expanded(
-              child: ListView.builder(
-            itemCount: 10,
-            itemBuilder: (_, index) => BuildAdminRequestItem(index: index),
-          ))
+              child: StreamBuilder<QuerySnapshot>(
+                //prints the messages to the screen0
+                  stream: getAccount,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return
+                        Const.SHOWLOADINGINDECATOR();
+
+                    }
+                    else if (snapshot.connectionState ==
+                        ConnectionState.active) {
+                      if (snapshot.hasError) {
+                        return const Text('Error');
+                      } else if (snapshot.hasData) {
+                        Const.SHOWLOADINGINDECATOR();
+                        if(snapshot.data!.docs!.length>0){
+                          widget.accountProvider.trainerRequests=Users.fromJson(snapshot.data!.docs!);
+                        }
+
+                        return ListView.builder(
+                          itemCount: widget.accountProvider.trainerRequests.users.length,
+                          itemBuilder: (_, index) => BuildAdminRequestItem(index: index),
+                        );
+                        /// }));
+                      } else {
+                        return const Text('Empty data');
+                      }
+                    }
+                    else {
+                      return Text('State: ${snapshot.connectionState}');
+                    }
+                  }))
         ],
       ),
     );
@@ -43,10 +99,11 @@ class AdminRequestViewBody extends StatelessWidget {
 class BuildAdminRequestItem extends StatelessWidget {
   final int index;
 
-  const BuildAdminRequestItem({super.key, required this.index});
-
+   BuildAdminRequestItem({super.key, required this.index});
+  late  AccountProvider accountProvider;
   @override
   Widget build(BuildContext context) {
+    accountProvider=Provider.of<AccountProvider>(context);
     return Container(
         padding: const EdgeInsets.all(AppPadding.p8),
         margin: const EdgeInsets.symmetric(vertical: AppMargin.m10),
@@ -72,7 +129,10 @@ class BuildAdminRequestItem extends StatelessWidget {
                   children: [
                     ListTile(
                       contentPadding: EdgeInsets.zero,
-                      title: Text('عبير عبد الغني'),
+                      title: Text(
+                          accountProvider.trainerRequests.users[index].name
+                        // 'عبير عبد الغني'
+                      ),
                       subtitle: Padding(
                         padding: const EdgeInsets.only(top: AppPadding.p14),
                         child: Text(
@@ -88,7 +148,8 @@ class BuildAdminRequestItem extends StatelessWidget {
                         const SizedBox(width: AppSize.s4,),
                         Flexible(
                             child: Text(
-                          'جدة, حي نظار, شارع النور',
+                              '${accountProvider.trainerRequests.users[index].trainerInfo?.city}, ${accountProvider.trainerRequests.users[index].trainerInfo?.neighborhood}',
+                          //'جدة, حي نظار, شارع النور',
                           style: getRegularStyle(
                             color: ColorManager.lightGray,
                             fontSize: 10.sp
@@ -107,7 +168,9 @@ class BuildAdminRequestItem extends StatelessWidget {
                             height: AppSize.s40,
                             fontSize: 10.sp,
                             text: AppStringsManager.acception_trainer,
-                            onPressed: () {},
+                            onPressed: () async {
+                              await accountProvider.activeAccount(context, user: accountProvider.trainerRequests.users[index]);
+                            },
                           ),
                         ),
                         const SizedBox(

@@ -185,6 +185,7 @@ class AppStringsManager{
   static const String camera = 'الكاميرا';
   static const String gallery = 'الاستوديو';
   static const String remove = 'إزالة';
+  static const String wait_active_accoubt = 'تم تسجيل طلبك، انتظر حتى يتم تنشيط حسابك';
 
 
 

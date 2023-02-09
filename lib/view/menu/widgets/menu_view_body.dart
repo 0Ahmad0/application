@@ -17,6 +17,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../../model/utils/const.dart';
 import '../../notifications/notifications_view.dart';
+import '../../signup/signup_view.dart';
 
 class MenuViewBody extends StatelessWidget {
   bool not_login = true;
@@ -291,7 +292,9 @@ class MenuViewBody extends StatelessWidget {
                 Row(
                   children: [
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Get.off(()=>SignupView(typeUser: AppConstants.collectionTrainer,));
+                      },
                       child: Container(
                         alignment: Alignment.center,
                         width: (SizerUtil.width / 2) - 32.0,

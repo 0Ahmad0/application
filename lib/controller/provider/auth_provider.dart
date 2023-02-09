@@ -1,7 +1,10 @@
 
 
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pinkey/controller/provider/profile_provider.dart';
 
 
@@ -87,13 +90,10 @@ class AuthProvider with ChangeNotifier{
 
   loginWithEmil(context) async{
     var resultUser =await FirebaseFun.login(email: user.email, password: user.password);
-
     var result;
     if(resultUser['status']){
       resultUser = await fetchUser(uid: resultUser['body']?.uid);
-      if(listTypeUserWithActive.contains(resultUser['body']['typeUser'])&&!resultUser['body']['active'])
-        result=FirebaseFun.errorUser("Account not Active");
-      else
+
       result=await _baseLogin(context, resultUserAfterLog: resultUser);
     }else{
       result=resultUser;
@@ -111,28 +111,35 @@ class AuthProvider with ChangeNotifier{
     {
       user= models.User.fromJson(resultUser['body']);
     }
-    var result;
-    result=await loginWithEmil(context);
-    return result;
+    //var result;
+   // result=await loginWithEmil(context);
+    return resultUser;
   }
   _baseLogin(context,{required var resultUserAfterLog}) async{
 
     final profileProvider = Provider.of<ProfileProvider>(context,listen: false);
     var result=resultUserAfterLog;
+
     if(result['status'])
     {
-      await AppStorage.storageWrite(key: AppConstants.isLoginedKEY, value: true);
-      Advance.isLogined = true;
-      user= models.User.fromJson(result['body']);
-      await AppStorage.storageWrite(key: AppConstants.idKEY, value: user.id);
-      await AppStorage.storageWrite(key: AppConstants.uidKEY, value: user.uid);
-      await AppStorage.storageWrite(key: AppConstants.isLoginedKEY, value: Advance.isLogined);
-      await AppStorage.storageWrite(key: AppConstants.tokenKEY, value: "resultUser['token']");
-      Advance.token = user.uid;
-      Advance.uid = user.uid;
-      email.clear();
-      password.clear();
-      profileProvider.updateUser(user:User.fromJson(result['body']));
+
+      if(listTypeUserWithActive.contains(result['body']['typeUser'])&&!result['body']['active'])
+        result=FirebaseFun.errorUser("Account not Active");
+      else{
+        await AppStorage.storageWrite(key: AppConstants.isLoginedKEY, value: true);
+        Advance.isLogined = true;
+        user= models.User.fromJson(result['body']);
+        await AppStorage.storageWrite(key: AppConstants.idKEY, value: user.id);
+        await AppStorage.storageWrite(key: AppConstants.uidKEY, value: user.uid);
+        await AppStorage.storageWrite(key: AppConstants.isLoginedKEY, value: Advance.isLogined);
+        await AppStorage.storageWrite(key: AppConstants.tokenKEY, value: "resultUser['token']");
+        Advance.token = user.uid;
+        Advance.uid = user.uid;
+        email.clear();
+        password.clear();
+        profileProvider.updateUser(user:User.fromJson(result['body']));
+      }
+
     }
     return result;
   }
@@ -162,7 +169,7 @@ class AuthProvider with ChangeNotifier{
     var result= await FirebaseFun.fetchUser(uid: uid, typeUser: AppConstants.collectionUser);
     // print(result);
     if(result['status']&&result['body']==null){
-      result = await FirebaseFun.fetchUser(uid: uid, typeUser: AppConstants.collectionUser);
+      result = await FirebaseFun.fetchUser(uid: uid, typeUser: AppConstants.collectionTrainer);
       if(result['status']&&result['body']==null){
 
         result = await FirebaseFun.fetchUser(uid: uid, typeUser: AppConstants.collectionAdmin);
@@ -246,6 +253,30 @@ class AuthProvider with ChangeNotifier{
     }
     return result;
   }
+  Future uploadImage(context,XFile image, {String folder = 'profileImage'}) async {
+    //Const.LOADIG(context);
+    var url=await FirebaseFun.uploadImage(image: image,folder: folder);
+    print('url $url');
+    if(url==null)
+      Const.TOAST( context,textToast:FirebaseFun.findTextToast("Please, upload the image"));
+    else{
+      user.photoUrl=url;
+    }
 
+    //Navigator.of(context).pop();
+  }
+  Future uploadFile(context,File file, {String folder = 'file'}) async {
+    //Const.LOADIG(context);
+    var url=await FirebaseFun.uploadImage(image: XFile(file.path),folder: folder);
+    print('url $url');
+    if(url==null){
+      Const.TOAST( context,textToast:FirebaseFun.findTextToast("Please, upload the image"));
+      return '';
+    }
+
+    else{
+      return url;
+    }
+  }
 }
 

@@ -50,12 +50,21 @@ class _SplashViewState extends State<SplashView> {
     if(Advance.isLogined&&Advance.token!=""){
       final result = await authProvider.fetchUser(uid: Advance.uid);
       if(result['status']){
-        profileProvider.updateUser(user:User.fromJson(result['body']));
-        final WalletProvider walletProvider= Provider.of<WalletProvider>(context,listen: false);
-        await walletProvider.fetchMyWallet(context);
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-                builder: (ctx) => NavbarView()));
+
+        if(authProvider.listTypeUserWithActive.contains(result['body']['typeUser'])&&!result['body']['active']){
+
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                  builder: (ctx) => WelcomeView()));}
+        else{
+    profileProvider.updateUser(user:User.fromJson(result['body']));
+    final WalletProvider walletProvider= Provider.of<WalletProvider>(context,listen: false);
+    await walletProvider.fetchMyWallet(context);
+    Navigator.of(context).pushReplacement(
+    MaterialPageRoute(
+    builder: (ctx) => NavbarView()));
+    }
+
       }else{
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(

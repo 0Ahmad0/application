@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pinkey/controller/provider/account_provider.dart';
 import 'package:pinkey/controller/provider/report_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -10,10 +11,10 @@ class RequestsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ChangeNotifierProvider<ReportProvider>.value(
-    value: Provider.of<ReportProvider>(context),
-    child: Consumer<ReportProvider>(
-    builder: (context, value, child)=>RequestsViewBody(reportProvider:value,
+      body: ChangeNotifierProvider<AccountProvider>.value(
+    value: Provider.of<AccountProvider>(context),
+    child: Consumer<AccountProvider>(
+    builder: (context, value, child)=>RequestsViewBody(accountProvider:value,
     ))));
   }
 }

@@ -160,6 +160,16 @@ class FirebaseFun{
         .catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
     return result;
   }
+  static fetchUsersByTypeUserAndFieldOrderBy({required String typeUser,required String field,required var value})  async {
+    final result=await FirebaseFirestore.instance.collection(typeUser)
+    .where(field,isEqualTo: value)
+    .orderBy('dateTime')
+        .get()
+        .then((onValueFetchUsers))
+        .catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+    return result;
+  }
+
   static sendPasswordResetEmail( {required String email})  async {
     final result=await FirebaseAuth.instance.sendPasswordResetEmail(
       email: email,///"temp@gmail.com",
@@ -380,8 +390,8 @@ class FirebaseFun{
     };
   }
   static Future<Map<String,dynamic>> onValueFetchUser(value) async{
-    print(true);
-    print(await (value.docs.length>0)?value.docs[0]['uid']:null);
+   // print(true);
+    print('uid ${await (value.docs.length>0)?value.docs[0]['uid']:null}');
     print("user : ${(value.docs.length>0)?model.User.fromJson(value.docs[0]).toJson():null}");
     return {
       'status':true,

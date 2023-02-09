@@ -40,7 +40,8 @@ final AuthController authController;
               ),
             ),
             const SizedBox(height: AppSize.s10,),
-            ButtonApp(text: AppStringsManager.login, onPressed: () {
+            ButtonApp(text: AppStringsManager.login, onPressed: () async {
+              //await CreateEnvironmentProvider().createAdmins(context);
                 Get.to(()=>LoginView());
             }),
             const SizedBox(height: AppSize.s10,),

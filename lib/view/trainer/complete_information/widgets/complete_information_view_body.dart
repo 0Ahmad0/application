@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
+import 'package:pinkey/controller/auth_controller.dart';
 import 'package:pinkey/view/manager/widgets/button_app.dart';
 import 'package:pinkey/view/resourse/string_manager.dart';
 import 'package:pinkey/view/resourse/style_manager.dart';
@@ -14,8 +15,8 @@ import 'complete_info_4.dart';
 import 'complete_info_5.dart';
 
 class CompleteInformationViewBody extends StatefulWidget {
-  const CompleteInformationViewBody({Key? key}) : super(key: key);
-
+  const CompleteInformationViewBody({Key? key, required this.authController}) : super(key: key);
+final AuthController authController;
   @override
   State<CompleteInformationViewBody> createState() =>
       _CompleteInformationViewBodyState();
@@ -51,11 +52,11 @@ class _CompleteInformationViewBodyState
             });
           },
           children: [
-            CompleteInfo1(formKey: _formKey1,pageController: _pageController,),
-            CompleteInfo2(formKey: _formKey2,pageController: _pageController,),
-            CompleteInfo3(formKey: _formKey3,pageController: _pageController,),
-            CompleteInfo4(formKey: _formKey4,pageController: _pageController,),
-            CompleteInfo5(pageController: _pageController,),
+            CompleteInfo1(formKey: _formKey1,pageController: _pageController,authProvider: widget.authController.authProvider,),
+            CompleteInfo2(formKey: _formKey2,pageController: _pageController,authProvider: widget.authController.authProvider,),
+            CompleteInfo3(formKey: _formKey3,pageController: _pageController,authProvider: widget.authController.authProvider,),
+            CompleteInfo4(formKey: _formKey4,pageController: _pageController,authProvider: widget.authController.authProvider,),
+            CompleteInfo5(pageController: _pageController,authController: widget.authController),
           ],
         ),
       ),

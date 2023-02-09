@@ -34,6 +34,8 @@ class Advance {
   static String uid = "";
   static String avatarImage = "";
 }
+
+
 //user
 class User {
   String id;
@@ -52,6 +54,7 @@ class User {
   DateTime dateBirth;
   List<String> tokens;
   num wallet;
+  TrainerInfo? trainerInfo;
   User({
     required this.id,
     required this.uid,
@@ -69,11 +72,16 @@ class User {
     this.active = false,
     this.tokens = const[],
     this.wallet = 0,
+    this.trainerInfo,
 
   });
 
   factory User.fromJson(json) {
-    //print(json);
+    var data;
+    if(Map<String,dynamic>().runtimeType!=json.runtimeType)
+       data=json.data();
+    else
+      data=json;
     return User(
         id: json['id'],
         uid: json["uid"],
@@ -88,9 +96,10 @@ class User {
         gender: json["gender"],
         active: json["active"],
         dateBirth: json["dateBirth"].toDate(),
+        trainerInfo: (data['trainerInfo']!=null)?TrainerInfo.fromJson(json["trainerInfo"]):null,
         // tokens: json["tokens"],
-        description: (json["description"] != null) ? json["description"] : "",
-        wallet: (json["wallet"] != null) ? json["wallet"] : 0
+        description: (data['description']!=null) ? json["description"] : "",
+        wallet: (data['wallet']!=null) ? json["wallet"] : 0
 
     );
   }
@@ -115,6 +124,7 @@ class User {
     'active': active,
     'tokens': tokens,
     'wallet': wallet,
+    'trainerInfo': (trainerInfo!=null)?trainerInfo?.toJson():null,
 
   };
 }
@@ -148,6 +158,103 @@ class Users {
   }
 
 
+}
+
+//TrainerInfo
+class TrainerInfo {
+  String nationality;
+  String city;
+  String neighborhood;
+  String idNumber;
+  String cvUrl;
+  String idLicence;
+  String haveCar;
+  String workInDrivingSchools;
+  String trainedFemaleStudents;
+  String priceInHerCar;
+  String priceInYourCar;
+  String numberOfHour;
+  String imageIDFileUrl;
+  String carLicenceFileUrl;
+  String carRegistrationFileUrl;
+  String carImageFileUrl;
+  String selfEmploymentLicenseFileUrl;
+  String otherImageFileUrl;
+
+  TrainerInfo({
+    required this.nationality,
+    required this.city,
+    required this.neighborhood,
+    required this.idNumber,
+    required this.cvUrl,
+    required this.idLicence,
+    required this.haveCar,
+    required this.workInDrivingSchools,
+    required this.trainedFemaleStudents,
+    required this.priceInHerCar,
+    required this.priceInYourCar,
+    required this.numberOfHour,
+    required this.imageIDFileUrl,
+    required this.carLicenceFileUrl,
+    required this.carRegistrationFileUrl,
+    required this.carImageFileUrl,
+    required this.selfEmploymentLicenseFileUrl,
+    required this.otherImageFileUrl,
+  });
+
+  factory TrainerInfo.fromJson(json) {
+    //print(json);
+    return TrainerInfo(
+      nationality: json['nationality'],
+      city: json['city'],
+      neighborhood: json['neighborhood'],
+      idNumber: json['idNumber'],
+      cvUrl: json['cvUrl'],
+      idLicence: json['idLicence'],
+      haveCar: json['haveCar'],
+      workInDrivingSchools: json['workInDrivingSchools'],
+      trainedFemaleStudents: json['trainedFemaleStudents'],
+      priceInHerCar: json['priceInHerCar'],
+      priceInYourCar: json['priceInYourCar'],
+      numberOfHour: json['numberOfHour'],
+      imageIDFileUrl: json['imageIDFileUrl'],
+      carLicenceFileUrl: json['carLicenceFileUrl'],
+      carRegistrationFileUrl: json['carRegistrationFileUrl'],
+      carImageFileUrl: json['carImageFileUrl'],
+      selfEmploymentLicenseFileUrl: json['selfEmploymentLicenseFileUrl'],
+      otherImageFileUrl: json['otherImageFileUrl'],
+
+
+    );
+  }
+  factory TrainerInfo.init(){
+    return TrainerInfo(nationality: '', city: '', neighborhood: '', idNumber: '', cvUrl: '',
+        idLicence: '', haveCar: '', workInDrivingSchools: '', trainedFemaleStudents: '',
+        priceInHerCar: '', priceInYourCar: '', numberOfHour: '', imageIDFileUrl: '',
+        carLicenceFileUrl: '', carRegistrationFileUrl: '', carImageFileUrl: '',
+        selfEmploymentLicenseFileUrl: '', otherImageFileUrl: '');
+  }
+
+  Map<String, dynamic> toJson() => {
+    'nationality': nationality,
+    'city': city,
+    'neighborhood': neighborhood,
+    'idNumber': idNumber,
+    'cvUrl': cvUrl,
+    'idLicence': idLicence,
+    'haveCar': haveCar,
+    'workInDrivingSchools': workInDrivingSchools,
+    'trainedFemaleStudents': trainedFemaleStudents,
+    'priceInHerCar': priceInHerCar,
+    'priceInYourCar': priceInYourCar,
+    'numberOfHour': numberOfHour,
+    'imageIDFileUrl': imageIDFileUrl,
+    'carLicenceFileUrl': carLicenceFileUrl,
+    'carRegistrationFileUrl': carRegistrationFileUrl,
+    'carImageFileUrl': carImageFileUrl,
+    'selfEmploymentLicenseFileUrl': selfEmploymentLicenseFileUrl,
+    'otherImageFileUrl': otherImageFileUrl,
+  };
 }
 
 //WalletChange

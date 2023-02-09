@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:pinkey/controller/provider/wallet_provider.dart';
+import 'package:pinkey/view/login/login_view.dart';
 
 import 'package:provider/provider.dart';
 
@@ -38,8 +39,6 @@ class AuthController{
   }
 
   signUp(BuildContext context,{required String firstName,required String lastName,required String gender,required DateTime dateBirth,required String email,required String password,required String phoneNumber,required String photoUrl,required String typeUser}) async {
-    final WalletProvider walletProvider= Provider.of<WalletProvider>(context,listen: false);
-    Const.LOADIG(context);
     authProvider.user=User(id: '', uid: '',
         name: '$firstName $lastName',
         firstName: firstName,
@@ -52,15 +51,23 @@ class AuthController{
         gender: gender,
 
         dateBirth: dateBirth);
+    final result=await signUpByUser(context);
+    return result;
+  }
+  signUpByUser(BuildContext context) async {
+    final WalletProvider walletProvider= Provider.of<WalletProvider>(context,listen: false);
+    Const.LOADIG(context);
     final result=await authProvider.signup(context);
     Get.back();
     if(result['status']){
       await walletProvider.fetchMyWallet(context);
-      Get.off(() => NavbarView(),
+      authProvider.user=User.init();
+      Get.off(() => LoginView(),
           transition: Transition.circularReveal);
     }
-
+    return result;
   }
+
   sendPasswordResetEmail(BuildContext context,{required String email}) async {
     Const.LOADIG(context);
     final result =await authProvider.sendPasswordResetEmail(context, resetEmail: email);

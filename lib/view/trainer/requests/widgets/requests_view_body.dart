@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pinkey/controller/provider/report_provider.dart';
+import '../../../../controller/provider/account_provider.dart';
 import '/view/resourse/values_manager.dart';
 import 'package:sizer/sizer.dart';
 
@@ -11,8 +12,8 @@ import 'new_request_page.dart';
 import 'ongoing_requests_page.dart';
 
 class RequestsViewBody extends StatefulWidget {
-   RequestsViewBody({Key? key, required this.reportProvider}) : super(key: key);
-final ReportProvider reportProvider;
+   RequestsViewBody({Key? key, required this.accountProvider}) : super(key: key);
+final AccountProvider accountProvider;
   @override
   State<RequestsViewBody> createState() => _RequestsViewBodyState();
 }

@@ -5,15 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pinkey/controller/auth_controller.dart';
+import 'package:pinkey/model/utils/consts_manager.dart';
+import 'package:pinkey/view/login/login_view.dart';
 import 'package:pinkey/view/manager/widgets/textformfiled_app.dart';
 import 'package:pinkey/view/resourse/assets_manager.dart';
 import 'package:pinkey/view/resourse/color_manager.dart';
 import 'package:pinkey/view/resourse/string_manager.dart';
 import 'package:pinkey/view/resourse/style_manager.dart';
 import 'package:pinkey/view/resourse/values_manager.dart';
+import 'package:pinkey/view/welcome/welcome_view.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import '../../../../controller/provider/complete_info_5_provider.dart';
 import '../../../../model/utils/const.dart';
 import '../../../manager/widgets/button_app.dart';
 import '../../../manager/widgets/linear_progress.dart';
@@ -21,17 +27,19 @@ import '../../../manager/widgets/linear_progress.dart';
 class CompleteInfo5 extends StatelessWidget {
   final PageController pageController;
 
-  CompleteInfo5({super.key, required this.pageController});
+  CompleteInfo5({super.key, required this.pageController, required this.authController});
 
-  FilePickerResult? imageIDFile;
-  FilePickerResult? carLicenceFile;
-  FilePickerResult? carRegistrationFile;
-  FilePickerResult? carImageFile;
-  FilePickerResult? selfEmploymentLicenseFile;
-  FilePickerResult? otherImageFile;
-
+  // FilePickerResult? imageIDFile;
+  // FilePickerResult? carLicenceFile;
+  // FilePickerResult? carRegistrationFile;
+  // FilePickerResult? carImageFile;
+  // FilePickerResult? selfEmploymentLicenseFile;
+  // FilePickerResult? otherImageFile;
+  late CompleteInfo5Provider completeInfo5Provider;
+  final AuthController authController;
   @override
   Widget build(BuildContext context) {
+    completeInfo5Provider= Provider.of<CompleteInfo5Provider>(context);
     return Column(
       children: [
         LinearProgress(
@@ -70,47 +78,64 @@ class CompleteInfo5 extends StatelessWidget {
                     color: ColorManager.hintColor, fontSize: 12.sp),
               ),
               BuildUploadeFile(
-                  file: imageIDFile, text: AppStringsManager.image_id),
+                  file: completeInfo5Provider.imageIDFile, text: AppStringsManager.image_id),
               BuildUploadeFile(
-                  file: carLicenceFile, text: AppStringsManager.car_license),
+                  file: completeInfo5Provider.carLicenceFile, text: AppStringsManager.car_license),
               BuildUploadeFile(
-                  file: carRegistrationFile,
+                  file: completeInfo5Provider.carRegistrationFile,
                   text: AppStringsManager.car_registration),
               BuildUploadeFile(
-                  file: carImageFile, text: AppStringsManager.car_image),
+                  file: completeInfo5Provider.carImageFile, text: AppStringsManager.car_image),
               BuildUploadeFile(
-                  file: selfEmploymentLicenseFile,
+                  file: completeInfo5Provider.selfEmploymentLicenseFile,
                   text: AppStringsManager.self_employment_license),
               BuildUploadeFile(
-                  file: otherImageFile, text: AppStringsManager.other_image),
+                  file: completeInfo5Provider.otherImageFile, text: AppStringsManager.other_image),
             ],
           ),
         ),
         ButtonApp(
             text: AppStringsManager.send_request,
-            onPressed: () {
-              print(imageIDFile);
+            onPressed: () async {
+              print(completeInfo5Provider.imageIDFile);
               print('**');
-              print(carLicenceFile);
+              print(completeInfo5Provider.carLicenceFile);
               print('**');
-              print(carRegistrationFile);
+              print(completeInfo5Provider.carRegistrationFile);
               print('**');
-              print(carImageFile);
+              print(completeInfo5Provider.carImageFile);
               print('**');
-              print(selfEmploymentLicenseFile);
+              print(completeInfo5Provider.selfEmploymentLicenseFile);
               print('**');
-              print(otherImageFile);
-              if ((imageIDFile == null) ||
-                  (carLicenceFile == null) ||
-                  (carRegistrationFile == null) ||
-                  (carImageFile == null) ||
-                  (selfEmploymentLicenseFile == null) ||
-                  (otherImageFile == null)) {
+              print(completeInfo5Provider.otherImageFile);
+              if ((completeInfo5Provider.files[completeInfo5Provider.imageIDFile] == null) ||
+                  (completeInfo5Provider.files[completeInfo5Provider.carLicenceFile] == null) ||
+                  (completeInfo5Provider.files[completeInfo5Provider.carRegistrationFile] == null) ||
+                  (completeInfo5Provider.files[completeInfo5Provider.carImageFile] == null) ||
+                  (completeInfo5Provider.files[completeInfo5Provider.selfEmploymentLicenseFile] == null) ||
+                  (completeInfo5Provider.files[completeInfo5Provider.otherImageFile ]== null)) {
 
                 Get.snackbar(AppStringsManager.error,
                     AppStringsManager.please_uploade_all_images);
               } else {
-                Const.TOAST(context, textToast: 'Sucess');
+                Const.LOADIG(context);
+                authController.authProvider.user.trainerInfo?.imageIDFileUrl=await  authController.authProvider.uploadFile(context, File('${completeInfo5Provider.files[completeInfo5Provider.imageIDFile]?.files.first.path}'),folder:AppConstants.collectionTrainer);
+                authController.authProvider.user.trainerInfo?.carLicenceFileUrl=await  authController.authProvider.uploadFile(context, File('${completeInfo5Provider.files[completeInfo5Provider.carLicenceFile]?.files.first.path}'),folder:AppConstants.collectionTrainer);
+                authController.authProvider.user.trainerInfo?.carRegistrationFileUrl=await  authController.authProvider.uploadFile(context, File('${completeInfo5Provider.files[completeInfo5Provider.carRegistrationFile]?.files.first.path}'),folder:AppConstants.collectionTrainer);
+                authController.authProvider.user.trainerInfo?.carImageFileUrl=await  authController.authProvider.uploadFile(context, File('${completeInfo5Provider.files[completeInfo5Provider.carImageFile]?.files.first.path}'),folder:AppConstants.collectionTrainer);
+                authController.authProvider.user.trainerInfo?.selfEmploymentLicenseFileUrl=await  authController.authProvider.uploadFile(context, File('${completeInfo5Provider.files[completeInfo5Provider.selfEmploymentLicenseFile]?.files.first.path}'),folder:AppConstants.collectionTrainer);
+                authController.authProvider.user.trainerInfo?.otherImageFileUrl=await  authController.authProvider.uploadFile(context, File('${completeInfo5Provider.files[completeInfo5Provider.otherImageFile]?.files.first.path}'),folder:AppConstants.collectionTrainer);
+                Get.back();
+                var result =await authController.signUpByUser(context);
+
+                if(result['status']){
+
+                  Get.off(()=>WelcomeView());
+                }
+
+
+
+
               }
             }),
       ],
@@ -120,7 +145,7 @@ class CompleteInfo5 extends StatelessWidget {
 }
 
 class BuildUploadeFile extends StatefulWidget {
-  FilePickerResult? file;
+  String file;
   final String text;
 
   BuildUploadeFile({super.key, required this.file, required this.text});
@@ -132,6 +157,7 @@ class BuildUploadeFile extends StatefulWidget {
 class _BuildUploadeFileState extends State<BuildUploadeFile> {
   @override
   Widget build(BuildContext context) {
+    final CompleteInfo5Provider completeInfo5Provider= Provider.of<CompleteInfo5Provider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -140,14 +166,14 @@ class _BuildUploadeFileState extends State<BuildUploadeFile> {
         ),
         InkWell(
           onTap: () async {
-            widget.file = await FilePicker.platform.pickFiles(
+            completeInfo5Provider.files[widget.file] = await FilePicker.platform.pickFiles(
               type: FileType.custom,
               allowedExtensions: ['pdf', 'doc', 'png', 'jpg', 'jpeg'],
             );
-            if (widget.file != null) {
+            if (completeInfo5Provider.files[widget.file] != null) {
               setState(() {});
-              print(widget.file!.files.first.name);
-              print(widget.file!.files.first.size);
+              print(completeInfo5Provider.files[widget.file]!.files.first.name);
+              print(completeInfo5Provider.files[widget.file]!.files.first.size);
             } else {
               Get.snackbar(
                   AppStringsManager.error, AppStringsManager.please_uploade_cv,
@@ -170,16 +196,16 @@ class _BuildUploadeFileState extends State<BuildUploadeFile> {
         Row(
           children: [
             Text(
-              (widget.file != null)
-                  ? widget.file!.files.first.name
+              (completeInfo5Provider.files[widget.file] != null)
+                  ? completeInfo5Provider.files[widget.file]!.files.first.name
                   : AppStringsManager.uploade_image,
               style: getRegularStyle(
                   color: ColorManager.hintColor, fontSize: 10.sp),
             ),
-            widget.file != null
+            completeInfo5Provider.files[widget.file] != null
                 ? IconButton(
                     onPressed: () {
-                      widget.file = null;
+                      completeInfo5Provider.files[widget.file] = null;
                       setState(() {});
                     },
                     icon: Icon(

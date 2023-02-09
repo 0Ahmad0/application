@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:location/location.dart';
+import 'package:pinkey/controller/provider/account_provider.dart';
 import 'package:pinkey/controller/provider/report_provider.dart';
 import 'package:pinkey/controller/provider/wallet_provider.dart';
 import 'package:pinkey/translations/codegen_loader.g.dart';
@@ -17,6 +18,7 @@ import '/view/resourse/theme_manager.dart';
 import 'package:sizer/sizer.dart';
 import 'controller/provider/auth_provider.dart';
 import 'controller/provider/chat_provider.dart';
+import 'controller/provider/complete_info_5_provider.dart';
 import 'controller/provider/process_provider.dart';
 import 'controller/provider/profile_provider.dart';
 import 'controller/utils/create_environment_provider.dart';
@@ -87,6 +89,8 @@ class MyApp extends StatelessWidget {
       ListenableProvider<CreateEnvironmentProvider>(create: (_)=>CreateEnvironmentProvider()),
       ListenableProvider<WalletProvider>(create: (_)=>WalletProvider()),
       ListenableProvider<ReportProvider>(create: (_)=>ReportProvider()),
+      ListenableProvider<CompleteInfo5Provider>(create: (_)=>CompleteInfo5Provider()),
+      ListenableProvider<AccountProvider>(create: (_)=>AccountProvider()),
     ],
         child:
         Sizer(

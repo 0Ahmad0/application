@@ -1,6 +1,8 @@
 import 'package:pinkey/model/utils/consts_manager.dart';
+import 'package:pinkey/view/trainer/complete_information/complete_information_view.dart';
 
 import '../../../controller/auth_controller.dart';
+import '../../../model/models.dart';
 import '/view/resourse/style_manager.dart';
 import '../../resourse/string_manager.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +23,7 @@ class SignupViewBody extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
   final AuthController authController;
   final String typeUser;
-  SignupViewBody({required this.authController,this.typeUser='User'});
+  SignupViewBody({required this.authController,required this.typeUser});
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -156,11 +158,26 @@ class SignupViewBody extends StatelessWidget {
                   height: AppSize.s20,
                 ),
                 ButtonApp(text: AppStringsManager.sign_up, onPressed: () async {
-
                   if(formKey.currentState!.validate()){
                     // Get.snackbar("title", "message");
-                    // Get.to(()=>LoginView());
-                    await authController.signUp(context, firstName: firstNameController.text,lastName: lastNameController.text, gender: 'Female',
+                    if(AppConstants.collectionTrainer.contains(typeUser)){
+                     authController.authProvider.user=User(id: '', uid: '',
+                          name: '${firstNameController.text} ${lastNameController.text}',
+                          firstName: firstNameController.text,
+                          lastName: lastNameController.text,
+                          email: emailController.text,
+                          phoneNumber: phoneController.text
+                          , password: passwordController.text,
+                          typeUser: typeUser,
+                          photoUrl: '',
+                          gender: 'Female',
+                          trainerInfo: TrainerInfo.init(),
+                          dateBirth: DateTime.now());
+                      Get.to(()=>CompleteInformationView());
+                    }
+
+                    else
+                      await authController.signUp(context, firstName: firstNameController.text,lastName: lastNameController.text, gender: 'Female',
                         dateBirth: DateTime.now(), email: emailController.text, password: passwordController.text,
                         phoneNumber: phoneController.text, photoUrl: '', typeUser: typeUser);
                   }
