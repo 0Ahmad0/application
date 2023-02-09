@@ -1,9 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:location/location.dart';
+import 'package:pinkey/controller/provider/report_provider.dart';
+import 'package:pinkey/controller/provider/wallet_provider.dart';
+import 'package:pinkey/translations/codegen_loader.g.dart';
 import 'package:pinkey/view/trainer/add_new_course/add_new_course_view.dart';
 import 'package:pinkey/view/trainer/complete_information/complete_information_view.dart';
-import 'package:pinkey/view/translations/codegen_loader.g.dart';
+
 import 'package:provider/provider.dart';
 import '/view/splash/splash_view.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -82,6 +85,8 @@ class MyApp extends StatelessWidget {
       ListenableProvider<ProcessProvider>(create: (_)=>ProcessProvider()),
     //  ListenableProvider<ChatProvider>(create: (_)=>ChatProvider()),
       ListenableProvider<CreateEnvironmentProvider>(create: (_)=>CreateEnvironmentProvider()),
+      ListenableProvider<WalletProvider>(create: (_)=>WalletProvider()),
+      ListenableProvider<ReportProvider>(create: (_)=>ReportProvider()),
     ],
         child:
         Sizer(

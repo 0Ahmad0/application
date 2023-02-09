@@ -156,6 +156,7 @@ class WalletChange {
   String idUser;
   String idChange;
   String change;
+  num value;
   DateTime dateTime;
   bool notification;
 
@@ -163,6 +164,7 @@ class WalletChange {
     this.id="",
     required this.idUser,
      this.idChange='',
+     this.value=0,
     required this.change,
     required this.dateTime,
     this.notification=false,
@@ -174,6 +176,7 @@ class WalletChange {
         idUser: json['idUser'],
         idChange: json['idChange'],
         change: json['change'],
+        value: json['value'],
         notification: json['notification'],
         dateTime: json['dateTime'].toDate());
   }
@@ -184,6 +187,7 @@ class WalletChange {
       'idUser': idUser,
       'idChange': idChange,
       'change': change,
+      'value': value,
       'notification': notification,
       'dateTime': dateTime,
     };
@@ -205,17 +209,16 @@ class Wallet {
     this.id="",
     this.value=0,
     required this.idUser,
-     this.listWalletChange=const []});
+     required this.listWalletChange});
 
   factory Wallet.fromJson(json) {
     List<WalletChange> temp = [];
-    for (int i = 0; i < json.length; i++) {
-      WalletChange tempElement = WalletChange.fromJson(json[i]);
-      tempElement.id = json[i].id;
+    for (int i = 0; i < json['listWalletChange'].length; i++) {
+      WalletChange tempElement = WalletChange.fromJson(json['listWalletChange'][i]);
       temp.add(tempElement);
     }
     return Wallet(
-        id: json['id'],
+        id: (json['id']=='')?json.id:json['id'],
         idUser: json['idUser'],
         value: json['value'],
         listWalletChange: temp);
@@ -233,7 +236,90 @@ class Wallet {
       'listWalletChange': temp,
     };
   }
-  factory Wallet.init()=>Wallet(idUser: '');
+  factory Wallet.init()=>Wallet(idUser: '',listWalletChange: []);
+}
+
+
+//Report
+class Report {
+  String id;
+  String idUser;
+  String numReport;
+  String details;
+  String replay;
+  DateTime dateTime;
+  bool notificationAdmin;
+  bool notificationUser;
+  Report({
+    this.id="",
+     this.idUser='',
+     this.numReport='',
+     this.replay='',
+    required this.details,
+    required this.dateTime,
+     this.notificationUser=false,
+     this.notificationAdmin=false,
+  });
+
+  factory Report.fromJson(json) {
+    return Report(
+        id: json['id'],
+        idUser: json['idUser'],
+        details: json['details'],
+        numReport: json['numReport'],
+        replay: json['replay'],
+        notificationAdmin: json['notificationAdmin'],
+        notificationUser: json['notificationUser'],
+        dateTime: json['dateTime'].toDate());
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'idUser': idUser,
+      'details': details,
+      'replay': replay,
+      'numReport': numReport,
+      'notificationUser': notificationUser,
+      'notificationAdmin': notificationAdmin,
+      'dateTime': dateTime,
+    };
+  }
+  factory Report.init(){
+    return Report(idUser: '', numReport: '', details: '', dateTime: DateTime.now());
+  }
+}
+
+//Reports
+class Reports {
+
+  List<Report> listReport;
+
+  //DateTime date;
+  Reports({
+    required this.listReport});
+
+  factory Reports.fromJson(json) {
+    List<Report> temp = [];
+    for (int i = 0; i < json.length; i++) {
+      Report tempElement = Report.fromJson(json[i]);
+      tempElement.id = json[i].id;
+      temp.add(tempElement);
+    }
+    return Reports(
+        listReport: temp);
+  }
+
+  Map<String, dynamic> toJson() {
+    List<Map<String, dynamic>> temp = [];
+    for (var element in listReport) {
+      temp.add(element.toJson());
+    }
+    return {
+      'listReport': temp,
+    };
+  }
+  factory Reports.init()=>Reports(listReport: []);
 }
 
 /*

@@ -1,7 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:pinkey/controller/form_validator.dart';
+import 'package:pinkey/controller/provider/wallet_provider.dart';
+import 'package:pinkey/model/utils/const.dart';
 import 'package:pinkey/view/resourse/color_manager.dart';
 import 'package:pinkey/view/resourse/style_manager.dart';
 import 'package:pinkey/view/resourse/values_manager.dart';
@@ -11,11 +14,14 @@ import '../../manager/widgets/button_app.dart';
 import '../../resourse/string_manager.dart';
 
 class ChargeWalletViewBody extends StatelessWidget {
+  ChargeWalletViewBody({required this.walletProvider});
+  final WalletProvider walletProvider;
   final formKey = GlobalKey<FormState>();
   final cardNumberController = TextEditingController();
   final cardHolderController = TextEditingController();
   final expiryDateController = TextEditingController();
   final cvvController = TextEditingController();
+  final balanceController = TextEditingController();
    DateTime _selectedDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
@@ -23,9 +29,9 @@ class ChargeWalletViewBody extends StatelessWidget {
       padding: const EdgeInsets.all(AppPadding.p16),
       child: Form(
         key: formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: ListView(
+          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+         // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -103,6 +109,30 @@ class ChargeWalletViewBody extends StatelessWidget {
                 const SizedBox(
                   height: AppSize.s20,
                 ),
+                Text(
+                  AppStringsManager.balance,
+                  style:
+                  getRegularStyle(color: ColorManager.lightGray, fontSize: 10.sp),
+
+                ),
+                const SizedBox(
+                  height: AppSize.s10,
+                ),
+                TextFormField(
+                  controller: balanceController,
+                  validator: (val){
+                    if(val!.trim().isEmpty)
+                      return AppStringsManager.balance;
+                    return null;
+                  },
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                ),
+                const SizedBox(
+                  height: AppSize.s20,
+                ),
                 Row(
                   children: [
                     Expanded(
@@ -166,8 +196,18 @@ class ChargeWalletViewBody extends StatelessWidget {
                 ),
               ],
             ),
-            ButtonApp(text: AppStringsManager.confirm_payment, onPressed: (){
-              if(formKey.currentState!.validate()){}
+            const SizedBox(
+              height: AppSize.s10,
+            ),
+            ButtonApp(text: AppStringsManager.confirm_payment, onPressed: () async {
+              if(formKey.currentState!.validate()){
+                Const.LOADIG(context);
+                final result=await walletProvider.addBalanceToWallet(context, balance: num.parse(balanceController.text));
+                Get.back();
+                if(result['status']){
+                  Get.back();
+                }
+              }
             })
 
 

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:pinkey/controller/provider/wallet_provider.dart';
 
 import 'package:provider/provider.dart';
 
@@ -22,18 +23,22 @@ class AuthController{
     Get.off(()=>NavbarView());
   }
   login(BuildContext context,{required String email,required String password,}) async {
+    final WalletProvider walletProvider= Provider.of<WalletProvider>(context,listen: false);
     Const.LOADIG(context);
     authProvider.user.email=email;
     authProvider.user.password=password;
     final result=await authProvider.login(context);
     Get.back();
-    if(result['status'])
+    if(result['status']){
+      await walletProvider.fetchMyWallet(context);
       Get.off(() => NavbarView(),
           transition: Transition.circularReveal);
+    }
 
   }
 
   signUp(BuildContext context,{required String firstName,required String lastName,required String gender,required DateTime dateBirth,required String email,required String password,required String phoneNumber,required String photoUrl,required String typeUser}) async {
+    final WalletProvider walletProvider= Provider.of<WalletProvider>(context,listen: false);
     Const.LOADIG(context);
     authProvider.user=User(id: '', uid: '',
         name: '$firstName $lastName',
@@ -49,9 +54,12 @@ class AuthController{
         dateBirth: dateBirth);
     final result=await authProvider.signup(context);
     Get.back();
-    if(result['status'])
+    if(result['status']){
+      await walletProvider.fetchMyWallet(context);
       Get.off(() => NavbarView(),
           transition: Transition.circularReveal);
+    }
+
   }
   sendPasswordResetEmail(BuildContext context,{required String email}) async {
     Const.LOADIG(context);

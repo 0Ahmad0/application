@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../controller/provider/auth_provider.dart';
 import '../../controller/provider/profile_provider.dart';
+import '../../controller/provider/wallet_provider.dart';
 import '../../model/local/storage.dart';
 import '../../model/models.dart';
 import '../login/login_view.dart';
@@ -50,6 +51,8 @@ class _SplashViewState extends State<SplashView> {
       final result = await authProvider.fetchUser(uid: Advance.uid);
       if(result['status']){
         profileProvider.updateUser(user:User.fromJson(result['body']));
+        final WalletProvider walletProvider= Provider.of<WalletProvider>(context,listen: false);
+        await walletProvider.fetchMyWallet(context);
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(
                 builder: (ctx) => NavbarView()));

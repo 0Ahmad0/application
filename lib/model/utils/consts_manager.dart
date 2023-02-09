@@ -38,6 +38,8 @@ class AppConstants {
   static String collectionDateO = "DateO";
   static String collectionChat = "Chat";
   static String collectionMessage = "Message";
+  static String collectionWallet = "Wallet";
+  static String collectionReport = "Report";
 
 
 

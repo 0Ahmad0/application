@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pinkey/controller/provider/wallet_provider.dart';
 import 'package:pinkey/view/charge_wallet/charge_wallet_view.dart';
 import 'package:pinkey/view/resourse/assets_manager.dart';
 import 'package:pinkey/view/resourse/string_manager.dart';
@@ -11,8 +12,8 @@ import 'package:sizer/sizer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class WalletViewBody extends StatelessWidget {
-  const WalletViewBody({Key? key}) : super(key: key);
-
+  const WalletViewBody({Key? key, required this.walletProvider}) : super(key: key);
+  final WalletProvider walletProvider;
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -85,7 +86,7 @@ class WalletViewBody extends StatelessWidget {
                     ),
                     Spacer(),
                     Text(
-                      '900 ر.س',
+                      ' ${walletProvider.wallet.value} ر.س',
                       style: getRegularStyle(color: ColorManager.white),
                     )
                   ],
@@ -117,7 +118,7 @@ class WalletViewBody extends StatelessWidget {
           thickness: 1.2,
           color: ColorManager.hintColor,
         ),
-        for (int i = 0; i < 10; i++)
+        for (int i = walletProvider.wallet.listWalletChange.length-1; i >=0 ; i--)
           Column(
             children: [
               ListTile(
@@ -126,17 +127,27 @@ class WalletViewBody extends StatelessWidget {
                 ),
                 leading: SizedBox(
                   width: (SizerUtil.width / 3),
-                  child: Text('${AppStringsManager.movement + '\n' + (i.isEven?
-                  AppStringsManager.add_credit:AppStringsManager.participate_in_course)}'),
+                  child: Text(
+                      '${AppStringsManager.movement + '\n' +
+                          walletProvider.wallet.listWalletChange[i].change
+                         // (i.isEven? AppStringsManager.add_credit:AppStringsManager.participate_in_course)
+                      }'
+                  ),
                 ),
-                title: Center(child: Text('105.00'),),
+                title: Center(child: Text(
+                   '${walletProvider.wallet.listWalletChange[i].value}'
+                    //'105.00'
+                ),),
                 trailing: SizedBox(
                   width: 30.w,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SvgPicture.asset(AssetsManager.appointmentsIMG),
-                      Text('${DateFormat().add_yMd().format(DateTime.now())}')
+                      Text('${DateFormat().add_yMd().format(
+                          walletProvider.wallet.listWalletChange[i].dateTime
+                          //DateTime.now()
+                      )}')
                     ],
                   ),
                 ),

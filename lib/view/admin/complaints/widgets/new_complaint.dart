@@ -1,6 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pinkey/controller/provider/process_provider.dart';
+import 'package:pinkey/controller/provider/report_provider.dart';
+import 'package:pinkey/model/models.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../manager/widgets/button_app.dart';
@@ -11,24 +15,26 @@ import '../../../resourse/style_manager.dart';
 import '../../../resourse/values_manager.dart';
 
 class NewComplaint extends StatelessWidget {
-  const NewComplaint({Key? key}) : super(key: key);
-
+   NewComplaint({Key? key}) : super(key: key);
+late ReportProvider reportProvider;
   @override
   Widget build(BuildContext context) {
+     reportProvider =Provider.of<ReportProvider>(context);
     return ListView.builder(
-      itemCount: 10,
-      itemBuilder: (_, index) => BuildNewComplaintItem(index: index),
+      itemCount: reportProvider.listNewReport.length,
+      itemBuilder: (_, index) => BuildNewComplaintItem(index: index,reportProvider: reportProvider,),
     );
   }
 }
 
 class BuildNewComplaintItem extends StatelessWidget {
   final int index;
-
-  const BuildNewComplaintItem({super.key, required this.index});
+  final ReportProvider reportProvider;
+  const BuildNewComplaintItem({super.key, required this.index,required this.reportProvider});
 
   @override
   Widget build(BuildContext context) {
+    ProcessProvider processProvider =Provider.of<ProcessProvider>(context);
     return Stack(
       children: [
         Container(
@@ -46,15 +52,20 @@ class BuildNewComplaintItem extends StatelessWidget {
                     buildTopContainerSection(
                         icon: AssetsManager.profileIMG,
                         title: AppStringsManager.complainant,
-                        subtitle: 'عبير محمد'),
+                        subtitle:processProvider.fetchLocalNameUser(idUser: reportProvider.listNewReport[index].idUser) //'عبير محمد'
+                    ),
                     buildTopContainerSection(
                         icon: AssetsManager.send_complaintIMG,
                         title: AppStringsManager.number_complaint,
-                        subtitle: '5517'),
+                        subtitle: reportProvider.listNewReport[index].numReport//'5517'
+                    ),
                     buildTopContainerSection(
                         icon: AssetsManager.appointmentsIMG,
                         title: AppStringsManager.date_complaint,
-                        subtitle: '${DateFormat.yMd().format(DateTime.now())}'),
+                        subtitle: '${DateFormat.yMd().format(
+                            reportProvider.listNewReport[index].dateTime
+                            //DateTime.now()
+                        )}'),
                   ],
                 ),
                 const SizedBox(
@@ -69,9 +80,10 @@ class BuildNewComplaintItem extends StatelessWidget {
                   height: AppSize.s10,
                 ),
                 Text(
-                  'هذا النص هو مثال لنص يمكن أن يستبدل نفس المساحة'
-                  'لقد تم توليد هذا النص من مولد النص العر حيث يمكنك أن'
-                  'الأخرى إضافة إلى زيادة',
+    reportProvider.listNewReport[index].details,
+                  // 'هذا النص هو مثال لنص يمكن أن يستبدل نفس المساحة'
+                  // 'لقد تم توليد هذا النص من مولد النص العر حيث يمكنك أن'
+                  // 'الأخرى إضافة إلى زيادة',
                   style: getRegularStyle(
                       color: ColorManager.lightGray, fontSize: 10.sp),
                 ),

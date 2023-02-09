@@ -77,9 +77,11 @@ class AppStringsManager{
   static const String offer_courses_and_assistance = 'يمكنك الانضمام كمدربة قيادة وتقديم الدورات والمساعدة لمن يحتاجها';
   static const String join_now = 'أنضمي الأن';
   static const String add_credit = 'إضافة رصيد';
+  static const String balance = 'رصيد';
   static const String all_movements = 'كل الحركات';
   static const String movement = 'الحركة';
   static const String add_balance = 'اضافة رصيد';
+  static const String done_add_balance = 'تمت إضافة رصيد إلى محفظتك';
   static const String participate_in_course = 'الاشتراك في دورة';
   static const String charge_wallet = 'شحن المحفظة';
   static const String select_a_payment_method = 'يرجى اختيار وسيلة الدفع';

@@ -175,94 +175,122 @@ class FirebaseFun{
     return result;
   }
 
-/*
-  ///DateO
-  static addDateO( {required model.DateO dateO}) async {
-    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionDateO).add(
-        dateO.toJson()
-    ).then(onValueAddDateO).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+
+  ///Wallet
+  static addWallet( {required model.Wallet wallet}) async {
+    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionWallet).add(
+        wallet.toJson()
+    ).then(onValueAddWallet).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
     return result;
   }
-  static updateDateO( {required model.DateO dateO}) async {
-    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionDateO).doc(
-        dateO.id
-    ).update(dateO.toJson()).then(onValueUpdateDateO).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+  static updateWallet( {required model.Wallet wallet}) async {
+    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionWallet).doc(
+        wallet.id
+    ).update(wallet.toJson()).then(onValueUpdateWallet).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
     return result;
   }
-  static deleteDateO( {required model.DateO dateO}) async {
-    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionDateO).doc(
-        dateO.id
-    ).delete().then(onValueDeleteDateO).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+  static deleteWallet( {required model.Wallet wallet}) async {
+    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionWallet).doc(
+        wallet.id
+    ).delete().then(onValueDeleteWallet).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
     return result;
   }
-  static fetchDateOsByLawyer({required String idLawyer})  async {
-    final result=await FirebaseFirestore.instance.collection(AppConstants.collectionDateO)
-    .where('idLawyer',isEqualTo: idLawyer)
+  static fetchWalletByIdUser({required String idUser})  async {
+    final result=await FirebaseFirestore.instance.collection(AppConstants.collectionWallet)
+    .where('idUser',isEqualTo: idUser)
         .get()
-        .then((onValueFetchDateOs))
-        .catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
-    return result;
-  }
-  static fetchDateOsByUser({required String idUser})  async {
-    final result=await FirebaseFirestore.instance.collection(AppConstants.collectionDateO)
-        .where('idUser',isEqualTo: idUser)
-        .get()
-        .then((onValueFetchDateOs))
-        .catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
-    return result;
-  }
-  ///Chat
-  static addChat( {required model.Chat chat}) async {
-    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionChat).add(
-        chat.toJson()
-    ).then(onValueAddChat).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
-    return result;
-  }
-  static updateChat( {required model.Chat chat}) async {
-    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionChat).doc(
-        chat.id
-    ).update(chat.toJson()).then(onValueUpdateChat).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
-    return result;
-  }
-  static fetchChatsByIdUser({required List listIdUser})  async {
-    final result=await FirebaseFirestore.instance.collection(AppConstants.collectionChat)
-        .where('listIdUser',arrayContains: listIdUser)
-        .get()
-        .then((onValueFetchChats))
+        .then((onValueFetchWallets))
         .catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
     return result;
   }
 
-
-  static addMessage( {required model.Message message,required String idChat}) async {
-    final result =await FirebaseFirestore.instance
-        .collection(AppConstants.collectionChat)
-        .doc(idChat)
-        .collection(AppConstants.collectionMessage).add(
-        message.toJson()
-    ).then(onValueAddMessage)
-        .catchError(onError);
+  ///Report
+  static addReport( {required model.Report report}) async {
+    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionReport).add(
+        report.toJson()
+    ).then(onValueAddReport).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
     return result;
   }
-  static deleteMessage( {required model.Message message,required String idChat}) async {
-    final result =await FirebaseFirestore.instance
-        .collection(AppConstants.collectionChat)
-        .doc(idChat)
-        .collection(AppConstants.collectionMessage).doc(
-        message.id
-    ).delete().then(onValueDeleteMessage)
-        .catchError(onError);
+  static updateReport( {required model.Report report}) async {
+    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionReport).doc(
+        report.id
+    ).update(report.toJson()).then(onValueUpdateReport).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
     return result;
   }
-  static fetchLastMessage({required String idChat})  async {
-    final result=await FirebaseFirestore.instance.collection(AppConstants.collectionChat)
-    .doc(idChat).collection(AppConstants.collectionMessage).orderBy('sendingTime',descending: true).get()
-        .then((onValueFetchLastMessage))
+  static deleteReport( {required model.Report report}) async {
+    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionReport).doc(
+        report.id
+    ).delete().then(onValueDeleteReport).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+    return result;
+  }
+  static fetchReports()  async {
+    final result=await FirebaseFirestore.instance.collection(AppConstants.collectionReport)
+    .orderBy('dateTime',descending: true)
+        .get()
+        .then((onValueFetchReports))
         .catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
     return result;
   }
+  // static fetchDateOsByUser({required String idUser})  async {
+  //   final result=await FirebaseFirestore.instance.collection(AppConstants.collectionDateO)
+  //       .where('idUser',isEqualTo: idUser)
+  //       .get()
+  //       .then((onValueFetchDateOs))
+  //       .catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+  //   return result;
+  // }
+  // ///Chat
+  // static addChat( {required model.Chat chat}) async {
+  //   final result= await FirebaseFirestore.instance.collection(AppConstants.collectionChat).add(
+  //       chat.toJson()
+  //   ).then(onValueAddChat).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+  //   return result;
+  // }
+  // static updateChat( {required model.Chat chat}) async {
+  //   final result= await FirebaseFirestore.instance.collection(AppConstants.collectionChat).doc(
+  //       chat.id
+  //   ).update(chat.toJson()).then(onValueUpdateChat).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+  //   return result;
+  // }
+  // static fetchChatsByIdUser({required List listIdUser})  async {
+  //   final result=await FirebaseFirestore.instance.collection(AppConstants.collectionChat)
+  //       .where('listIdUser',arrayContains: listIdUser)
+  //       .get()
+  //       .then((onValueFetchChats))
+  //       .catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+  //   return result;
+  // }
+  //
+  //
+  // static addMessage( {required model.Message message,required String idChat}) async {
+  //   final result =await FirebaseFirestore.instance
+  //       .collection(AppConstants.collectionChat)
+  //       .doc(idChat)
+  //       .collection(AppConstants.collectionMessage).add(
+  //       message.toJson()
+  //   ).then(onValueAddMessage)
+  //       .catchError(onError);
+  //   return result;
+  // }
+  // static deleteMessage( {required model.Message message,required String idChat}) async {
+  //   final result =await FirebaseFirestore.instance
+  //       .collection(AppConstants.collectionChat)
+  //       .doc(idChat)
+  //       .collection(AppConstants.collectionMessage).doc(
+  //       message.id
+  //   ).delete().then(onValueDeleteMessage)
+  //       .catchError(onError);
+  //   return result;
+  // }
+  // static fetchLastMessage({required String idChat})  async {
+  //   final result=await FirebaseFirestore.instance.collection(AppConstants.collectionChat)
+  //   .doc(idChat).collection(AppConstants.collectionMessage).orderBy('sendingTime',descending: true).get()
+  //       .then((onValueFetchLastMessage))
+  //       .catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+  //   return result;
+  // }
+  //
 
-*/
 
 
   static Future<Map<String,dynamic>>  onError(error) async {
@@ -390,38 +418,69 @@ class FirebaseFun{
   }
 
 
-  static Future<Map<String,dynamic>>onValueAddDateO(value) async{
+  static Future<Map<String,dynamic>>onValueAddWallet(value) async{
     return {
       'status':true,
-      'message':'DateO successfully add',
+      'message':'Wallet successfully add',
       'body':{}
     };
   }
-  static Future<Map<String,dynamic>>onValueUpdateDateO(value) async{
+  static Future<Map<String,dynamic>>onValueUpdateWallet(value) async{
     return {
       'status':true,
-      'message':'DateO successfully update',
+      'message':'Wallet successfully update',
       'body':{}
     };
   }
-  static Future<Map<String,dynamic>>onValueDeleteDateO(value) async{
+  static Future<Map<String,dynamic>>onValueDeleteWallet(value) async{
     return {
       'status':true,
-      'message':'DateO successfully delete',
+      'message':'Wallet successfully delete',
       'body':{}
     };
   }
-  static Future<Map<String,dynamic>> onValueFetchDateOs(value) async{
+  static Future<Map<String,dynamic>> onValueFetchWallets(value) async{
     // print(true);
-    print("Dates count : ${value.docs.length}");
+    print("Wallets count : ${value.docs.length}");
 
     return {
       'status':true,
-      'message':'Dates successfully fetch',
+      'message':'Wallets successfully fetch',
       'body':value.docs
     };
   }
 
+  static Future<Map<String,dynamic>>onValueAddReport(value) async{
+    return {
+      'status':true,
+      'message':'Report successfully add',
+      'body':{}
+    };
+  }
+  static Future<Map<String,dynamic>>onValueUpdateReport(value) async{
+    return {
+      'status':true,
+      'message':'Report successfully update',
+      'body':{}
+    };
+  }
+  static Future<Map<String,dynamic>>onValueDeleteReport(value) async{
+    return {
+      'status':true,
+      'message':'Report successfully delete',
+      'body':{}
+    };
+  }
+  static Future<Map<String,dynamic>> onValueFetchReports(value) async{
+    // print(true);
+    print("Reports count : ${value.docs.length}");
+
+    return {
+      'status':true,
+      'message':'Reports successfully fetch',
+      'body':value.docs
+    };
+  }
   static Future<Map<String,dynamic>>onValueAddChat(value) async{
     return {
       'status':true,

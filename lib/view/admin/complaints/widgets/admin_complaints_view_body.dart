@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:pinkey/view/resourse/values_manager.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../controller/provider/report_provider.dart';
+import '../../../../model/utils/const.dart';
+import '../../../resourse/assets_manager.dart';
 import '../../../resourse/color_manager.dart';
 import '../../../resourse/string_manager.dart';
 import '../../../resourse/style_manager.dart';
@@ -9,8 +13,8 @@ import 'new_complaint.dart';
 import 'old_complaint.dart';
 
 class AdminComplaintsViewBody extends StatefulWidget {
-  const AdminComplaintsViewBody({Key? key}) : super(key: key);
-
+   AdminComplaintsViewBody({Key? key, required this.reportProvider}) : super(key: key);
+  final ReportProvider reportProvider;
   @override
   State<AdminComplaintsViewBody> createState() => _AdminComplaintsViewBodyState();
 }
@@ -85,22 +89,61 @@ class _AdminComplaintsViewBodyState extends State<AdminComplaintsViewBody> {
           const SizedBox(
             height: AppSize.s10,
           ),
-          Expanded(child: PageView(
-            controller: _pageController,
-            onPageChanged: (index){
-              _selectedIndex = index;
-              setState(() {
+          Expanded(child:
 
-              });
+          FutureBuilder(
+            //prints the messages to the screen0
+              future: widget.reportProvider.fetchReports(context),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return
+                    (widget.reportProvider.reports.listReport.length>0)?
+                    buildPageReport(context):
+                    Const.SHOWLOADINGINDECATOR();
+                  ///waitListCategory(context);
+                }
+                if (snapshot.hasError) {
+                  return const Text('Error');
+                } else if (snapshot.hasData) {
+                  Const.SHOWLOADINGINDECATOR();
+                  //print("aaa ${officeProvider.price} ${officeProvider.location}");
+                  return
+                    buildPageReport(context);
+                  /// }));
+                } else {
+                  return const Text('Empty data');
+                }
 
-            },
-            children: [
-              NewComplaint(),
-              OldComplaint(),
-            ],
-          )),
+              })
+          ),
         ],
       ),
+    );
+  }
+  buildPageReport(BuildContext context){
+    return PageView(
+      controller: _pageController,
+      onPageChanged: (index){
+        _selectedIndex = index;
+        setState(() {
+
+        });
+
+      },
+      children: [
+        widget.reportProvider.listNewReport.length>0?
+        NewComplaint():SvgPicture.asset(
+    AssetsManager.emptyIMG,
+    width: 100,
+    height: 100,
+    ),
+        widget.reportProvider.listoldReport.length>0?
+        OldComplaint():SvgPicture.asset(
+    AssetsManager.emptyIMG,
+    width: 100,
+    height: 100,
+    ),
+      ],
     );
   }
 }
