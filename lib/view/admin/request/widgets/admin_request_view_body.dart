@@ -11,6 +11,7 @@ import '../../../../controller/provider/account_provider.dart';
 import '../../../../model/models.dart';
 import '../../../../model/utils/const.dart';
 import '../../../../model/utils/consts_manager.dart';
+import '../../../app/picture/cach_picture_widget.dart';
 import '../../../manager/widgets/button_app.dart';
 import '../../../manager/widgets/container_icons.dart';
 import '../../../resourse/assets_manager.dart';
@@ -116,8 +117,18 @@ class BuildAdminRequestItem extends StatelessWidget {
             Expanded(
               child: Container(
                   color: ColorManager.borderColor,
-                  child: Image.asset(
-                    'assets/images/1.png',
+                  child: CacheNetworkImage(
+                    photoUrl:   // "https://th.bing.com/th/id/R.1b3a7efcd35343f64a9ae6ad5b5f6c52?rik=HGgUvyvtG4jbAQ&riu=http%3a%2f%2fwww.riyadhpost.live%2fuploads%2f7341861f7f918c109dfc33b73d8356b2.jpg&ehk=3Z4lADOKvoivP8Tbzi2Y56dxNrCWd0r7w7CHQEvpuUg%3d&risl=&pid=ImgRaw&r=0",
+                    '${accountProvider.trainerRequests.users[index].photoUrl}',
+                    width: 40.w,
+                    height: 40.w,
+                    boxFit: BoxFit.fill,
+                    waitWidget:  Image.asset(
+                      'assets/images/profile.png',
+                    ),
+                    errorWidget:  Image.asset(
+                      'assets/images/profile.png',
+                    ),
                   )),
             ),
             const SizedBox(
