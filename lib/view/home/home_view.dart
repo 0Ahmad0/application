@@ -263,7 +263,7 @@ class _BuildTrainerItemState extends State<BuildTrainerItem> {
                             text: AppStringsManager.show_trainer_details, onPressed: (){
 
                               Get.to(()=> TrainerDetailsView(
-                            trainer: widget.trainer,
+                            trainer: User.init()//widget.trainer,
                           ));
 
                         }),

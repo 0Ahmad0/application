@@ -241,6 +241,26 @@ class FirebaseFun{
         .catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
     return result;
   }
+
+  ///DateLawyer
+  static addDateTrainer( {required model.DateTrainer dateTrainer}) async {
+    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionDateTrainer).add(
+        dateTrainer.toJson()
+    ).then(onValueAddDateTrainer).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+    return result;
+  }
+  static updateDateTrainer( {required model.DateTrainer dateTrainer}) async {
+    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionDateTrainer).doc(
+        dateTrainer.id
+    ).update(dateTrainer.toJson()).then(onValueUpdateDateTrainer).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+    return result;
+  }
+  static deleteDateTrainer( {required model.DateTrainer dateTrainer}) async {
+    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionDateTrainer).doc(
+        dateTrainer.id
+    ).delete().then(onValueDeleteDateTrainer).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+    return result;
+  }
   // static fetchDateOsByUser({required String idUser})  async {
   //   final result=await FirebaseFirestore.instance.collection(AppConstants.collectionDateO)
   //       .where('idUser',isEqualTo: idUser)
@@ -481,6 +501,31 @@ class FirebaseFun{
       'body':{}
     };
   }
+
+
+  static Future<Map<String,dynamic>>onValueAddDateTrainer(value) async{
+    return {
+      'status':true,
+      'message':'DateTrainer successfully add',
+      'body':{}
+    };
+  }
+  static Future<Map<String,dynamic>>onValueUpdateDateTrainer(value) async{
+    return {
+      'status':true,
+      'message':'DateTrainer successfully update',
+      'body':{}
+    };
+  }
+  static Future<Map<String,dynamic>>onValueDeleteDateTrainer(value) async{
+    return {
+      'status':true,
+      'message':'DateTrainer successfully delete',
+      'body':{}
+    };
+  }
+
+
   static Future<Map<String,dynamic>> onValueFetchReports(value) async{
     // print(true);
     print("Reports count : ${value.docs.length}");

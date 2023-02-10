@@ -1,7 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:pinkey/controller/date_trainer_controller.dart';
+import 'package:pinkey/controller/provider/date_trainer_provider.dart';
+import 'package:pinkey/controller/provider/profile_provider.dart';
+import 'package:pinkey/model/models.dart';
+import 'package:provider/provider.dart';
+import '../../../../model/utils/const.dart';
+import '../../../../model/utils/consts_manager.dart';
 import '../../add_new_course/add_new_course_view.dart';
 import '/view/chat/widgets/chat_room.dart';
 import '/view/manager/widgets/button_app.dart';
@@ -14,11 +22,70 @@ import '../../../resourse/color_manager.dart';
 import '../../../resourse/string_manager.dart';
 import '../../../resourse/style_manager.dart';
 
-class TrainerAppointmentsViewBody extends StatelessWidget {
+class TrainerAppointmentsViewBody extends StatefulWidget {
   const TrainerAppointmentsViewBody({Key? key}) : super(key: key);
 
   @override
+  State<TrainerAppointmentsViewBody> createState() => _TrainerAppointmentsViewBodyState();
+}
+
+class _TrainerAppointmentsViewBodyState extends State<TrainerAppointmentsViewBody> {
+  var getDateTrainer;
+  late ProfileProvider profileProvider;
+  late DateTrainerController dateTrainerController;
+  @override
+  void initState() {
+    profileProvider = Provider.of<ProfileProvider>(context, listen: false);
+    getDateTrainerFun();
+    super.initState();
+  }
+
+  getDateTrainerFun() async {
+    getDateTrainer = FirebaseFirestore.instance
+        .collection(AppConstants.collectionDateTrainer)
+        .where('idTrainer',isEqualTo: profileProvider.user.id)
+        .snapshots();
+
+    return getDateTrainer;
+  }
+  @override
   Widget build(BuildContext context) {
+    dateTrainerController= DateTrainerController(context: context);
+    return StreamBuilder<QuerySnapshot>(
+      //prints the messages to the screen0
+        stream: getDateTrainer,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return
+              Const.SHOWLOADINGINDECATOR();
+
+          }
+          else if (snapshot.connectionState ==
+              ConnectionState.active) {
+            if (snapshot.hasError) {
+              return const Text('Error');
+            } else if (snapshot.hasData) {
+              Const.SHOWLOADINGINDECATOR();
+              if(snapshot.data!.docs!.length>0){
+
+               dateTrainerController.dateTrainerProvider.dateTrainers=DateTrainers.fromJson(snapshot.data!.docs);
+
+              }else{
+                dateTrainerController.dateTrainerProvider.dateTrainers.listDateTrainer.clear();
+              }
+
+              return buildDateTrainer();
+              /// }));
+            } else {
+              return const Text('Empty data');
+            }
+          }
+          else {
+            return Text('State: ${snapshot.connectionState}');
+          }
+        });
+  }
+  buildDateTrainer(){
     return ListView(
       padding: const EdgeInsets.all(AppPadding.p16),
       children: [
@@ -34,7 +101,6 @@ class TrainerAppointmentsViewBody extends StatelessWidget {
       ],
     );
   }
-
   Widget buildCoursesDetails({required DateTime date}) {
     return Container(
       padding: const EdgeInsets.all(AppPadding.p8),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../app/picture/cach_picture_widget.dart';
 import '../manager/widgets/container_icons.dart';
 import '/view/book_course/book_course_view.dart';
 import '/view/manager/app_launcher.dart';
@@ -14,7 +15,7 @@ import '../resourse/style_manager.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class TrainerDetailsView extends StatefulWidget {
-  final Trainer trainer;
+  final User trainer;
 
   const TrainerDetailsView({super.key, required this.trainer});
 
@@ -61,11 +62,25 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
                             color: ColorManager.lightGray,
                             shape: BoxShape.circle),
                         child: ClipOval(
-                          child: Image.asset(
-                            widget.trainer.image,
+                          child:
+                          CacheNetworkImage(
+                            photoUrl:   // "https://th.bing.com/th/id/R.1b3a7efcd35343f64a9ae6ad5b5f6c52?rik=HGgUvyvtG4jbAQ&riu=http%3a%2f%2fwww.riyadhpost.live%2fuploads%2f7341861f7f918c109dfc33b73d8356b2.jpg&ehk=3Z4lADOKvoivP8Tbzi2Y56dxNrCWd0r7w7CHQEvpuUg%3d&risl=&pid=ImgRaw&r=0",
+                            '${widget.trainer.photoUrl}',
                             width: 28.w,
                             height: 28.w,
-                          ),
+                           // boxFit: BoxFit.fill,
+                            waitWidget:  Image.asset(
+                              AssetsManager.trainerIMG,
+                            ),
+                            errorWidget:  Image.asset(
+                              AssetsManager.trainerIMG,
+                            ),
+                          )
+                          // Image.asset(
+                          //   widget.trainer.image,
+                          //   width: 28.w,
+                          //   height: 28.w,
+                          // ),
                         ),
                       ),
                       const SizedBox(
@@ -81,7 +96,7 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
                         height: AppSize.s10,
                       ),
                       Text(
-                        widget.trainer.type_of_work_permit,
+                        '${widget.trainer.trainerInfo?.typeOfWork}',
                         textAlign: TextAlign.center,
                         style: getRegularStyle(
                             color: ColorManager.black, fontSize: 10.sp),
@@ -107,6 +122,8 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
                           ),
                          */
                           InkWell(
+                            ///TODO Locatiom
+                            ///widget.trainer.latitude widget.trainer.longitude
                             onTap: () {},
                             child: CircleAvatar(
                               backgroundColor:
@@ -121,7 +138,8 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
                           InkWell(
                             onTap: () async {
                               await  AppLauncher.launchEmail(
-                                  email: 'mawadah2000@outlook.com');
+                                  email: widget.trainer.email//'mawadah2000@outlook.com'
+                              );
                             },
                             child: CircleAvatar(
                               backgroundColor:
@@ -136,7 +154,8 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
                           InkWell(
                             onTap: () async {
                               await AppLauncher.launchPhone(
-                                  phoneNumber: '+966544854535');
+                                  phoneNumber: widget.trainer.phoneNumber//'+966544854535'
+                              );
                             },
                             child: CircleAvatar(
                               backgroundColor:
@@ -165,10 +184,11 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
                     Row(
                       children: [
                         Expanded(child:   Text(
-                            'حاصله على رخصة عمل حر'
-                                'خبره في التدريب على قيادة السيارات'
-                                'دربت اكثر من 50 متدربة'
-                                'اقدم شروحات نموذجيه لقيادة امنه واحترافيه '),),
+                    '${widget.trainer.description}',),),
+                            // 'حاصله على رخصة عمل حر'
+                            //     'خبره في التدريب على قيادة السيارات'
+                            //     'دربت اكثر من 50 متدربة'
+                            //     'اقدم شروحات نموذجيه لقيادة امنه واحترافيه '),),
                         Expanded(child: SizedBox())
                       ],
                     ),
@@ -290,11 +310,25 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
                 shape: BoxShape.circle,
                 border: Border.all(color: ColorManager.lightGray)),
             child: ClipOval(
-              child: Image.asset(
-                widget.trainer.image,
+              child:
+              CacheNetworkImage(
+                photoUrl:   // "https://th.bing.com/th/id/R.1b3a7efcd35343f64a9ae6ad5b5f6c52?rik=HGgUvyvtG4jbAQ&riu=http%3a%2f%2fwww.riyadhpost.live%2fuploads%2f7341861f7f918c109dfc33b73d8356b2.jpg&ehk=3Z4lADOKvoivP8Tbzi2Y56dxNrCWd0r7w7CHQEvpuUg%3d&risl=&pid=ImgRaw&r=0",
+               'd',// '${widget.trainer.photoUrl}',
                 width: 12.w,
                 height: 12.w,
-              ),
+             //   boxFit: BoxFit.cover,
+                waitWidget:  Image.asset(
+                  AssetsManager.trainerIMG,
+                ),
+                errorWidget:  Image.asset(
+                  AssetsManager.trainerIMG,
+                ),
+              )
+              // Image.asset(
+              //   widget.trainer.image,
+              //   width: 12.w,
+              //   height: 12.w,
+              // ),
             ),
           ),
           title: Text(

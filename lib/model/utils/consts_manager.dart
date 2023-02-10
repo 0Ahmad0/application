@@ -33,7 +33,7 @@ class AppConstants {
   static String collectionAdmin = "Admin";
   static String collectionTrainer = "Trainer";
   static String collectionUser = "User";
-  static String collectionDateLawyer = "DateLawyer";
+  static String collectionDateTrainer = "DateTrainer";
   static String collectionInternship = "Internship";
   static String collectionDateO = "DateO";
   static String collectionChat = "Chat";

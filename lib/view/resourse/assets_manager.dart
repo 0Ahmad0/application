@@ -1,3 +1,5 @@
+import 'package:pinkey/model/models.dart';
+
 const imagePath = 'assets/images';
 class AssetsManager{
   static const logoIMG = '$imagePath/logo.png';
@@ -21,6 +23,7 @@ class AssetsManager{
   static const sendIconIMG = '$imagePath/send_message_icon.svg';
   static const chat_pictureIMG = '$imagePath/chat_picture.svg';
   static const profileIMG = '$imagePath/profile.svg';
+  static const trainerIMG = '$imagePath/profile.jpg';
   static const send_complaintIMG = '$imagePath/send_complaint.svg';
   static const connection_customer_servicesIMG = '$imagePath/connection_customer_services.svg';
   static const terms_of_useIMG = '$imagePath/terms_of_use.svg';

@@ -34,8 +34,8 @@ class ProfileProvider with ChangeNotifier{
      name = TextEditingController(text: user.name);
      email = TextEditingController(text: user.email);
      phoneNumber = TextEditingController(text: user.phoneNumber);
-    firstName = TextEditingController(text: user.phoneNumber);
-    lastName = TextEditingController(text: user.phoneNumber);
+    firstName = TextEditingController(text: user.firstName);
+    lastName = TextEditingController(text: user.lastName);
     if(name.text=='');
     name.text='${firstName.text} ${lastName.text}';
      notifyListeners();
@@ -47,6 +47,8 @@ class ProfileProvider with ChangeNotifier{
      tempUser.phoneNumber=phoneNumber.text;
      tempUser.firstName=firstName.text;
      tempUser.lastName=lastName.text;
+     if(name.text=='');
+     tempUser.name='${firstName.text} ${lastName.text}';
     /// print(tempUser.toJson());
      var result =await FirebaseFun.updateUserEmail(user: tempUser);
      if(result['status']){

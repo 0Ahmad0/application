@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class Meal {
   String name;
@@ -55,6 +56,10 @@ class User {
   List<String> tokens;
   num wallet;
   TrainerInfo? trainerInfo;
+  String location;
+  num disKm;
+  num latitude;
+  num longitude;
   User({
     required this.id,
     required this.uid,
@@ -73,6 +78,10 @@ class User {
     this.tokens = const[],
     this.wallet = 0,
     this.trainerInfo,
+    this.disKm=0,
+    this.latitude=0,
+    this.longitude=0,
+    this.location='',
 
   });
 
@@ -99,7 +108,11 @@ class User {
         trainerInfo: (data['trainerInfo']!=null)?TrainerInfo.fromJson(json["trainerInfo"]):null,
         // tokens: json["tokens"],
         description: (data['description']!=null) ? json["description"] : "",
-        wallet: (data['wallet']!=null) ? json["wallet"] : 0
+        wallet: (data['wallet']!=null) ? json["wallet"] : 0,
+      disKm: json['disKm'],
+      latitude: json['latitude'],
+      longitude: json['longitude'],
+      location: json['location'],
 
     );
   }
@@ -125,6 +138,10 @@ class User {
     'tokens': tokens,
     'wallet': wallet,
     'trainerInfo': (trainerInfo!=null)?trainerInfo?.toJson():null,
+    'disKm': disKm,
+    'latitude': latitude,
+    'longitude': longitude,
+    'location': location,
 
   };
 }
@@ -180,6 +197,8 @@ class TrainerInfo {
   String carImageFileUrl;
   String selfEmploymentLicenseFileUrl;
   String otherImageFileUrl;
+  String typeOfWork;
+
 
   TrainerInfo({
     required this.nationality,
@@ -200,6 +219,8 @@ class TrainerInfo {
     required this.carImageFileUrl,
     required this.selfEmploymentLicenseFileUrl,
     required this.otherImageFileUrl,
+     this.typeOfWork='رخصة عمل حر',
+
   });
 
   factory TrainerInfo.fromJson(json) {
@@ -223,6 +244,8 @@ class TrainerInfo {
       carImageFileUrl: json['carImageFileUrl'],
       selfEmploymentLicenseFileUrl: json['selfEmploymentLicenseFileUrl'],
       otherImageFileUrl: json['otherImageFileUrl'],
+      typeOfWork: json['typeOfWork'],
+
 
 
     );
@@ -254,6 +277,8 @@ class TrainerInfo {
     'carImageFileUrl': carImageFileUrl,
     'selfEmploymentLicenseFileUrl': selfEmploymentLicenseFileUrl,
     'otherImageFileUrl': otherImageFileUrl,
+    'typeOfWork': typeOfWork,
+
   };
 }
 
@@ -428,6 +453,75 @@ class Reports {
   }
   factory Reports.init()=>Reports(listReport: []);
 }
+
+//DateTrainer
+class DateTrainer {
+  String id;
+  String idTrainer;
+  TimeOfDay? from;
+  TimeOfDay? to;
+  DateTime dateTime;
+  String? day;
+  DateTrainer({
+    this.id="",
+    required this.idTrainer,
+    required this.from,
+    required this.to,
+    required this.dateTime,
+    required this.day,
+  });
+
+  factory DateTrainer.fromJson(json) {
+    return DateTrainer(
+      id: json['id'],
+      idTrainer: json['idTrainer'],
+      dateTime: json['dateTime'].toDate(),
+      day: json['day'],
+      from: (json["from"]==null)?json["from"]: TimeOfDay.fromDateTime(json["from"].toDate()),
+      to: (json["to"]==null)?json["to"]:TimeOfDay.fromDateTime(json["to"].toDate()),);
+  }
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'idTrainer': idTrainer,
+    'dateTime': Timestamp.fromDate(dateTime),
+    'day': day,
+    'from': (from==null)?from:DateTime(dateTime.year,dateTime.month,dateTime.day,from!.hour,from!.minute),
+    // 'from': (from==null)?from:DateTime.fromMillisecondsSinceEpoch(((from!.hour-3)*60+from!.minute)*60000),
+    'to': (to==null)?to:DateTime(dateTime.year,dateTime.month,dateTime.day,to!.hour,to!.minute),
+  };
+  factory DateTrainer.init()=>
+      DateTrainer(idTrainer: '', from: TimeOfDay.now(), to: TimeOfDay.now(), dateTime: DateTime.now(), day: '');
+}
+//DateTrainers
+class DateTrainers {
+  List<DateTrainer> listDateTrainer;
+
+  //DateTime date;
+
+  DateTrainers({required this.listDateTrainer});
+
+  factory DateTrainers.fromJson(json) {
+    List<DateTrainer> temp = [];
+    for (int i = 0; i < json.length; i++) {
+      DateTrainer tempElement = DateTrainer.fromJson(json[i]);
+      tempElement.id = json[i].id;
+      temp.add(tempElement);
+    }
+    return DateTrainers(listDateTrainer: temp);
+  }
+
+  Map<String, dynamic> toJson() {
+    List<Map<String, dynamic>> temp = [];
+    for (var element in listDateTrainer) {
+      temp.add(element.toJson());
+    }
+    return {
+      'listDateTrainer': temp,
+    };
+  }
+}
+
 
 /*
 flutter pub run easy_localization:generate -S "assets/translations/" -O "lib/translations"

@@ -3,6 +3,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:pinkey/view/resourse/values_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -18,6 +20,7 @@ import '../../../resourse/assets_manager.dart';
 import '../../../resourse/color_manager.dart';
 import '../../../resourse/string_manager.dart';
 import '../../../resourse/style_manager.dart';
+import '../../../triner_details/trainer_details_view.dart';
 
 class AdminRequestViewBody extends StatefulWidget {
   const AdminRequestViewBody({Key? key, required this.accountProvider}) : super(key: key);
@@ -124,10 +127,11 @@ class BuildAdminRequestItem extends StatelessWidget {
                     height: 40.w,
                     boxFit: BoxFit.fill,
                     waitWidget:  Image.asset(
-                      'assets/images/profile.png',
+                      AssetsManager.trainerIMG,
                     ),
                     errorWidget:  Image.asset(
-                      'assets/images/profile.png',
+                        AssetsManager.trainerIMG
+                      //'assets/images/profile.png',
                     ),
                   )),
             ),
@@ -195,7 +199,11 @@ class BuildAdminRequestItem extends StatelessWidget {
                             fontSize: 10.sp,
                             height: AppSize.s40,
                             text: AppStringsManager.trainer_details,
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.to(()=> TrainerDetailsView(
+                                trainer: accountProvider.trainerRequests.users[index],
+                              ));
+                            },
                           ),
                         ),
                       ],

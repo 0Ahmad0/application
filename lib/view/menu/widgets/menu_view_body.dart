@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pinkey/controller/manager/role.dart';
 import 'package:pinkey/controller/provider/profile_provider.dart';
 import 'package:pinkey/model/utils/consts_manager.dart';
 import 'package:pinkey/view/complaint/complaint_view.dart';
@@ -25,7 +26,7 @@ class MenuViewBody extends StatelessWidget {
   MenuViewBody({required this.profileProvider});
   @override
   Widget build(BuildContext context) {
-    if(AppConstants.collectionTrainer.contains(profileProvider.user.typeUser))
+    if(AppConstants.collectionVisitor.contains(profileProvider.user.typeUser))
       not_login=false;
     return ListView(
       padding: const EdgeInsets.all(AppPadding.p16),
@@ -165,7 +166,7 @@ class MenuViewBody extends StatelessWidget {
         ),
         ///
         Visibility(
-          visible: not_login,
+          visible: not_login&&Role.checkRole(typeUser: profileProvider.user.typeUser, role: Role.complaintMenu),
           child: buildMenuListTile(
             onTap: () {
               Get.to(()=>ComplaintView(),transition: Transition.upToDown);
@@ -261,7 +262,7 @@ class MenuViewBody extends StatelessWidget {
           height: AppSize.s10,
         ),
         Visibility(
-          visible: ([AppConstants.collectionUser,AppConstants.collectionTrainer].contains(profileProvider.user.typeUser)),
+          visible: ([AppConstants.collectionUser,AppConstants.collectionVisitor].contains(profileProvider.user.typeUser)),
           child: Container(
             padding: const EdgeInsets.all(AppPadding.p20),
             decoration: BoxDecoration(
