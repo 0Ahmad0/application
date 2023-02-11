@@ -3,10 +3,11 @@ import 'package:pinkey/model/utils/consts_manager.dart';
 class Role{
    static Map mapRole={
      '${AppConstants.collectionVisitor}':[homeView,loginMenu],
-     '${AppConstants.collectionUser}':[my_profile,notificationMenu,homeView,complaintMenu,notification,bookCourse,location],
+     '${AppConstants.collectionUser}':[my_profile,notificationMenu,homeView,complaintMenu,notification,
+       locationMenu,bookCourse,location],
      '${AppConstants.collectionTrainer}':[my_profile,notificationMenu,trainerAppointmentsView,myCoursesView
-      ,complaintMenu,location],
-     '${AppConstants.collectionAdmin}':[my_profile,notificationMenu,adminComplaintsView,
+       ,locationMenu,complaintMenu,location],
+     '${AppConstants.collectionAdmin}':[my_profile,adminComplaintsView,
        adminRequestView],
    };
    ///,appointmentsView,requestsView
@@ -22,6 +23,7 @@ class Role{
    static const  notificationMenu='notificationMenu';
    static const  complaintMenu='complaintMenu';
    static const  loginMenu='loginMenu';
+   static const  locationMenu='locationMenu';
    //navBar
    static const  menuView='menuView';
    static const  homeView='homeView';

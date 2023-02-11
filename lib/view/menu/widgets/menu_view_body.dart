@@ -103,13 +103,13 @@ class MenuViewBody extends StatelessWidget {
         /// //////////////////////
         //TODO:trainer only
         Visibility(
-          visible: not_login,
+          visible: not_login&&Role.checkRole(typeUser: profileProvider.user.typeUser, role: Role.notificationMenu),
           child: const SizedBox(
             height: AppSize.s20,
           ),
         ),
         Visibility(
-          visible: not_login,
+          visible: not_login&&Role.checkRole(typeUser: profileProvider.user.typeUser, role: Role.notificationMenu),
           child: buildMenuListTile(
             onTap: () {
               Get.to(()=>NotificationView(),
@@ -129,7 +129,7 @@ class MenuViewBody extends StatelessWidget {
           ),
         ),
         Visibility(
-          visible: not_login,
+          visible: not_login&&Role.checkRole(typeUser: profileProvider.user.typeUser, role: Role.locationMenu),
           child: buildMenuListTile(
             onTap: () {
               //TODO: Navigator

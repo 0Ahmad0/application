@@ -110,6 +110,8 @@ class AuthProvider with ChangeNotifier{
     if(resultUser['status'])
     {
       user= models.User.fromJson(resultUser['body']);
+      resultUser=await _baseLogin(context, resultUserAfterLog: resultUser);
+
     }
     //var result;
    // result=await loginWithEmil(context);

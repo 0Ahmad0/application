@@ -210,121 +210,128 @@ late  ProfileProvider profileProvider;
                 ),
               ),
             ],
-            body: Padding(
+            body:
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppPadding.p16),
-              child: Column(
-                children: [
-                  TabBar(
-                    controller: _tabController,
-                    onTap: (index) {
-                      _tabController.index = index;
-                      setState(() {});
-                    },
-                    tabs: [
-                      Tab(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              AssetsManager.trainer_courseIMG,
-                              color: _tabController.index == 0
-                                  ? ColorManager.secondaryColor
-                                  : ColorManager.lightGray,
-                            ),
-                            const SizedBox(
-                              width: AppSize.s4,
-                            ),
-                            Text(
-                              AppStringsManager.trainer_courses + " " + "(3)",
-                              style: getRegularStyle(
-                                  color: _tabController.index == 0
-                                      ? ColorManager.black
-                                      : ColorManager.lightGray),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Tab(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              AssetsManager.trainer_reviewsIMG,
-                              color: _tabController.index == 1
-                                  ? ColorManager.secondaryColor
-                                  : ColorManager.lightGray,
-                            ),
-                            const SizedBox(
-                              width: AppSize.s4,
-                            ),
-                            Text(
-                              AppStringsManager.trainer_review + " " + "(2)",
-                              style: getRegularStyle(
-                                  color: _tabController.index == 1
-                                      ? ColorManager.black
-                                      : ColorManager.lightGray),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: TabBarView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      controller: _tabController,
+              child:
+            FutureBuilder(
+              //prints the messages to the screen0
+                future: courseController.fetchCoursesByTrainer(idTrainer: widget.trainer.id),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+
+                    return
+                      Const.SHOWLOADINGINDECATOR();
+
+                  }
+                  {
+                    if (snapshot.hasError) {
+                      return const Text('Error');
+                    } else if (snapshot.hasData) {
+                      Const.SHOWLOADINGINDECATOR();
+
+                      return BuildBodyTrainer();
+                      /// }));
+                    } else {
+                      return const Text('Empty data');
+                    }
+                  }
+
+                }),
+          )
+          )),
+    );
+  }
+  BuildBodyTrainer(){
+    return StatefulBuilder(
+      builder: (_,setStateN)=>
+          Column(
+            children: [
+              TabBar(
+                controller: _tabController,
+                onTap: (index) {
+                  _tabController.index = index;
+                  setState(() {});
+                },
+                tabs: [
+                  Tab(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ///Courses
-                        FutureBuilder(
-                          //prints the messages to the screen0
-                            future: courseController.fetchCoursesByTrainer(idTrainer: widget.trainer.id),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState == ConnectionState.waiting) {
-
-                                return
-                                  Const.SHOWLOADINGINDECATOR();
-
-                              }
-                             {
-                                if (snapshot.hasError) {
-                                  return const Text('Error');
-                                } else if (snapshot.hasData) {
-                                  Const.SHOWLOADINGINDECATOR();
-
-                                  return
-                                    ListView.builder(
-                                      itemCount: courseController.courseProvider.courses.listCourse.length,
-                                      itemBuilder: (_, index) {
-                                        return buildTrainerCourseItem(index:index);
-                                      },
-                                    );
-                                  /// }));
-                                } else {
-                                  return const Text('Empty data');
-                                }
-                              }
-
-                            }),
-
-                        ///Reviews
-                        ListView.separated(
-                            itemBuilder: (_, index) {
-                              return buildContainerReviews();
-                            },
-                            separatorBuilder: (_, __) {
-                              return Divider(
-                                thickness: .8,
-                                color: ColorManager.lightGray,
-                              );
-                            },
-                            itemCount: 2)
+                        SvgPicture.asset(
+                          AssetsManager.trainer_courseIMG,
+                          color: _tabController.index == 0
+                              ? ColorManager.secondaryColor
+                              : ColorManager.lightGray,
+                        ),
+                        const SizedBox(
+                          width: AppSize.s4,
+                        ),
+                        Text(
+                          AppStringsManager.trainer_courses + " " + "(${ courseController.courseProvider.courses.listCourse.length})",
+                          style: getRegularStyle(
+                              color: _tabController.index == 0
+                                  ? ColorManager.black
+                                  : ColorManager.lightGray),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Tab(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          AssetsManager.trainer_reviewsIMG,
+                          color: _tabController.index == 1
+                              ? ColorManager.secondaryColor
+                              : ColorManager.lightGray,
+                        ),
+                        const SizedBox(
+                          width: AppSize.s4,
+                        ),
+                        Text(
+                          AppStringsManager.trainer_review + " " + "(2)",
+                          style: getRegularStyle(
+                              color: _tabController.index == 1
+                                  ? ColorManager.black
+                                  : ColorManager.lightGray),
+                        ),
                       ],
                     ),
                   ),
                 ],
               ),
-            ),
-          )),
+              Expanded(
+                child: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: _tabController,
+                  children: [
+                    ///Courses
+                    ListView.builder(
+                      itemCount: courseController.courseProvider.courses.listCourse.length,
+                      itemBuilder: (_, index) {
+                        return buildTrainerCourseItem(index:index);
+                      },
+                    ),
+
+                    ///Reviews
+                    ListView.separated(
+                        itemBuilder: (_, index) {
+                          return buildContainerReviews();
+                        },
+                        separatorBuilder: (_, __) {
+                          return Divider(
+                            thickness: .8,
+                            color: ColorManager.lightGray,
+                          );
+                        },
+                        itemCount: 2)
+                  ],
+                ),
+              ),
+            ],
+          ),
     );
   }
 

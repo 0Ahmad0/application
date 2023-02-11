@@ -43,7 +43,7 @@ class _NavbarViewState extends State<NavbarView> {
       _screens.add(
       {
           "title": 'tr(LocaleKeys.favorite_page)',
-          "icon": AssetsManager.profileIMG,
+          "icon": AssetsManager.admin_requestIMG,
           "screen": AdminRequestView()
         }
       );
@@ -53,7 +53,7 @@ class _NavbarViewState extends State<NavbarView> {
       _screens.add(
       {
           "title": 'tr(LocaleKeys.favorite_page)',
-          "icon": AssetsManager.admin_requestIMG,
+          "icon": AssetsManager.send_complaintIMG,
           "screen": AdminComplaintsView()
         }
       );
