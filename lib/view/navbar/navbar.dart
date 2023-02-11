@@ -86,7 +86,7 @@ class _NavbarViewState extends State<NavbarView> {
       _screens.add(
           {
             "title": 'tr(LocaleKeys.rate_page)',
-            "icon": AssetsManager.appointmentsIMG,
+            "icon": AssetsManager.terms_of_useIMG,
             "screen": AppointmentsView()
           }
       );
