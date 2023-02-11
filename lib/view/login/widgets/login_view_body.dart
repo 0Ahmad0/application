@@ -25,6 +25,7 @@ class LoginViewBody extends StatelessWidget {
   final forgetPasswordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   final AuthController authController;
+
   LoginViewBody({required this.authController});
   @override
   Widget build(BuildContext context) {
@@ -47,7 +48,8 @@ class LoginViewBody extends StatelessWidget {
               height: AppSize.s14,
             ),
             Text(
-              AppStringsManager.login_to_complete_book,
+                authController.authProvider.text,
+              //AppStringsManager.login_to_complete_book,
               style: getRegularStyle(
                   color: Theme.of(context).textTheme.subtitle2!.color,
                   fontSize: 12.sp),

@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pinkey/controller/provider/profile_provider.dart';
+import 'package:pinkey/view/resourse/string_manager.dart';
 
 
 
@@ -22,6 +23,7 @@ import '../utils/firebase.dart';
 
 class AuthProvider with ChangeNotifier{
   var keyForm = GlobalKey<FormState>();
+  String text = AppStringsManager.login_to_complete_book;
   var name = TextEditingController();
   var email = TextEditingController();
   var phoneNumber = TextEditingController();

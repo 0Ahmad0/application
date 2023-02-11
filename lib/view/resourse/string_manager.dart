@@ -14,6 +14,7 @@ class AppStringsManager{
   static const String forget_password = 'نسيتي كلمة المرور؟';
   static const String login = 'تسجبل دخول';
   static const String login_visit = 'دخول كزائر';
+  static const String login_admin = 'دخول كمشرف';
   static const String do_not_have_account = 'لا أملك حساب في التطبيق؟ ';
   static const String sign_up = 'إنشاء حساب';
   static const String fill_data_account = 'قومي بتعبئة بياناتك في التطبيق بشكل صحيح';
