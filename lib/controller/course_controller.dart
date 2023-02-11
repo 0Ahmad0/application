@@ -26,7 +26,14 @@ class CourseController{
     courseProvider= Provider.of<CourseProvider>(context);
   }
   fetchCoursesByTrainer({required String idTrainer}) async {
-    return await FirebaseFun.addCourse(course: course)
+    final result= await FirebaseFun.fetchCourseByTrainer(idTrainer: idTrainer);
+    if(result['status']){
+      courseProvider.courses=Courses.fromJson(result['body']);
+      courseProvider.courses.listCourse=processCourse(courseProvider.courses.listCourse);
+    }else{
+      Const.TOAST(context,textToast: FirebaseFun.findTextToast(result['message'].toString()));
+    }
+    return result;
   }
   processCourse(List<Course> listCourse){
     List<Course> listTemp=[];

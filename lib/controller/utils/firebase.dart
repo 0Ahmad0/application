@@ -281,11 +281,11 @@ class FirebaseFun{
     ).delete().then(onValueDeleteDateTrainer).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
     return result;
   }
-  static fetchCour()  async {
-    final result=await FirebaseFirestore.instance.collection(AppConstants.collectionReport)
-        .orderBy('dateTime',descending: true)
+  static fetchCourseByTrainer({required String idTrainer})  async {
+    final result=await FirebaseFirestore.instance.collection(AppConstants.collectionCourse)
+        .where('idTrainer',isEqualTo: idTrainer)
         .get()
-        .then((onValueFetchReports))
+        .then((onValueFetchCourse))
         .catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
     return result;
   }
@@ -630,6 +630,16 @@ class FirebaseFun{
     return {
       'status':true,
       'message':'Last message successfully fetch',
+      'body':value.docs
+    };
+  }
+  static Future<Map<String,dynamic>> onValueFetchCourse(value) async{
+    // print(true);
+    print("Courses count : ${value.docs.length}");
+
+    return {
+      'status':true,
+      'message':'Courses successfully fetch',
       'body':value.docs
     };
   }

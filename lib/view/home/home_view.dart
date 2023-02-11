@@ -110,6 +110,7 @@ class _HomeViewState extends State<HomeView> {
                child: SvgPicture.asset(AssetsManager.notficationIMG))
            :SizedBox(),
          ),
+         if(Role.checkRole(typeUser: profileProvider.user.typeUser, role: Role.location))
          Row(
            children: [
              SvgPicture.asset(AssetsManager.locationIMG),
@@ -174,6 +175,7 @@ class _HomeViewState extends State<HomeView> {
             homeProvider.notifyListeners();
         },
         ),
+        if(Role.checkRole(typeUser: profileProvider.user.typeUser, role: Role.location))
         ChangeNotifierProvider<ProfileProvider>.value(
           value: Provider.of<ProfileProvider>(context),
           child: Consumer<ProfileProvider>(

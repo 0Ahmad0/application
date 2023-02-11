@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pinkey/controller/manager/role.dart';
+import 'package:pinkey/controller/provider/course_provider.dart';
+import 'package:pinkey/controller/provider/profile_provider.dart';
+import 'package:provider/provider.dart';
 import '../../controller/course_controller.dart';
+import '../../model/utils/const.dart';
 import '../app/picture/cach_picture_widget.dart';
 import '../manager/widgets/container_icons.dart';
 import '/view/book_course/book_course_view.dart';
@@ -34,10 +39,12 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
     super.initState();
     _tabController = TabController(vsync: this, length: 2);
   }
-
+late  CourseController courseController;
+late  ProfileProvider profileProvider;
   @override
   Widget build(BuildContext context) {
-     CourseController courseController= CourseController(context: context);
+     courseController= CourseController(context: context);
+     profileProvider= Provider.of<ProfileProvider>(context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -268,12 +275,36 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
                       controller: _tabController,
                       children: [
                         ///Courses
-                        ListView.builder(
-                          itemCount: 3,
-                          itemBuilder: (_, index) {
-                            return buildTrainerCourseItem();
-                          },
-                        ),
+                        FutureBuilder(
+                          //prints the messages to the screen0
+                            future: courseController.fetchCoursesByTrainer(idTrainer: widget.trainer.id),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState == ConnectionState.waiting) {
+
+                                return
+                                  Const.SHOWLOADINGINDECATOR();
+
+                              }
+                             {
+                                if (snapshot.hasError) {
+                                  return const Text('Error');
+                                } else if (snapshot.hasData) {
+                                  Const.SHOWLOADINGINDECATOR();
+
+                                  return
+                                    ListView.builder(
+                                      itemCount: courseController.courseProvider.courses.listCourse.length,
+                                      itemBuilder: (_, index) {
+                                        return buildTrainerCourseItem(index:index);
+                                      },
+                                    );
+                                  /// }));
+                                } else {
+                                  return const Text('Empty data');
+                                }
+                              }
+
+                            }),
 
                         ///Reviews
                         ListView.separated(
@@ -352,7 +383,7 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
     );
   }
 
-  Container buildTrainerCourseItem() {
+  Container buildTrainerCourseItem({required int index}) {
     return Container(
       padding: const EdgeInsets.all(AppPadding.p8),
       margin: const EdgeInsets.symmetric(vertical: AppMargin.m10),
@@ -360,97 +391,107 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
         borderRadius: BorderRadius.circular(6.sp),
         border: Border.all(color: ColorManager.borderColor),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            title: Row(
+      child: StatefulBuilder(
+          builder: (_,setState1){
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SvgPicture.asset(AssetsManager.trainer_course_nameIMG),
-                const SizedBox(
-                  width: AppSize.s4,
-                ),
-                const Text(AppStringsManager.trainer_courses_name),
-                const SizedBox(
-                  width: AppSize.s4,
-                ),
-                Text(
-                  '(للمبتدئين)',
-                  style: getRegularStyle(color: ColorManager.lightGray),
-                ),
-              ],
-            ),
-            subtitle: Padding(
-              padding: const EdgeInsets.only(right: AppPadding.p30),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(height: AppSize.s10,),
-                  const Text('تعلمي قيادة السيارة من الصفر',),
-                  Row(
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Row(
                     children: [
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero
-                        ),
-                        onPressed: () {
-                          showDetails = !showDetails;
-                          setState(() {});
-                        },
-                        child: Text(
-                          AppStringsManager.show_trainer_course_details,
-                          style: getRegularStyle(
-                              color: ColorManager.primaryColor, fontSize: 10.sp),
-                        ),
+                      SvgPicture.asset(AssetsManager.trainer_course_nameIMG),
+                      const SizedBox(
+                        width: AppSize.s4,
+                      ),
+                      const Text(AppStringsManager.trainer_courses_name),
+                      const SizedBox(
+                        width: AppSize.s4,
+                      ),
+                      Text(
+                        courseController.courseProvider.courses.listCourse[index].category,
+                        // '(للمبتدئين)',
+                        style: getRegularStyle(color: ColorManager.lightGray),
                       ),
                     ],
                   ),
-                ],
-              ),
-            ),
-          ),
-          Visibility(
-            visible: showDetails,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                buildContainerDetailsTrainer(
-                    text: 'سيارتي 900 ر.س',
-                    icon: Icon(
-                      Icons.monetization_on,
-                      size: 16.sp,
-                      color: ColorManager.secondaryColor,
-                    )),
-                buildContainerDetailsTrainer(
-                    text: 'المتدربة 800 ر.س',
-                    icon: Icon(
-                      Icons.monetization_on,
-                      size: 16.sp,
-                      color: ColorManager.secondaryColor,
-                    )),
-                buildContainerDetailsTrainer(
-                    text: '4 أيام',
-                    icon: SvgPicture.asset(
-                      AssetsManager.appointmentsIMG,
-                      color: ColorManager.secondaryColor,
-                      width: 16.sp,
-                      height: 16.sp,
-                    )),
+                  subtitle: Padding(
+                    padding: const EdgeInsets.only(right: AppPadding.p30),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(height: AppSize.s10,),
+                        Text(
+                          '${courseController.courseProvider.courses.listCourse[index].name}'
+                          // 'تعلمي قيادة السيارة من الصفر'
+                          ,),
+                        Row(
+                          children: [
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero
+                              ),
+                              onPressed: () {
+                                showDetails = !showDetails;
+                                setState1(() {});
+                              },
+                              child: Text(
+                                AppStringsManager.show_trainer_course_details,
+                                style: getRegularStyle(
+                                    color: ColorManager.primaryColor, fontSize: 10.sp),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: showDetails,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      buildContainerDetailsTrainer(
+                          text: 'سيارتي ${courseController.courseProvider.courses.listCourse[index].priceInPersonalCar} ر.س',
+                          icon: Icon(
+                            Icons.monetization_on,
+                            size: 16.sp,
+                            color: ColorManager.secondaryColor,
+                          )),
+                      buildContainerDetailsTrainer(
+                          text: 'المتدربة ${courseController.courseProvider.courses.listCourse[index].priceInTrainerCar} ر.س',
+                          icon: Icon(
+                            Icons.monetization_on,
+                            size: 16.sp,
+                            color: ColorManager.secondaryColor,
+                          )),
+                      buildContainerDetailsTrainer(
+                          text: '${courseController.courseProvider.courses.listCourse[index].durationInDays} أيام',
+                          icon: SvgPicture.asset(
+                            AssetsManager.appointmentsIMG,
+                            color: ColorManager.secondaryColor,
+                            width: 16.sp,
+                            height: 16.sp,
+                          )),
+                    ],
+                  ),
+                ),
+                if(Role.checkRole(typeUser: profileProvider.user.typeUser, role: Role.bookCourse))
+                  const SizedBox(
+                    height: AppSize.s10,
+                  ),
+                if(Role.checkRole(typeUser: profileProvider.user.typeUser, role: Role.bookCourse))
+                  ButtonApp(
+                      radius: AppSize.s100,
+                      height: AppSize.s50,
+                      text: AppStringsManager.course_booking,
+                      onPressed: () {
+                        Get.to(() => const BookCourseView());
+                      })
               ],
-            ),
-          ),
-          const SizedBox(
-            height: AppSize.s10,
-          ),
-          ButtonApp(
-              radius: AppSize.s100,
-              height: AppSize.s50,
-              text: AppStringsManager.course_booking,
-              onPressed: () {
-                Get.to(() => const BookCourseView());
-              })
-        ],
+            );
+          }
       ),
     );
   }
