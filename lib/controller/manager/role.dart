@@ -4,9 +4,9 @@ class Role{
    static Map mapRole={
      '${AppConstants.collectionVisitor}':[homeView,loginMenu],
      '${AppConstants.collectionUser}':[my_profile,notificationMenu,homeView,complaintMenu,notification,
-       locationMenu,bookCourse,location],
+       locationMenu,bookCourse,location,appointmentsView],
      '${AppConstants.collectionTrainer}':[my_profile,notificationMenu,trainerAppointmentsView,myCoursesView
-       ,locationMenu,complaintMenu,location],
+       ,locationMenu,complaintMenu,location,appointmentsView],
      '${AppConstants.collectionAdmin}':[my_profile,adminComplaintsView,
        adminRequestView],
    };

@@ -58,6 +58,19 @@ class _NavbarViewState extends State<NavbarView> {
         }
       );
     }
+
+
+    
+    if(Role.checkRole(typeUser: profileProvider.user.typeUser, role: Role.myCoursesView)){
+      _widget.add(MyCoursesView());
+      _screens.add(
+          {
+            "title": 'tr(LocaleKeys.favorite_page)',
+            "icon": AssetsManager.trainer_course_nameIMG,
+            "screen": MyCoursesView()
+          }
+      );
+    }
     if(Role.checkRole(typeUser: profileProvider.user.typeUser, role: Role.trainerAppointmentsView)){
       _widget.add( TrainerAppointmentsView());
       _screens.add(
@@ -68,25 +81,13 @@ class _NavbarViewState extends State<NavbarView> {
           }
       );
     }
-
     if(Role.checkRole(typeUser: profileProvider.user.typeUser, role: Role.appointmentsView)){
       _widget.add( AppointmentsView());
       _screens.add(
-      {
-          "title": 'tr(LocaleKeys.rate_page)',
-          "icon": AssetsManager.appointmentsIMG,
-          "screen": AppointmentsView()
-        }
-      );
-    }
-
-    if(Role.checkRole(typeUser: profileProvider.user.typeUser, role: Role.myCoursesView)){
-      _widget.add(MyCoursesView());
-      _screens.add(
-      {
-            "title": 'tr(LocaleKeys.favorite_page)',
-            "icon": AssetsManager.trainer_course_nameIMG,
-            "screen": MyCoursesView()
+          {
+            "title": 'tr(LocaleKeys.rate_page)',
+            "icon": AssetsManager.appointmentsIMG,
+            "screen": AppointmentsView()
           }
       );
     }
