@@ -21,6 +21,7 @@ import 'controller/provider/auth_provider.dart';
 import 'controller/provider/chat_provider.dart';
 import 'controller/provider/complete_info_5_provider.dart';
 import 'controller/provider/date_trainer_provider.dart';
+import 'controller/provider/home_provider.dart';
 import 'controller/provider/process_provider.dart';
 import 'controller/provider/profile_provider.dart';
 import 'controller/utils/create_environment_provider.dart';
@@ -95,6 +96,7 @@ class MyApp extends StatelessWidget {
       ListenableProvider<AccountProvider>(create: (_)=>AccountProvider()),
       ListenableProvider<DateTrainerProvider>(create: (_)=>DateTrainerProvider()),
       ListenableProvider<CourseProvider>(create: (_)=>CourseProvider()),
+      ListenableProvider<HomeProvider>(create: (_)=>HomeProvider()),
     ],
         child:
         Sizer(

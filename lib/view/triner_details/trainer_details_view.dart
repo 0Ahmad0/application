@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../controller/course_controller.dart';
 import '../app/picture/cach_picture_widget.dart';
 import '../manager/widgets/container_icons.dart';
 import '/view/book_course/book_course_view.dart';
@@ -36,6 +37,7 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
 
   @override
   Widget build(BuildContext context) {
+     CourseController courseController= CourseController(context: context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(

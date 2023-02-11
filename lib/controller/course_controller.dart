@@ -25,6 +25,9 @@ class CourseController{
   CourseController({required this.context}){
     courseProvider= Provider.of<CourseProvider>(context);
   }
+  fetchCoursesByTrainer({required String idTrainer}) async {
+    return await FirebaseFun.addCourse(course: course)
+  }
   processCourse(List<Course> listCourse){
     List<Course> listTemp=[];
     for(Course course in listCourse){

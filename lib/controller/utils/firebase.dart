@@ -281,6 +281,14 @@ class FirebaseFun{
     ).delete().then(onValueDeleteDateTrainer).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
     return result;
   }
+  static fetchCour()  async {
+    final result=await FirebaseFirestore.instance.collection(AppConstants.collectionReport)
+        .orderBy('dateTime',descending: true)
+        .get()
+        .then((onValueFetchReports))
+        .catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+    return result;
+  }
   // static fetchDateOsByUser({required String idUser})  async {
   //   final result=await FirebaseFirestore.instance.collection(AppConstants.collectionDateO)
   //       .where('idUser',isEqualTo: idUser)

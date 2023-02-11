@@ -3,7 +3,7 @@ import 'package:pinkey/model/utils/consts_manager.dart';
 class Role{
    static Map mapRole={
      '${AppConstants.collectionVisitor}':[homeView,loginMenu],
-     '${AppConstants.collectionUser}':[my_profile,notificationMenu,homeView,complaintMenu],
+     '${AppConstants.collectionUser}':[my_profile,notificationMenu,homeView,complaintMenu,notification],
      '${AppConstants.collectionTrainer}':[my_profile,notificationMenu,trainerAppointmentsView,myCoursesView
       ,complaintMenu],
      '${AppConstants.collectionAdmin}':[my_profile,notificationMenu,adminComplaintsView,
@@ -31,7 +31,8 @@ class Role{
    static const  adminRequestView='adminRequestView';
    static const  appointmentsView='appointmentsView';
    static const  requestsView='requestsView';
-
+   //homeView
+   static const  notification='notification';
    static checkRole({required String typeUser,required String role}){
      if(allRole.contains(role))
        return true;
