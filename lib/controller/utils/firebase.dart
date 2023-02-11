@@ -261,6 +261,26 @@ class FirebaseFun{
     ).delete().then(onValueDeleteDateTrainer).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
     return result;
   }
+
+  ///Course
+  static addCourse( {required model.Course course}) async {
+    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionCourse).add(
+        course.toJson()
+    ).then(onValueAddDateTrainer).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+    return result;
+  }
+  static updateCourse( {required model.Course course}) async {
+    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionCourse).doc(
+        course.id
+    ).update(course.toJson()).then(onValueUpdateDateTrainer).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+    return result;
+  }
+  static deleteCourse( {required model.Course course}) async {
+    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionCourse).doc(
+        course.id
+    ).delete().then(onValueDeleteDateTrainer).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+    return result;
+  }
   // static fetchDateOsByUser({required String idUser})  async {
   //   final result=await FirebaseFirestore.instance.collection(AppConstants.collectionDateO)
   //       .where('idUser',isEqualTo: idUser)
@@ -525,6 +545,27 @@ class FirebaseFun{
     };
   }
 
+  static Future<Map<String,dynamic>>onValueAddCourse(value) async{
+    return {
+      'status':true,
+      'message':'Course successfully add',
+      'body':{}
+    };
+  }
+  static Future<Map<String,dynamic>>onValueUpdateCourse(value) async{
+    return {
+      'status':true,
+      'message':'Course successfully update',
+      'body':{}
+    };
+  }
+  static Future<Map<String,dynamic>>onValueDeleteCourse(value) async{
+    return {
+      'status':true,
+      'message':'Course successfully delete',
+      'body':{}
+    };
+  }
 
   static Future<Map<String,dynamic>> onValueFetchReports(value) async{
     // print(true);

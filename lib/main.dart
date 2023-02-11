@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:location/location.dart';
 import 'package:pinkey/controller/provider/account_provider.dart';
+import 'package:pinkey/controller/provider/course_provider.dart';
 import 'package:pinkey/controller/provider/report_provider.dart';
 import 'package:pinkey/controller/provider/wallet_provider.dart';
 import 'package:pinkey/translations/codegen_loader.g.dart';
@@ -93,6 +94,7 @@ class MyApp extends StatelessWidget {
       ListenableProvider<CompleteInfo5Provider>(create: (_)=>CompleteInfo5Provider()),
       ListenableProvider<AccountProvider>(create: (_)=>AccountProvider()),
       ListenableProvider<DateTrainerProvider>(create: (_)=>DateTrainerProvider()),
+      ListenableProvider<CourseProvider>(create: (_)=>CourseProvider()),
     ],
         child:
         Sizer(

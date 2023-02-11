@@ -40,6 +40,7 @@ class AppConstants {
   static String collectionMessage = "Message";
   static String collectionWallet = "Wallet";
   static String collectionReport = "Report";
+  static String collectionCourse = "Course";
 
 
 

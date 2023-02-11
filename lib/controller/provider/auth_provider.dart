@@ -31,7 +31,7 @@ class AuthProvider with ChangeNotifier{
   models.User user= models.User(id: "id",uid: "uid", name: "name", email: "email", phoneNumber: "phoneNumber", password: "password",photoUrl: "photoUrl",typeUser: "typeUser",dateBirth: DateTime.now(),gender: "Male");
   visitor(context) async{
     final profileProvider = Provider.of<ProfileProvider>(context,listen: false);
-    user=User(id: '', uid: '', name: AppConstants.collectionTrainer, email: '', phoneNumber: '', password: '', typeUser: AppConstants.collectionTrainer, photoUrl: '', gender: '', dateBirth: DateTime.now());
+    user=User(id: '', uid: '', name: AppConstants.collectionVisitor, email: '', phoneNumber: '', password: '', typeUser: AppConstants.collectionVisitor, photoUrl: '', gender: '', dateBirth: DateTime.now());
     profileProvider.updateUser(user: user);
   }
   signup(context) async{

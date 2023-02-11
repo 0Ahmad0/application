@@ -8,8 +8,10 @@ import 'package:pinkey/controller/provider/date_trainer_provider.dart';
 import 'package:pinkey/controller/provider/profile_provider.dart';
 import 'package:pinkey/model/models.dart';
 import 'package:provider/provider.dart';
+import '../../../../controller/course_controller.dart';
 import '../../../../model/utils/const.dart';
 import '../../../../model/utils/consts_manager.dart';
+import '../../add_course_time/add_course_time_view.dart';
 import '../../add_new_course/add_new_course_view.dart';
 import '/view/chat/widgets/chat_room.dart';
 import '/view/manager/widgets/button_app.dart';
@@ -30,30 +32,31 @@ class TrainerAppointmentsViewBody extends StatefulWidget {
 }
 
 class _TrainerAppointmentsViewBodyState extends State<TrainerAppointmentsViewBody> {
-  var getDateTrainer;
+  var getCourse;
   late ProfileProvider profileProvider;
-  late DateTrainerController dateTrainerController;
+  late CourseController courseController;
   @override
   void initState() {
     profileProvider = Provider.of<ProfileProvider>(context, listen: false);
-    getDateTrainerFun();
+    getCourseFun();
     super.initState();
   }
 
-  getDateTrainerFun() async {
-    getDateTrainer = FirebaseFirestore.instance
-        .collection(AppConstants.collectionDateTrainer)
+  getCourseFun() async {
+    getCourse = FirebaseFirestore.instance
+        .collection(AppConstants.collectionCourse)
         .where('idTrainer',isEqualTo: profileProvider.user.id)
+
         .snapshots();
 
-    return getDateTrainer;
+    return getCourse;
   }
   @override
   Widget build(BuildContext context) {
-    dateTrainerController= DateTrainerController(context: context);
+    courseController= CourseController(context: context);
     return StreamBuilder<QuerySnapshot>(
       //prints the messages to the screen0
-        stream: getDateTrainer,
+        stream: getCourse,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return
@@ -68,13 +71,15 @@ class _TrainerAppointmentsViewBodyState extends State<TrainerAppointmentsViewBod
               Const.SHOWLOADINGINDECATOR();
               if(snapshot.data!.docs!.length>0){
 
-               dateTrainerController.dateTrainerProvider.dateTrainers=DateTrainers.fromJson(snapshot.data!.docs);
-
+                courseController.courseProvider.courses=Courses.fromJson(snapshot.data!.docs);
+                courseController.courseProvider.courses.listCourse=courseController.
+                      processCourse(courseController.courseProvider.courses.listCourse);
+            //   print(dateTrainerController.dateTrainerProvider.dateTrainers.toJson());
               }else{
-                dateTrainerController.dateTrainerProvider.dateTrainers.listDateTrainer.clear();
+                courseController.courseProvider.courses.listCourse.clear();
               }
 
-              return buildDateTrainer();
+              return buildCourse();
               /// }));
             } else {
               return const Text('Empty data');
@@ -85,7 +90,7 @@ class _TrainerAppointmentsViewBodyState extends State<TrainerAppointmentsViewBod
           }
         });
   }
-  buildDateTrainer(){
+  buildCourse(){
     return ListView(
       padding: const EdgeInsets.all(AppPadding.p16),
       children: [
@@ -96,12 +101,15 @@ class _TrainerAppointmentsViewBodyState extends State<TrainerAppointmentsViewBod
         const SizedBox(
           height: AppSize.s10,
         ),
-        for (int i = 0; i < 3; i++)
-          buildCoursesDetails(date: DateTime.now())
+        for (int i = 0; i < courseController.courseProvider.courses.listCourse.length; i++)
+          buildCoursesDetails(index:i,date: courseController.courseProvider.courses.listCourse[i].dateTime)
       ],
     );
   }
-  Widget buildCoursesDetails({required DateTime date}) {
+  Widget buildCoursesDetails({required int index,required DateTime date}) {
+    String from=courseController.courseProvider.courses.listCourse[index].from!.format(context);
+    String to=courseController.courseProvider.courses.listCourse[index].to!.format(context);
+    String day=DateFormat('','ar').add_EEEE().format(courseController.courseProvider.courses.listCourse[index].dateTime);
     return Container(
       padding: const EdgeInsets.all(AppPadding.p8),
       margin: const EdgeInsets.symmetric(vertical: AppMargin.m10),
@@ -145,7 +153,7 @@ class _TrainerAppointmentsViewBodyState extends State<TrainerAppointmentsViewBod
             children: [
               buildContainerDetailsTrainer(
                   text:
-                  '${AppStringsManager.day} : ${DateFormat('','ar').add_EEEE().format(DateTime.now())}',
+                  '${AppStringsManager.day} : ${day/*DateFormat('','ar').add_EEEE().format(DateTime.now())*/}',
                   icon: SvgPicture.asset(
                     AssetsManager.date_in_dayIMG,
                     color: ColorManager.secondaryColor,
@@ -154,7 +162,8 @@ class _TrainerAppointmentsViewBodyState extends State<TrainerAppointmentsViewBod
                   )),
               buildContainerDetailsTrainer(
                   text:
-                      '${DateFormat().add_Hm().format(DateTime.now()) + ' - ' + DateFormat().add_Hm().format(DateTime.now())}',
+                      '${from + '-' + to}',
+                     // '${DateFormat().add_Hm().format(DateTime.now()) + ' - ' + DateFormat().add_Hm().format(DateTime.now())}',
                   icon: Icon(
                     Icons.access_time_filled,
                     size: 16.sp,
@@ -162,7 +171,8 @@ class _TrainerAppointmentsViewBodyState extends State<TrainerAppointmentsViewBod
                   )),
               InkWell(
                 onTap: (){
-                  Get.to(()=>AddNewCourseView(),transition: Transition.rightToLeftWithFade);
+                  courseController.courseProvider.course=courseController.courseProvider.courses.listCourse[index];
+                  Get.to(()=>AddNewCourseView(add: false,),transition: Transition.rightToLeftWithFade);
 
                 },
                 child: Container(

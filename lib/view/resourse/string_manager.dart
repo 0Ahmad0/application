@@ -186,6 +186,7 @@ class AppStringsManager{
   static const String gallery = 'الاستوديو';
   static const String remove = 'إزالة';
   static const String wait_active_accoubt = 'تم تسجيل طلبك، انتظر حتى يتم تنشيط حسابك';
+  static const String conflict_date_trainer = 'التاريخ المدخل يتضارب مع تاريخ موجود مسبقاً';
 
 
 

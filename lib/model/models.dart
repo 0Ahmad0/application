@@ -522,6 +522,108 @@ class DateTrainers {
   }
 }
 
+//Course
+class Course {
+  String id;
+  String idTrainer;
+  TimeOfDay? from;
+  TimeOfDay? to;
+  DateTime dateTime;
+  String category;
+  String name;
+  num? durationInDays;
+  num? priceInTrainerCar;
+  num? priceInPersonalCar;
+  String description;
+  String state;
+  Course({
+    this.id="",
+    required this.idTrainer,
+    required this.from,
+    required this.to,
+    required this.dateTime,
+    required this.category,
+    required this.name,
+     this.durationInDays,
+     this.priceInTrainerCar,
+     this.priceInPersonalCar,
+    required this.description,
+     this.state='new',
+
+  });
+
+  factory Course.fromJson(json) {
+    return Course(
+        id: json['id'],
+      idTrainer: json['idTrainer'],
+      category: json['category'],
+      name: json['name'],
+      durationInDays: json['durationInDays'],
+      priceInTrainerCar: json['priceInTrainerCar'],
+      priceInPersonalCar: json['priceInPersonalCar'],
+      description: json['description'],
+      state: json['state'],
+      dateTime: json['dateTime'].toDate(),
+      from: (json["from"]==null)?json["from"]: TimeOfDay.fromDateTime(json["from"].toDate()),
+      to: (json["to"]==null)?json["to"]:TimeOfDay.fromDateTime(json["to"].toDate()),
+
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'idTrainer': idTrainer,
+      'description': description,
+      'priceInPersonalCar': priceInPersonalCar,
+      'priceInTrainerCar': priceInTrainerCar,
+      'durationInDays': durationInDays,
+      'name': name,
+      'state': state,
+      'category': category,
+      'dateTime': Timestamp.fromDate(dateTime),
+      'from': (from==null)?from:DateTime(dateTime.year,dateTime.month,dateTime.day,from!.hour,from!.minute),
+      'to': (to==null)?to:DateTime(dateTime.year,dateTime.month,dateTime.day,to!.hour,to!.minute),
+    };
+  }
+  factory Course.init(){
+    return Course(idTrainer:'', from: null, to: null, dateTime: DateTime.now(), category: '',
+        name: '',
+        description: '');
+  }
+}
+
+//Courses
+class Courses {
+
+  List<Course> listCourse;
+
+  //DateTime date;
+  Courses({
+    required this.listCourse});
+
+  factory Courses.fromJson(json) {
+    List<Course> temp = [];
+    for (int i = 0; i < json.length; i++) {
+      Course tempElement = Course.fromJson(json[i]);
+      tempElement.id = json[i].id;
+      temp.add(tempElement);
+    }
+    return Courses(
+        listCourse: temp);
+  }
+
+  Map<String, dynamic> toJson() {
+    List<Map<String, dynamic>> temp = [];
+    for (var element in listCourse) {
+      temp.add(element.toJson());
+    }
+    return {
+      'listCourse': temp,
+    };
+  }
+  factory Courses.init()=>Courses(listCourse: []);
+}
 
 /*
 flutter pub run easy_localization:generate -S "assets/translations/" -O "lib/translations"

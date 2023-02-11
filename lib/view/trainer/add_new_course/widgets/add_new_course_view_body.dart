@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pinkey/controller/course_controller.dart';
+import '../../../../controller/date_trainer_controller.dart';
 import '/view/manager/widgets/button_app.dart';
 import '/view/manager/widgets/textformfiled_app.dart';
 import '/view/resourse/string_manager.dart';
@@ -7,19 +9,34 @@ import '/view/resourse/values_manager.dart';
 import '/view/trainer/add_course_time/add_course_time_view.dart';
 
 class AddNewCourseViewBody extends StatelessWidget {
-  AddNewCourseViewBody({Key? key}) : super(key: key);
-  final _formKey = GlobalKey<FormState>();
-  final courseCategoryController = TextEditingController();
-  final courseNameController = TextEditingController();
-  final courseDurationController = TextEditingController();
-  final courseDurationInDaysController = TextEditingController();
-  final coursePriceController = TextEditingController();
-  final coursePriceInTrainerCarController = TextEditingController();
-  final coursePriceInPersonalCarController = TextEditingController();
-  final courseDescriptionController = TextEditingController();
+  AddNewCourseViewBody({Key? key, required this.add, required this.courseController}) : super(key: key){
+    courseCategoryController = TextEditingController(text:courseController.courseProvider.course.category);
+     courseNameController = TextEditingController(text:courseController.courseProvider.course.name);
+     if(!add){
+       courseDurationController = TextEditingController(text:'${courseController.courseProvider.course.durationInDays}');
+       courseDurationInDaysController = TextEditingController(text:'${courseController.courseProvider.course.durationInDays}');
+       coursePriceController = TextEditingController();
+       coursePriceInTrainerCarController = TextEditingController(text:'${courseController.courseProvider.course.priceInTrainerCar}');
+       coursePriceInPersonalCarController = TextEditingController(text:'${courseController.courseProvider.course.priceInPersonalCar}');
+     }
+
+     courseDescriptionController = TextEditingController(text:courseController.courseProvider.course.description);
+  }
+  final CourseController courseController;
+  final bool add;
+  var _formKey = GlobalKey<FormState>();
+  var courseCategoryController = TextEditingController();
+  var courseNameController = TextEditingController();
+  var courseDurationController = TextEditingController();
+  var courseDurationInDaysController = TextEditingController();
+  var coursePriceController = TextEditingController();
+  var coursePriceInTrainerCarController = TextEditingController();
+  var coursePriceInPersonalCarController = TextEditingController();
+  var courseDescriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+
     return Form(
       key: _formKey,
       child: ListView(
@@ -97,7 +114,15 @@ class AddNewCourseViewBody extends StatelessWidget {
           ),
           ButtonApp(text: AppStringsManager.next, onPressed: (){
             if(_formKey.currentState!.validate()){
-              Get.to(()=>AddCourseTimeView(),transition: Transition.upToDown);
+
+              courseController.courseProvider.course.category=courseCategoryController.text;
+              courseController.courseProvider.course.priceInPersonalCar=num.parse(coursePriceInPersonalCarController.text);
+              courseController.courseProvider.course.priceInTrainerCar=num.parse(coursePriceInTrainerCarController.text);
+              courseController.courseProvider.course.durationInDays=num.parse(courseDurationController.text);
+              courseController.courseProvider.course.description=courseDescriptionController.text;
+              courseController.courseProvider.course.name=courseNameController.text;
+
+              Get.to(()=>AddCourseTimeView(add: add,),transition: Transition.upToDown);
             }
           })
         ],

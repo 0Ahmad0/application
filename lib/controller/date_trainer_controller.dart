@@ -8,6 +8,9 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pinkey/controller/provider/date_trainer_provider.dart';
+import 'package:pinkey/controller/provider/profile_provider.dart';
+import 'package:pinkey/controller/utils/firebase.dart';
+import 'package:pinkey/view/resourse/string_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart';
 import '../model/models.dart';
@@ -23,7 +26,29 @@ class DateTrainerController{
   }
   processDateTrainer(List<DateTrainer> listDateTrainer){
     List<DateTrainer> listTemp=[];
+    for(DateTrainer dateTrainer in listDateTrainer){
+      if(compareDateYMD(dateTime1: dateTrainer.dateTime, dateTime2: DateTime.now())>=0){
+        listTemp.add(dateTrainer);
+      }
+    }
     return listTemp;
+  }
+  compareDateYMD({required DateTime dateTime1,required DateTime dateTime2}){
+    if(dateTime1.year>dateTime2.year)
+      return 1;
+    if(dateTime1.year<dateTime2.year)
+      return -1;
+    if(dateTime1.month>dateTime2.month)
+      return 1;
+    if(dateTime1.month<dateTime2.month)
+      return -1;
+    if(dateTime1.day>dateTime2.day)
+      return 1;
+    if(dateTime1.day<dateTime2.day)
+      return -1;
+    if(dateTime1.day==dateTime2.day)
+      return 0;
+
   }
   // addOrUpdateDateTrainer(BuildContext context,{ required Map<String, dynamic> dateLawyerController}) async {
   //   ProfileProvider profileProvider=Provider.of<ProfileProvider>(context,listen: false);
@@ -68,20 +93,42 @@ class DateTrainerController{
       minute: int.parse(time.split(":")[1]) % 60,
     );
   }
-  // validDateTrainer(DateTrainer dateTrainer){
-  //   for(DateTrainer element in dateTrainerProvider.dateTrainers.listDateTrainer){
-  //     if(dateTrainer.dateTime.compareTo(element.dateTime)==1){
-  //       if((dateTrainer.to!.hour*60+dateTrainer.to!.minute)<=(dateTrainer.from!.hour*60+dateTrainer.from!.minute+60)){
-  //         if(((dateTrainer.to!.hour*60+dateTrainer.to!.minute)<(element.to!.hour*60+element.to!.minute)
-  //           &&(dateTrainer.to!.hour*60+dateTrainer.to!.minute)>(element.to!.hour*60+element.to!.minute))
-  //           ||())
-  //       }
-  //     }
-  //   }
-  //}
+  validDateTrainer(DateTrainer dateTrainer){
+
+    if((dateTrainer.to!.hour*60+dateTrainer.to!.minute)<=(dateTrainer.from!.hour*60+dateTrainer.from!.minute+60)){
+      return false;
+    };
+    for(DateTrainer element in dateTrainerProvider.dateTrainers.listDateTrainer){
+      if(compareDateYMD(dateTime1:dateTrainer.dateTime,dateTime2:element.dateTime)==0){
+
+          //وقت الانتهاء المحدد اصغر من وقت انتهاء ما
+          if(((dateTrainer.to!.hour*60+dateTrainer.to!.minute)<(element.to!.hour*60+element.to!.minute)
+              //و وقت الانتهاء المحدد اكبر من وقت نفس وقت البدء
+            &&(dateTrainer.to!.hour*60+dateTrainer.to!.minute)>(element.from!.hour*60+element.from!.minute))
+              //وقت البدء المحدد اصغر من وقت انتهاء ما
+            ||((dateTrainer.from!.hour*60+dateTrainer.to!.minute)<(element.to!.hour*60+element.to!.minute)
+                  //و وقت البدء المحدد اكبر من  نفس وقت البدء
+                  &&(dateTrainer.from!.hour*60+dateTrainer.from!.minute)>(element.from!.hour*60+element.from!.minute))
+          ){
+            return false;
+          }
+
+      }
+    }
+    return true;
+  }
   addDateTrainer(context,{ required DateTrainer dateTrainer}) async {
+    ProfileProvider profileProvider= Provider.of<ProfileProvider>(context,listen: false);
+    dateTrainer.idTrainer=profileProvider.user.id;
     Const.LOADIG(context);
-    var result=await dateTrainerProvider.addDateTrainer(context,dateTrainer: dateTrainer);
+    var result;
+     if(validDateTrainer(dateTrainer)){
+       result=await dateTrainerProvider.addDateTrainer(context,dateTrainer: dateTrainer);
+     }
+     else{
+       result=await FirebaseFun.errorUser(AppStringsManager.conflict_date_trainer);
+       Const.TOAST(context,textToast: FirebaseFun.findTextToast(result['message'].toString()));
+     }
     Get.back();
     if(result['status'])
         Get.back();
