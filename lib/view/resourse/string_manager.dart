@@ -34,6 +34,8 @@ class AppStringsManager{
   static const String field_required = 'هذا الحقل مطلوب';
   static const String trainer_review = 'المراجعات';
   static const String trainer_courses = 'الدورات';
+  static const String trainers = 'المدربات';
+  static const String trainees = 'المتدربات';
   static const String trainer_courses_name = 'اسم الدورة';
   static const String show_trainer_course_details = 'مشاهدة التفاصيل';
   static const String hidden_trainer_course_details = 'اخفاء التفاصيل';

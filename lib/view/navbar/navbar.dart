@@ -1,5 +1,6 @@
 import 'package:pinkey/controller/manager/role.dart';
 import 'package:pinkey/controller/provider/profile_provider.dart';
+import 'package:pinkey/view/admin/personnels/personnel_view.dart';
 import 'package:pinkey/view/complaint/complaint_view.dart';
 import 'package:provider/provider.dart';
 
@@ -46,6 +47,17 @@ class _NavbarViewState extends State<NavbarView> {
           "icon": AssetsManager.admin_requestIMG,
           "screen": AdminRequestView()
         }
+
+      );
+      _widget.add(PersonnelView());
+
+      _screens.add(
+          {
+            "title": 'tr(LocaleKeys.favorite_page)',
+            "icon": AssetsManager.profileIMG,
+            "screen": PersonnelView()
+          }
+
       );
     }
     if(Role.checkRole(typeUser: profileProvider.user.typeUser, role: Role.adminComplaintsView)){
