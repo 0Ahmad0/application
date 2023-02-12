@@ -10,6 +10,8 @@ class AppStringsManager{
   static const String phone_number = 'رقم الهاتف';
   static const String login_by_email = 'سجلي باستخدام البريد الالكتروني';
   static const String password = 'كلمة المرور';
+  static const String personals = 'الأفراد';
+
   static const String type = 'إدخال';
   static const String forget_password = 'نسيتي كلمة المرور؟';
   static const String login = 'تسجبل دخول';

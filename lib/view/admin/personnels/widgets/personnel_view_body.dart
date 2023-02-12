@@ -42,7 +42,7 @@ class _PersonnelViewBodyState extends State<PersonnelViewBody> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            AppStringsManager.complaint,
+            AppStringsManager.personals,
             style: getRegularStyle(color: ColorManager.black, fontSize: 16.sp),
           ),
           const SizedBox(height: AppSize.s10,),
