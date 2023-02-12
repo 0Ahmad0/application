@@ -103,8 +103,6 @@ class MyApp extends StatelessWidget {
         builder: (context, orientation, deviceType) {
           return GetMaterialApp(
               title: "Pinkey",
-              supportedLocales: context.supportedLocales,
-              localizationsDelegates: context.localizationDelegates,
                locale: Locale('ar'),
               debugShowCheckedModeBanner: false,
                // theme: ThemeData.dark(),

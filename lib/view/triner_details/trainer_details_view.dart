@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:pinkey/controller/manager/role.dart';
 import 'package:pinkey/controller/provider/course_provider.dart';
 import 'package:pinkey/controller/provider/profile_provider.dart';
+import 'package:pinkey/view/manager/widgets/textformfiled_app.dart';
 import 'package:provider/provider.dart';
 import '../../controller/course_controller.dart';
 import '../../model/utils/const.dart';
@@ -41,6 +42,7 @@ class _TrainerDetailsViewState extends State<TrainerDetailsView>
   }
 late  CourseController courseController;
 late  ProfileProvider profileProvider;
+final addReviewController = TextEditingController();
   @override
   Widget build(BuildContext context) {
      courseController= CourseController(context: context);
@@ -326,10 +328,35 @@ late  ProfileProvider profileProvider;
                             color: ColorManager.lightGray,
                           );
                         },
-                        itemCount: 2)
+                        itemCount: 2),
+
                   ],
                 ),
               ),
+              if(_tabController.index == 1)
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: AppPadding.p10
+                ),
+                child: Row(
+                  children: [
+                    Expanded(child: TextFiledApp(
+                      controller: addReviewController,
+                      hintText: AppStringsManager.add_review,
+                    )),
+                    const SizedBox(width: AppSize.s10,),
+                    InkWell(
+                      onTap: (){
+                        addReviewController.clear();
+                      },
+                      child: CircleAvatar(
+                        radius: 20.sp,
+                        child: SvgPicture.asset(AssetsManager.sendIconIMG),
+                      ),
+                    )
+                  ],
+                ),
+              )
             ],
           ),
     );

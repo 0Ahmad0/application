@@ -8,10 +8,10 @@ class FormValidator {
   ///@Email Validator
   static String? emailValidator(String? value) {
     if (!value!.isEmail) {
-      return 'tr(LocaleKeys.enter_valid_email)';
+      return AppStringsManager.enter_valid_email;
     }
     if (value.trim().isEmpty) {
-      return 'tr(LocaleKeys.field_required)';
+      return AppStringsManager.field_required;
     }
     return null;
   }
@@ -19,10 +19,10 @@ class FormValidator {
   ///@Phone Validator
   static String? phoneValidator(String? value) {
     if (!value!.isPhoneNumber) {
-      return 'tr(LocaleKeys.enter_valid_phone_number)';
+      return AppStringsManager.enter_valid_phone;
     }
     if (value.trim().isEmpty) {
-      return 'tr(LocaleKeys.field_required)';
+      return AppStringsManager.field_required;
     }
     return null;
   }
@@ -30,10 +30,10 @@ class FormValidator {
   ///@Password Validator
   static String? passwordValidator(String? value) {
     if ((!validatePassword(value!)) || (value.length < 8)) {
-      return 'tr(LocaleKeys.enter_strong_password)';
+      return AppStringsManager.enter_strong_password;
     }
     if (value.trim().isEmpty) {
-      return 'tr(LocaleKeys.field_required)';
+      return AppStringsManager.field_required;
     }
     return null;
   }
@@ -72,5 +72,12 @@ class FormValidator {
   ///@Helper Function
   static bool validatePassword(String value) {
     return regex.hasMatch(value);
+  }
+
+  static String? validateName(String? value){
+    if(value!.trim().isEmpty){
+       return AppStringsManager.field_required;
+    }
+    return null;
   }
 }

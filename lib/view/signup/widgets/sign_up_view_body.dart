@@ -2,6 +2,7 @@ import 'package:pinkey/model/utils/consts_manager.dart';
 import 'package:pinkey/view/trainer/complete_information/complete_information_view.dart';
 
 import '../../../controller/auth_controller.dart';
+import '../../../controller/form_validator.dart';
 import '../../../model/models.dart';
 import '/view/resourse/style_manager.dart';
 import '../../resourse/string_manager.dart';
@@ -23,21 +24,22 @@ class SignupViewBody extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
   final AuthController authController;
   final String typeUser;
-  SignupViewBody({required this.authController,required this.typeUser});
+
+  SignupViewBody({required this.authController, required this.typeUser});
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Form(
-          key: formKey,
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView(
-      padding: const EdgeInsets.all(AppPadding.p20),
-      children: [
-
+      key: formKey,
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.all(AppPadding.p20),
+              children: [
                 Text(
-                  AppStringsManager.sign_up ,
+                  AppStringsManager.sign_up,
                   style: getRegularStyle(
                       color: Theme.of(context).textTheme.subtitle1!.color,
                       fontSize: 20.sp),
@@ -64,15 +66,20 @@ class SignupViewBody extends StatelessWidget {
                           Text(
                             AppStringsManager.first_name,
                             style: getRegularStyle(
-                                color: Theme.of(context).textTheme.subtitle1!.color,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1!
+                                    .color,
                                 fontSize: 12.sp),
                           ),
                           const SizedBox(
                             height: AppSize.s10,
                           ),
                           TextFiledApp(
-                            controller: firstNameController,
-                              iconData: Icons.phone_android, hintText: AppStringsManager.first_name),
+                              validator: (String? value)=> FormValidator.validateName(value),
+                              controller: firstNameController,
+                              iconData: Icons.phone_android,
+                              hintText: AppStringsManager.first_name),
                         ],
                       ),
                     ),
@@ -86,15 +93,20 @@ class SignupViewBody extends StatelessWidget {
                           Text(
                             AppStringsManager.last_name,
                             style: getRegularStyle(
-                                color: Theme.of(context).textTheme.subtitle1!.color,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1!
+                                    .color,
                                 fontSize: 12.sp),
                           ),
                           const SizedBox(
                             height: AppSize.s10,
                           ),
                           TextFiledApp(
-                            controller: lastNameController,
-                              iconData: Icons.phone_android, hintText: AppStringsManager.last_name),
+                              validator: (String? value)=> FormValidator.validateName(value),
+                              controller: lastNameController,
+                              iconData: Icons.phone_android,
+                              hintText: AppStringsManager.last_name),
                         ],
                       ),
                     ),
@@ -113,9 +125,13 @@ class SignupViewBody extends StatelessWidget {
                   height: AppSize.s10,
                 ),
                 TextFiledApp(
+                  validator: (String? value)=> FormValidator.phoneValidator(value),
+                  keyboardType: TextInputType.phone,
                   controller: phoneController,
                   iconData: Icons.phone_android,
-                  hintText: AppStringsManager.type + " " + AppStringsManager.phone_number,
+                  hintText: AppStringsManager.type +
+                      " " +
+                      AppStringsManager.phone_number,
                 ),
                 const SizedBox(
                   height: AppSize.s30,
@@ -130,9 +146,12 @@ class SignupViewBody extends StatelessWidget {
                   height: AppSize.s10,
                 ),
                 TextFiledApp(
+                  validator: (String? value)=> FormValidator.emailValidator(value),
+                  keyboardType: TextInputType.emailAddress,
                   controller: emailController,
                   iconData: Icons.email,
-                  hintText: AppStringsManager.type + " " + AppStringsManager.email,
+                  hintText:
+                      AppStringsManager.type + " " + AppStringsManager.email,
                 ),
                 const SizedBox(
                   height: AppSize.s30,
@@ -147,41 +166,53 @@ class SignupViewBody extends StatelessWidget {
                   height: AppSize.s10,
                 ),
                 TextFiledApp(
+                  validator: (String? value)=> FormValidator.passwordValidator(value),
                   controller: passwordController,
                   iconData: Icons.lock,
-                  hintText: AppStringsManager.type + " " + AppStringsManager.password,
+                  hintText:
+                      AppStringsManager.type + " " + AppStringsManager.password,
                   obscureText: true,
                   suffixIcon: true,
                 ),
-
                 const SizedBox(
                   height: AppSize.s20,
                 ),
-                ButtonApp(text: AppStringsManager.sign_up, onPressed: () async {
-                  if(formKey.currentState!.validate()){
-                    // Get.snackbar("title", "message");
-                    if(AppConstants.collectionTrainer.contains(typeUser)){
-                     authController.authProvider.user=User(id: '', uid: '',
-                          name: '${firstNameController.text} ${lastNameController.text}',
-                          firstName: firstNameController.text,
-                          lastName: lastNameController.text,
-                          email: emailController.text,
-                          phoneNumber: phoneController.text
-                          , password: passwordController.text,
-                          typeUser: typeUser,
-                          photoUrl: '',
-                          gender: 'Female',
-                          trainerInfo: TrainerInfo.init(),
-                          dateBirth: DateTime.now());
-                      Get.to(()=>CompleteInformationView());
-                    }
-
-                    else
-                      await authController.signUp(context, firstName: firstNameController.text,lastName: lastNameController.text, gender: 'Female',
-                        dateBirth: DateTime.now(), email: emailController.text, password: passwordController.text,
-                        phoneNumber: phoneController.text, photoUrl: '', typeUser: typeUser);
-                  }
-                }),
+                ButtonApp(
+                    text: AppStringsManager.sign_up,
+                    onPressed: () async {
+                      if (formKey.currentState!.validate()) {
+                        // Get.snackbar("title", "message");
+                        if (AppConstants.collectionTrainer.contains(typeUser)) {
+                          authController.authProvider.user = User(
+                              id: '',
+                              uid: '',
+                              name:
+                                  '${firstNameController.text} ${lastNameController.text}',
+                              firstName: firstNameController.text,
+                              lastName: lastNameController.text,
+                              email: emailController.text,
+                              phoneNumber: phoneController.text,
+                              password: passwordController.text,
+                              typeUser: typeUser,
+                              photoUrl: '',
+                              gender: 'Female',
+                              trainerInfo: TrainerInfo.init(),
+                              dateBirth: DateTime.now());
+                          Get.to(() => CompleteInformationView());
+                        }
+                        else
+                          await authController.signUp(context,
+                              firstName: firstNameController.text,
+                              lastName: lastNameController.text,
+                              gender: 'Female',
+                              dateBirth: DateTime.now(),
+                              email: emailController.text,
+                              password: passwordController.text,
+                              phoneNumber: phoneController.text,
+                              photoUrl: '',
+                              typeUser: typeUser);
+                      }
+                    }),
                 const SizedBox(
                   height: AppSize.s10,
                 ),
@@ -190,45 +221,47 @@ class SignupViewBody extends StatelessWidget {
                   children: [
                     TextButton(
                         onPressed: () {
-                          Get.off(()=>const LoginView());
+                          Get.off(() => const LoginView());
                         },
-                        child: Text.rich(
-                            TextSpan(
-                                children: [
-                                  TextSpan(text: AppStringsManager.have_account,style: getRegularStyle(
-                                      color: Theme.of(context).textTheme.subtitle2!.color,
-                                      fontSize: 12.sp
-                                  )),
-                                  TextSpan(text: AppStringsManager.login,style:getRegularStyle(
-                                      color:  Theme.of(context).textTheme.subtitle1!.color,
-                                      fontSize: 12.sp
-                                  ))
-                                ]
-                            )
-                        ))
+                        child: Text.rich(TextSpan(children: [
+                          TextSpan(
+                              text: AppStringsManager.have_account,
+                              style: getRegularStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .subtitle2!
+                                      .color,
+                                  fontSize: 12.sp)),
+                          TextSpan(
+                              text: AppStringsManager.login,
+                              style: getRegularStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1!
+                                      .color,
+                                  fontSize: 12.sp))
+                        ])))
                   ],
                 ),
-
-      ],
-    ),
-              ),
-              Column(
-                children: [
-                  Text(AppStringsManager.accept_our_licence,style: getRegularStyle(
-                      color: Theme.of(context).textTheme.subtitle2!.color,
-                      fontSize: 10.sp
-                  )),
-                  Text(AppStringsManager.licence_and_condition_use,style: getRegularStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontSize: 10.sp
-                  )),
-                   const SizedBox(
-                    height: AppSize.s20,
-                  ),
-                ],
-              )
-            ],
+              ],
+            ),
           ),
-        ));
+          Column(
+            children: [
+              Text(AppStringsManager.accept_our_licence,
+                  style: getRegularStyle(
+                      color: Theme.of(context).textTheme.subtitle2!.color,
+                      fontSize: 10.sp)),
+              Text(AppStringsManager.licence_and_condition_use,
+                  style: getRegularStyle(
+                      color: Theme.of(context).primaryColor, fontSize: 10.sp)),
+              const SizedBox(
+                height: AppSize.s20,
+              ),
+            ],
+          )
+        ],
+      ),
+    ));
   }
 }

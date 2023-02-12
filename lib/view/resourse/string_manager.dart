@@ -37,7 +37,8 @@ class AppStringsManager{
   static const String trainer_courses_name = 'اسم الدورة';
   static const String show_trainer_course_details = 'مشاهدة التفاصيل';
   static const String hidden_trainer_course_details = 'اخفاء التفاصيل';
-  static const String course_booking = 'حجز الدورة';
+  static const String add_review = 'إضافة تعليق';
+  static const String  course_booking = 'حجز الدورة';
   static const String payment_for_course = 'الدفع للدورة';
   static const String total_wallet = 'اجمالي المحفظة';
   static const String course_cars = 'السيارة الخاصة بالدورة';
@@ -187,6 +188,10 @@ class AppStringsManager{
   static const String gallery = 'الاستوديو';
   static const String remove = 'إزالة';
   static const String wait_active_accoubt = 'تم تسجيل طلبك، انتظر حتى يتم تنشيط حسابك';
+  static const String enter_valid_phone = 'أدخل رقم هاتف صحيح';
+  static const String enter_valid_email = 'أدخل ايميل صحيح';
+  static const String enter_strong_password = 'أدخل كلمة مرور أقوى';
+
   static const String conflict_date_trainer = 'التاريخ المدخل يتضارب مع تاريخ موجود مسبقاً';
 
 
