@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:pinkey/controller/provider/wallet_provider.dart';
-import 'package:pinkey/view/login/login_view.dart';
+import '/controller/provider/wallet_provider.dart';
+import '/view/login/login_view.dart';
 
 import 'package:provider/provider.dart';
 

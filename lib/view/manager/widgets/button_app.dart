@@ -29,6 +29,7 @@ class ButtonApp extends StatelessWidget {
     return ElevatedButton(
       
       style: ElevatedButton.styleFrom(
+        elevation: 0.0,
         backgroundColor: color,
         minimumSize: Size(width, height),
         shape: RoundedRectangleBorder(
@@ -37,10 +38,12 @@ class ButtonApp extends StatelessWidget {
         )
       ),
       onPressed: onPressed,
-      child: Text(text,style: TextStyle(
-        color: textColor,
-        fontSize: fontSize??14.sp
-      ),),
+      child: FittedBox(
+        child: Text(text,style: TextStyle(
+          color: textColor,
+          fontSize: fontSize??14.sp
+        ),),
+      ),
     );
   }
 }

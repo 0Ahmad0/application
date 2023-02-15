@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:pinkey/controller/provider/profile_provider.dart';
+import '/controller/provider/profile_provider.dart';
 
 import 'package:provider/provider.dart';
 import 'package:path/path.dart';

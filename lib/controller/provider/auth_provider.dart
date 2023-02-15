@@ -5,8 +5,8 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:pinkey/controller/provider/profile_provider.dart';
-import 'package:pinkey/view/resourse/string_manager.dart';
+import '/controller/provider/profile_provider.dart';
+import '/view/resourse/string_manager.dart';
 
 
 

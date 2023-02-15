@@ -1,4 +1,4 @@
-import 'package:pinkey/model/utils/consts_manager.dart';
+import '/model/utils/consts_manager.dart';
 
 class Role{
    static Map mapRole={

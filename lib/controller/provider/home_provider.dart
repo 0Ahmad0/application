@@ -11,10 +11,10 @@ import 'package:get/get.dart';
 
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pinkey/controller/provider/process_provider.dart';
-import 'package:pinkey/controller/provider/profile_provider.dart';
-import 'package:pinkey/model/utils/consts_manager.dart';
-import 'package:pinkey/view/resourse/string_manager.dart';
+import '/controller/provider/process_provider.dart';
+import '/controller/provider/profile_provider.dart';
+import '/model/utils/consts_manager.dart';
+import '/view/resourse/string_manager.dart';
 import 'package:provider/provider.dart';
 
 

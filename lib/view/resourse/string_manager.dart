@@ -1,4 +1,10 @@
 class AppStringsManager{
+  static const String send_message = 'ارسال رسالة';
+  static const String band_account = 'تعطيل الحساب';
+  static const String all_trainee = 'كل المتدربات';
+  static const String search_trainee = 'ابحث عن متدربة';
+  static const String trainee_name = 'اسم المتدربة';
+  static const String show_trainee_details = 'مشاهدة تفاصيل الطالبة';
   static const String splashText = 'للتدريب على قيادة السيارات';
   static const String app_name = 'بنكي';
   static const String welcome_back = 'أهلا بعودتك';

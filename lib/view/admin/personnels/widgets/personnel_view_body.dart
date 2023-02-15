@@ -110,8 +110,8 @@ class _PersonnelViewBodyState extends State<PersonnelViewBody> {
       },
       children: [
         // widget.reportProvider.listNewReport.length>0?
-        TraineesView(),
         TrainersView(),
+        TraineesView(),
         //     :SvgPicture.asset(
         //   AssetsManager.emptyIMG,
         //   width: 100,
