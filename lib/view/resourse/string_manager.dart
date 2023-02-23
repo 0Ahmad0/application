@@ -1,6 +1,7 @@
 class AppStringsManager{
   static const String send_message = 'ارسال رسالة';
   static const String band_account = 'تعطيل الحساب';
+  static const String active_account = 'تفعيل الحساب';
   static const String all_trainee = 'كل المتدربات';
   static const String search_trainee = 'ابحث عن متدربة';
   static const String trainee_name = 'اسم المتدربة';
@@ -91,6 +92,13 @@ class AppStringsManager{
   static const String add_credit = 'إضافة رصيد';
   static const String balance_deduction = 'خصم رصيد';
   static const String to_book_course = 'لحجز دورة';
+  static const String book_course = 'حجز دورة';
+  static const String request_book_course = 'لديك طلب جديد لحجز دورة';
+  static const String cancel_book_course = 'الغاء لحجز دورة';
+  static const String accept_book_course = 'قبول طلب الحجز';
+  static const String cancel_trainer_book_course = 'قام المدرب بالغاء حجز الدورة';
+  static const String accept_trainer_book_course = 'قام المدرب بقبول طلبك لحجز الدورة';
+  static const String cancel_user_book_course = 'قام المتدرب بالغاء حجز الدورة';
   static const String balance = 'رصيد';
   static const String all_movements = 'كل الحركات';
   static const String movement = 'الحركة';

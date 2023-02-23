@@ -7,7 +7,9 @@ import 'package:pinkey/controller/provider/book_course_provider.dart';
 import 'package:pinkey/controller/provider/profile_provider.dart';
 import 'package:pinkey/model/utils/consts_manager.dart';
 import 'package:provider/provider.dart';
+import '../../../controller/provider/notification_provider.dart';
 import '../../../model/models.dart';
+import '../../../model/models.dart' as model;
 import '../../../model/utils/const.dart';
 import '/view/chat/widgets/chat_room.dart';
 import '/view/manager/widgets/button_app.dart';
@@ -227,6 +229,10 @@ Widget buildCourses(BuildContext context,{required BookCourseProvider value}){
                       text: AppStringsManager.acception_request,
                       onPressed: () async {
                         await bookCourseController.acceptBookCourse(context, bookCourse: bookCourse);
+                        if(profileProvider.user.typeUser.contains(AppConstants.collectionTrainer))
+                          await NotificationProvider().addNotification(context, notification:
+                          model.Notification(idUser: bookCourse.idUser,idNotification: bookCourse.id, title: AppStringsManager.accept_book_course, dateTime: DateTime.now(),
+                             subtitle : AppStringsManager.accept_trainer_book_course, message: ''));
                       },
                     ),
                   ),
@@ -241,7 +247,16 @@ Widget buildCourses(BuildContext context,{required BookCourseProvider value}){
                     height: AppSize.s50,
                     text: AppStringsManager.cancellation_booking,
                     onPressed: () async {
-                       await bookCourseController.cancelBookCourse(context, bookCourse: bookCourse);
+                       final result=await bookCourseController.cancelBookCourse(context, bookCourse: bookCourse);
+                       if(result['status'])
+                         if(profileProvider.user.typeUser.contains(AppConstants.collectionTrainer))
+                         await NotificationProvider().addNotification(context, notification:
+                         model.Notification(idUser: bookCourse.idUser,idNotification: bookCourse.id, title: AppStringsManager.cancel_book_course, dateTime: DateTime.now(),
+                             subtitle: AppStringsManager.cancel_trainer_book_course, message: ''));
+                         else
+                           await NotificationProvider().addNotification(context, notification:
+                           model.Notification(idUser: bookCourse.idTrainer,idNotification: bookCourse.id, title: AppStringsManager.cancel_book_course, dateTime: DateTime.now(),
+                               subtitle: AppStringsManager.cancel_user_book_course, message: ''));
                     },
                   ),
                 ),

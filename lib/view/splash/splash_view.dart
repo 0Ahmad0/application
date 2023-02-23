@@ -52,8 +52,7 @@ class _SplashViewState extends State<SplashView> {
       final result = await authProvider.fetchUser(uid: Advance.uid);
       if(result['status']){
 
-        if(authProvider.listTypeUserWithActive.contains(result['body']['typeUser'])&&!result['body']['active']){
-
+        if(authProvider.listTypeUserWithActive.contains(result['body']['typeUser'])&&(!result['body']['active']||result['body']['band'])){
           Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                   builder: (ctx) => WelcomeView()));}

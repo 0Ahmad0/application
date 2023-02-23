@@ -129,6 +129,8 @@ class AuthProvider with ChangeNotifier{
 
       if(listTypeUserWithActive.contains(result['body']['typeUser'])&&!result['body']['active'])
         result=FirebaseFun.errorUser("Account not Active");
+      else if(listTypeUserWithActive.contains(result['body']['typeUser'])&&result['body']['band'])
+        result=FirebaseFun.errorUser("Account Banded");
       else{
         await AppStorage.storageWrite(key: AppConstants.isLoginedKEY, value: true);
         Advance.isLogined = true;
@@ -229,6 +231,8 @@ class AuthProvider with ChangeNotifier{
       resultUser = await fetchUserByTypeUser(uid: resultUser['body']?.uid,typeUser: typeUser);
       if(listTypeUserWithActive.contains(typeUser)&&!resultUser['body']['active'])
         result=FirebaseFun.errorUser("Account not Active");
+      else if(listTypeUserWithActive.contains(result['body']['typeUser'])&&result['body']['band'])
+        result=FirebaseFun.errorUser("Account Banded");
       else
       result=await _baseLogin(context, resultUserAfterLog: resultUser);
     }else{

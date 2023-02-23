@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:pinkey/controller/manager/role.dart';
+import 'package:pinkey/controller/profile_controller.dart';
 import 'package:pinkey/controller/provider/profile_provider.dart';
 import 'package:pinkey/model/utils/consts_manager.dart';
 import 'package:pinkey/view/complaint/complaint_view.dart';
@@ -23,9 +27,11 @@ import '../../signup/signup_view.dart';
 class MenuViewBody extends StatelessWidget {
   bool not_login = true;
   final ProfileProvider profileProvider;
+  late ProfileController profileController;
   MenuViewBody({required this.profileProvider});
   @override
   Widget build(BuildContext context) {
+    profileController=ProfileController(context: context);
     if(AppConstants.collectionVisitor.contains(profileProvider.user.typeUser))
       not_login=false;
     return ListView(
@@ -131,7 +137,9 @@ class MenuViewBody extends StatelessWidget {
         Visibility(
           visible: not_login&&Role.checkRole(typeUser: profileProvider.user.typeUser, role: Role.locationMenu),
           child: buildMenuListTile(
-            onTap: () {
+            onTap: () async {
+              await profileController.selectLocation(context);
+
               //TODO: Navigator
             },
             image: AssetsManager.locationIMG,

@@ -77,6 +77,7 @@ class _AdminRequestViewBodyState extends State<AdminRequestViewBody> {
                         return const Text('Error');
                       } else if (snapshot.hasData) {
                         Const.SHOWLOADINGINDECATOR();
+                        widget.accountProvider.trainerRequests.users.clear();
                         if(snapshot.data!.docs!.length>0){
                           widget.accountProvider.trainerRequests=Users.fromJson(snapshot.data!.docs!);
                         }

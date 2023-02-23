@@ -3,9 +3,12 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
+import '../view/resourse/string_manager.dart';
 import '/controller/provider/profile_provider.dart';
 
 import 'package:provider/provider.dart';
@@ -39,6 +42,31 @@ class ProfileController{
       //Const.TOAST( context,textToast:FirebaseFun.findTextToast("Please, upload the image"));
     }
   }
+  selectLocation(BuildContext context) async {
+    GeoPoint? p = await showSimplePickerLocation(
+      context: context,
+      isDismissible: true,
+      title: AppStringsManager.select_your_location,
+      textConfirmPicker:
+      AppStringsManager.select_location,
+      initCurrentUserPosition: true,
+    );
 
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(
+        p!.latitude, p.longitude);
+    print(placemarks.first.street);
+    String location =
+        '${placemarks.first.country}'
+        ' ${placemarks.first.name}';
+    profileProvider.user.location =
+        location;
+    profileProvider.user.latitude = p.latitude;
+    profileProvider.user.longitude = p.longitude;
+    Const.LOADIG(context);
+    await profileProvider.editUser(context);
+    Get.back();
+    profileProvider.notifyListeners();
+  }
 
 }

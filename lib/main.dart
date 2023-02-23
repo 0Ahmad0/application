@@ -23,6 +23,7 @@ import 'controller/provider/chat_provider.dart';
 import 'controller/provider/complete_info_5_provider.dart';
 import 'controller/provider/date_trainer_provider.dart';
 import 'controller/provider/home_provider.dart';
+import 'controller/provider/notification_provider.dart';
 import 'controller/provider/process_provider.dart';
 import 'controller/provider/profile_provider.dart';
 import 'controller/utils/create_environment_provider.dart';
@@ -100,6 +101,7 @@ class MyApp extends StatelessWidget {
         ListenableProvider<CourseProvider>(create: (_)=>CourseProvider()),
         ListenableProvider<HomeProvider>(create: (_)=>HomeProvider()),
         ListenableProvider<BookCourseProvider>(create: (_)=>BookCourseProvider()),
+        ListenableProvider<NotificationProvider>(create: (_)=>NotificationProvider()),
     ],
         child:
         Sizer(

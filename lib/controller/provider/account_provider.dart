@@ -27,6 +27,8 @@ import 'dart:math' as Math;
 
 class AccountProvider with ChangeNotifier{
  Users trainerRequests=Users(users: []);
+ Users trainers=Users(users: []);
+ Users users=Users(users: []);
  fetchTrainerRequests(BuildContext context) async {
    var result;
      result= await FirebaseFun.fetchUsersByTypeUserAndFieldOrderBy
@@ -45,12 +47,38 @@ class AccountProvider with ChangeNotifier{
        .orderBy('dateTime').snapshots();
    return result;
  }
-
+ searchUsersByName(String  search,List listSearch){
+   List trimSearch=search.trim().split(' ');
+   List<User> tempListSearch=[];
+   for(User heritageElement in listSearch){
+     if(heritageElement.name!.toLowerCase().contains(search.toLowerCase())){
+       tempListSearch.add(heritageElement);
+     }else{
+       for(String element in trimSearch){
+         if(heritageElement.name!.toLowerCase().contains(element.toLowerCase())){
+           if(!tempListSearch.contains(heritageElement))
+             tempListSearch.add(heritageElement);
+         }
+       }
+     }
+   }
+   return tempListSearch;
+ }
  activeAccount(BuildContext context,{required User user}) async {
    Const.LOADIG(context);
    user.active=true;
    var result;
      result=await FirebaseFun.updateUser(user: user);
+   Get.back();
+   Const.TOAST(context,textToast: FirebaseFun.findTextToast(result['message'].toString()));
+   return result;
+
+ }
+ updateBandAccount(BuildContext context,{required User user}) async {
+   Const.LOADIG(context);
+   user.band=!user.band;
+   var result;
+   result=await FirebaseFun.updateUser(user: user);
    Get.back();
    Const.TOAST(context,textToast: FirebaseFun.findTextToast(result['message'].toString()));
    return result;

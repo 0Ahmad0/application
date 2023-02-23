@@ -22,7 +22,9 @@ import 'dart:math' as Math;
 class WalletProvider with ChangeNotifier{
   Wallet wallet=Wallet.init();
  WalletChange walletChange=WalletChange.init();
-
+ String idAdmin='KNcPHYfrSUVeF74yeQo2';
+ String idWalletAdmin='1kSOo4IHEch4AZY0kfvW';
+ num parseAdmin=0.15;
  fetchMyWallet(BuildContext context) async {
   ProfileProvider profileProvider=Provider.of<ProfileProvider>(context,listen: false);
    var result;
@@ -44,7 +46,6 @@ class WalletProvider with ChangeNotifier{
    var result;
      result=await FirebaseFun.fetchWalletByIdUser(idUser: idUser);
    return result;
-
  }
  addWallet(BuildContext context,{required Wallet wallet}) async {
    var result;
@@ -76,5 +77,22 @@ class WalletProvider with ChangeNotifier{
    return result;
 
  }
+ addWalletToAdmin(BuildContext context,{required num value,required String change}) async {
+   var result=await await addBalanceToUser(context, idUser: idAdmin, value: value*parseAdmin, change: change);
 
+   return result;
+ }
+  addBalanceToUser(BuildContext context,{required idUser,required num value,required String change}) async {
+    var result=await fetchWalletByIdUser(context,idUser: idUser);
+    if(result['status']&&result['body'].length>0){
+      Wallet walletUser=Wallet.fromJson(result['body'][0]);
+      walletUser.id=result['body'][0].id;
+      walletUser.value+=value;
+      walletUser.listWalletChange.add(WalletChange(idUser: wallet.idUser,
+          value: value,
+          change: '${AppStringsManager.add_credit}'+' '+'${change}', dateTime: DateTime.now()));
+      result =await updateWallet(context,wallet: walletUser);
+    }
+    return result;
+  }
 }

@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pinkey/controller/provider/book_course_provider.dart';
+import 'package:pinkey/controller/provider/notification_provider.dart';
 import 'package:pinkey/controller/provider/wallet_provider.dart';
 import 'package:pinkey/model/utils/consts_manager.dart';
 import '../view/manager/widgets/confirm_dialog.dart';
@@ -19,6 +20,7 @@ import '/view/resourse/string_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart';
 import '../model/models.dart';
+import '../model/models.dart' as model;
 import '../model/utils/const.dart';
 import '../view/home/home_view.dart';
 import '../view/navbar/navbar.dart';
@@ -157,7 +159,8 @@ class BookCourseController{
        result=await bookCourseProvider.addBookCourse(context,bookCourse: bookCourseProvider.bookCourse);
        if(result['status']){
          WalletChange walletChange=WalletChange(idUser: profileProvider.user.id,
-             change: '${AppStringsManager.balance_deduction}'+' '+'${bookCourseProvider.bookCourse.price}'+' '+'${AppStringsManager.to_book_course}',
+             value: bookCourseProvider.bookCourse.price,
+             change: '${AppStringsManager.balance_deduction}'+' '+'${AppStringsManager.to_book_course}',
              dateTime: DateTime.now());
          walletProvider.wallet.listWalletChange.add(walletChange);
          walletProvider.wallet.value-=bookCourseProvider.bookCourse.price;
@@ -165,7 +168,16 @@ class BookCourseController{
          if(!resultWallet['status']){
            walletProvider.wallet.listWalletChange.remove(walletChange);
            walletProvider.wallet.value+=bookCourseProvider.bookCourse.price;
+         }else{
+           await walletProvider.addBalanceToUser(context,idUser: courseProvider.course.idTrainer, value:bookCourseProvider.bookCourse.price,
+               change: '${AppStringsManager.to_book_course}' );
+           await walletProvider.addWalletToAdmin(context, value:bookCourseProvider.bookCourse.price,
+               change: '${AppStringsManager.to_book_course}' );
+           await NotificationProvider().addNotification(context, notification:
+           model.Notification(idUser: courseProvider.course.idTrainer,idNotification: courseProvider.course.id, subtitle: AppStringsManager.request_book_course, dateTime: DateTime.now(),
+               title: AppStringsManager.book_course, message: ''));
          }
+
        }
 
      }

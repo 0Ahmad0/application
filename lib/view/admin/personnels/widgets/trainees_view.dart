@@ -1,8 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../controller/provider/account_provider.dart';
+import '../../../../model/models.dart';
+import '../../../../model/utils/const.dart';
+import '../../../../model/utils/consts_manager.dart';
 import '../../../app/picture/cach_picture_widget.dart';
 import '../../../manager/widgets/button_app.dart';
 import '../../../resourse/assets_manager.dart';
@@ -11,12 +17,30 @@ import '../../../resourse/string_manager.dart';
 import '../../../resourse/style_manager.dart';
 import '../../../resourse/values_manager.dart';
 
-class TraineesView extends StatelessWidget {
+class TraineesView extends StatefulWidget {
   TraineesView({Key? key}) : super(key: key);
-  final searchController = TextEditingController();
 
   @override
+  State<TraineesView> createState() => _TraineesViewState();
+}
+
+class _TraineesViewState extends State<TraineesView> {
+  final searchController = TextEditingController();
+  var getAccountUser;
+  late AccountProvider accountProvider;
+  getAccountUserFun()  {
+    getAccountUser = FirebaseFirestore.instance.collection(AppConstants.collectionUser)
+        .snapshots();
+    return getAccountUser;
+  }
+  @override
+  void initState() {
+    getAccountUserFun();
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
+    accountProvider= Provider.of<AccountProvider>(context);
     return ListView(
       children: [
         ListTile(
@@ -39,23 +63,64 @@ class TraineesView extends StatelessWidget {
                 fontSize: 12.sp,
               )),
           onChanged: (val) {
+            setState(() {
+            });
             // homeProvider.notifyListeners();
           },
         ),
         SizedBox(
           height: 10.sp,
         ),
-        for (int i = 0; i < 5; i++) BuildPersonalTraineeItem()
+        StreamBuilder<QuerySnapshot>(
+          //prints the messages to the screen0
+            stream: getAccountUser,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return
+                  Const.SHOWLOADINGINDECATOR();
+
+              }
+              else if (snapshot.connectionState ==
+                  ConnectionState.active) {
+                if (snapshot.hasError) {
+                  return const Text('Error');
+                } else if (snapshot.hasData) {
+                  Const.SHOWLOADINGINDECATOR();
+                  accountProvider.users.users.clear();
+                  if(snapshot.data!.docs!.length>0){
+                    accountProvider.users=Users.fromJson(snapshot.data!.docs!);
+                    accountProvider.users.users=accountProvider.searchUsersByName(searchController.text, accountProvider.users.users);
+                  }
+
+                  return ListBody(
+                    children: [
+                      for (int i = 0; i < accountProvider.users.users.length; i++) BuildPersonalTraineeItem(
+                        index: i,
+                        user: accountProvider.users.users[i],
+                      )
+                    ],
+                  );
+                  /// }));
+                } else {
+                  return const Text('Empty data');
+                }
+              }
+              else {
+                return Text('State: ${snapshot.connectionState}');
+              }
+            })
       ],
     );
   }
 }
 
 class BuildPersonalTraineeItem extends StatelessWidget {
-  const BuildPersonalTraineeItem({Key? key}) : super(key: key);
-
+  const BuildPersonalTraineeItem({Key? key, required this.index, required this.user}) : super(key: key);
+  final int index;
+  final User user;
   @override
   Widget build(BuildContext context) {
+    AccountProvider accountProvider = Provider.of<AccountProvider>(context);
     return Container(
       padding: const EdgeInsets.all(AppPadding.p12),
       margin: const EdgeInsets.symmetric(vertical: AppPadding.p4),
@@ -75,7 +140,10 @@ class BuildPersonalTraineeItem extends StatelessWidget {
                 const SizedBox(
                   height: AppSize.s10,
                 ),
-                Text('لمى يوسف '),
+                Text(
+                    user.name
+                //    'لمى يوسف '
+                ),
                 TextButton(
                   style: TextButton.styleFrom(
                     padding: EdgeInsets.zero
@@ -93,14 +161,19 @@ class BuildPersonalTraineeItem extends StatelessWidget {
           ),
           Row(
             children: [
-              Expanded(
-                flex: 4,
-                child: ButtonApp(
-                    color: ColorManager.thirdlyColor,
-                    height: AppSize.s40,
-                    fontSize: 10.sp,
-                    text: AppStringsManager.send_message,
-                    onPressed: () {}),
+              Visibility(
+                visible: !user.band,
+                child: Expanded(
+                  flex: 4,
+                  child: ButtonApp(
+                      color: ColorManager.thirdlyColor,
+                      height: AppSize.s40,
+                      fontSize: 10.sp,
+                      text: AppStringsManager.send_message,
+                      onPressed: () async {
+
+                      }),
+                ),
               ),
               const SizedBox(
                 width: AppSize.s4,
@@ -114,8 +187,10 @@ class BuildPersonalTraineeItem extends StatelessWidget {
                     textColor: ColorManager.thirdlyColor,
                     height: AppSize.s40,
                     fontSize: 12.sp,
-                    text: AppStringsManager.band_account,
-                    onPressed: () {}),
+                    text: !user.band?AppStringsManager.band_account:AppStringsManager.active_account,
+                    onPressed: () async {
+                      await accountProvider.updateBandAccount(context,user: user);
+                    }),
               ),
 
               /// favorite button

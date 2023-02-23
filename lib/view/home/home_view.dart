@@ -150,6 +150,9 @@ class _HomeViewState extends State<HomeView> {
                                   locationController.text;
                               profileProvider.user.latitude = p.latitude;
                               profileProvider.user.longitude = p.longitude;
+                              Const.LOADIG(context);
+                              await profileProvider.editUser(context);
+                              Get.back();
                               profileProvider.notifyListeners();
                             },
                           ),

@@ -53,6 +53,7 @@ class User {
   String description;
   String gender;
   bool active;
+  bool band;
   DateTime dateBirth;
   List<String> tokens;
   num wallet;
@@ -76,6 +77,7 @@ class User {
     required this.dateBirth,
     this.description = "",
     this.active = false,
+    this.band = false,
     this.tokens = const[],
     this.wallet = 0,
     this.trainerInfo,
@@ -105,6 +107,7 @@ class User {
         photoUrl: json["photoUrl"],
         gender: json["gender"],
         active: json["active"],
+      band: json["band"],
         dateBirth: json["dateBirth"].toDate(),
         trainerInfo: (data['trainerInfo']!=null)?TrainerInfo.fromJson(json["trainerInfo"]):null,
         // tokens: json["tokens"],
@@ -136,6 +139,7 @@ class User {
     'photoUrl': photoUrl,
     'description': description,
     'active': active,
+    'band': band,
     'tokens': tokens,
     'wallet': wallet,
     'trainerInfo': (trainerInfo!=null)?trainerInfo?.toJson():null,
@@ -740,7 +744,7 @@ class BookCourse {
     required this.price,
      this.from,
      this.to,
-     this.state='ongoing',
+     this.state='جارية',
      this.checkState=false,
     required this.listDateTime,
   });

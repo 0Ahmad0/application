@@ -353,9 +353,18 @@ class FirebaseFun{
     ).delete().then(onValueDeleteNotification).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
     return result;
   }
-  static fetchCourseByNotification({required String field,required String value})  async {
+  static fetchNotificationByFieldOrderBy({required String field,required String value})  async {
     final result=await FirebaseFirestore.instance.collection(AppConstants.collectionNotification)
         .where(field,isEqualTo: value)
+        .get()
+        .then((onValueFetchNotifications))
+        .catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+    return result;
+  }
+  static fetchNotificationByField({required String field,required String value,String orderBy='dateTime'})  async {
+    final result=await FirebaseFirestore.instance.collection(AppConstants.collectionNotification)
+        .where(field,isEqualTo: value)
+    .orderBy(orderBy)
         .get()
         .then((onValueFetchNotifications))
         .catchError(onError).timeout(timeOut,onTimeout: onTimeOut);

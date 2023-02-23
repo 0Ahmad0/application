@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pinkey/view/admin/personnels/widgets/trainees_view.dart';
 import 'package:pinkey/view/admin/personnels/widgets/trainers_view.dart';
 
+import '../../../../controller/provider/account_provider.dart';
+import '../../../../model/utils/consts_manager.dart';
 import '../../../resourse/string_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,13 +19,15 @@ import '../../../resourse/string_manager.dart';
 import '../../../resourse/style_manager.dart';
 
 class PersonnelViewBody extends StatefulWidget {
-  const PersonnelViewBody({Key? key}) : super(key: key);
-
+  const PersonnelViewBody({Key? key,required this.accountProvider}) : super(key: key);
+  final  AccountProvider accountProvider;
   @override
   State<PersonnelViewBody> createState() => _PersonnelViewBodyState();
 }
 
 class _PersonnelViewBodyState extends State<PersonnelViewBody> {
+
+
   late PageController _pageController;
   int _selectedIndex = 0;
   List<String> complaintType = [
