@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:pinkey/controller/book_course_controller.dart';
+import 'package:pinkey/controller/provider/wallet_provider.dart';
 import 'package:pinkey/view/resourse/assets_manager.dart';
 import 'package:pinkey/view/resourse/color_manager.dart';
 import 'package:pinkey/view/resourse/string_manager.dart';
@@ -13,8 +15,9 @@ import '../../manager/widgets/confirm_dialog.dart';
 import '../../manager/widgets/container_icons.dart';
 
 class PaymentForCourseViewBody extends StatelessWidget {
-  PaymentForCourseViewBody({Key? key}) : super(key: key);
-
+  PaymentForCourseViewBody({Key? key,required  this.bookCourseController,required this.walletProvider}) : super(key: key);
+BookCourseController bookCourseController;
+WalletProvider walletProvider;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -39,7 +42,7 @@ class PaymentForCourseViewBody extends StatelessWidget {
                     ),)
                   ],
                 ),
-                trailing: Text('8200 ر.س',style: getRegularStyle(
+                trailing: Text('${walletProvider.wallet.value} ر.س',style: getRegularStyle(
                     color: ColorManager.white
                 ),),
               ),
@@ -58,7 +61,13 @@ class PaymentForCourseViewBody extends StatelessWidget {
                 child: Text(carsType[i]),
                 value: carsType[i],
               )
-          ], onChanged: (value){},
+          ], onChanged: (value){
+            bookCourseController.bookCourseProvider.bookCourse.typeCar=value!;
+              if(carsType[0]==value){
+                bookCourseController.bookCourseProvider.bookCourse.price=bookCourseController.courseProvider.course.priceInPersonalCar!;
+              }else
+                bookCourseController.bookCourseProvider.bookCourse.price=bookCourseController.courseProvider.course.priceInTrainerCar!;
+          },
             icon:  Icon(Icons.keyboard_arrow_down,color: ColorManager.black.withOpacity(.3),),
           decoration:  InputDecoration(
               errorBorder: borderStyle,
@@ -77,7 +86,10 @@ class PaymentForCourseViewBody extends StatelessWidget {
           const SizedBox(height: AppSize.s10,),
           buildCoursesDetails(),
           const Spacer(),
-          ButtonApp(text: AppStringsManager.booking_confirmation, onPressed: ()=>showBookingConfirmDialog(context))
+          ButtonApp(text: AppStringsManager.booking_confirmation, onPressed: () async =>
+              //showBookingConfirmDialog(context)
+            await bookCourseController.addBookCourse(context)
+          )
         ],
       ),
     );
@@ -114,7 +126,8 @@ class PaymentForCourseViewBody extends StatelessWidget {
                   width: AppSize.s4,
                 ),
                 Text(
-                  '(للمبتدئين)',
+                  bookCourseController.courseProvider.course.category,
+                 // '(للمبتدئين)',
                   style: getRegularStyle(color: ColorManager.lightGray),
                 ),
               ],
@@ -124,7 +137,10 @@ class PaymentForCourseViewBody extends StatelessWidget {
               child: Column(
                 children: [
                   const SizedBox(height: AppSize.s10,),
-                  const Text('هذه المكان مخصص لوضع عنوان مناسب للدورة المقدمة'),
+                   Text(
+                      bookCourseController.courseProvider.course.name,
+                      //'هذه المكان مخصص لوضع عنوان مناسب للدورة المقدمة'
+                  ),
                   const SizedBox(height: AppSize.s10,),
                   Row(
                     children: [
@@ -144,21 +160,21 @@ class PaymentForCourseViewBody extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               buildContainerDetailsTrainer(
-                  text: 'سيارتي 900 ر.س',
+                  text: 'سيارتي ${bookCourseController.courseProvider.course.priceInPersonalCar} ر.س',
                   icon: Icon(
                     Icons.monetization_on,
                     size: 16.sp,
                     color: ColorManager.secondaryColor,
                   )),
               buildContainerDetailsTrainer(
-                  text: 'المتدربة 800 ر.س',
+                  text: 'المتدربة ${bookCourseController.courseProvider.course.priceInTrainerCar} ر.س',
                   icon: Icon(
                     Icons.monetization_on,
                     size: 16.sp,
                     color: ColorManager.secondaryColor,
                   )),
               buildContainerDetailsTrainer(
-                  text: '4 أيام',
+                  text: '${bookCourseController.courseProvider.course.durationInDays} أيام',
                   icon: SvgPicture.asset(
                     AssetsManager.appointmentsIMG,
                     color: ColorManager.secondaryColor,

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pinkey/model/models.dart';
 import 'package:pinkey/view/payment_for_course/payment_for_course_view.dart';
 import 'package:pinkey/view/resourse/assets_manager.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../controller/book_course_controller.dart';
 import '../../manager/widgets/button_app.dart';
 import '../../resourse/color_manager.dart';
 import '../../resourse/style_manager.dart';
@@ -12,17 +14,24 @@ import '../../resourse/values_manager.dart';
 import 'package:intl/intl.dart';
 
 class BookCourseViewBody extends StatefulWidget {
-  const BookCourseViewBody({Key? key}) : super(key: key);
-
+   BookCourseViewBody({Key? key,required this.bookCourseController}) : super(key: key);
+  BookCourseController bookCourseController;
   @override
   State<BookCourseViewBody> createState() => _BookCourseViewBodyState();
 }
 
 class _BookCourseViewBodyState extends State<BookCourseViewBody> {
   int _selectedIndex = 0;
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    widget.bookCourseController.getDatesAndHours();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+    // print(widget.bookCourseController.listDateTime);
+    // print(widget.bookCourseController.listTimeOfDay);
     return ListView(
       padding: const EdgeInsets.all(AppPadding.p20),
       children: [
@@ -82,12 +91,12 @@ class _BookCourseViewBodyState extends State<BookCourseViewBody> {
         ),
         Wrap(
           children: [
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < widget.bookCourseController.listTimeOfDay.length; i++)
               GestureDetector(
                 onTap: () {
                   _selectedIndex = i;
                   setState(() {
-                    print(_selectedIndex);
+                    print(widget.bookCourseController.listTimeOfDay[_selectedIndex]);
                   });
                 },
                 child: Container(
@@ -98,9 +107,9 @@ class _BookCourseViewBodyState extends State<BookCourseViewBody> {
                     },
                     deleteIcon: Icon(Icons.access_time_filled_sharp,color: _selectedIndex == i?ColorManager.primaryColor:ColorManager.black,),
                     label: Text('${DateFormat().add_Hm().format(
-                      DateTime.now(),
+                      DateTime(2000,1,1,widget.bookCourseController.listTimeOfDay[i].hour,widget.bookCourseController.listTimeOfDay[i].minute),
                     )} - ${DateFormat().add_Hm().format(
-                      DateTime.now(),
+                      DateTime(2000,1,1,widget.bookCourseController.listTimeOfDay[i].hour+1,widget.bookCourseController.listTimeOfDay[i].minute),
                     )}',style: getRegularStyle(
                         color: _selectedIndex == i?ColorManager.primaryColor:ColorManager.black,
                         fontSize: 8.sp
@@ -114,6 +123,9 @@ class _BookCourseViewBodyState extends State<BookCourseViewBody> {
         ButtonApp(
           text: "استمرار",
           onPressed: (){
+            widget.bookCourseController.bookCourseProvider.bookCourse=BookCourse(idCourse:'' , idTrainer: '', idUser: '',
+                typeCar: '', dateTime: DateTime.now(), price: 0, listDateTime: widget.bookCourseController.listDateTime
+            ,from: widget.bookCourseController.listTimeOfDay[_selectedIndex],to: widget.bookCourseController.listTimeOfDay[_selectedIndex]);
             Get.to(()=>PaymentForCourseView(),transition: Transition.circularReveal);
           },
         ),

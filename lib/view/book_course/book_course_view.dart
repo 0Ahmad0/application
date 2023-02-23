@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pinkey/controller/book_course_controller.dart';
 import 'package:pinkey/view/resourse/color_manager.dart';
 
 import 'widgets/book_course_view_body.dart';
@@ -15,7 +16,7 @@ class BookCourseView extends StatelessWidget {
         leading: BackButton(color: ColorManager.black,),
         title: Text("حجز دورة تدريبية"),
       ),
-      body: BookCourseViewBody(),
+      body: BookCourseViewBody(bookCourseController: BookCourseController(context: context),),
     );
   }
 }

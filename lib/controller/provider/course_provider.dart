@@ -11,7 +11,7 @@ class CourseProvider extends ChangeNotifier{
 
   Course course= Course.init();
   Courses courses=Courses(listCourse: []);
-
+  Map<String,Course?> mapCourses={};
   addCourse(context,{ required Course course}) async {
     var result;
     result =await FirebaseFun.addCourse(course: course);
@@ -32,6 +32,21 @@ class CourseProvider extends ChangeNotifier{
     //print(result);
     Const.TOAST(context,textToast: FirebaseFun.findTextToast(result['message'].toString()));
     return result;
+  }
+  fetchCourseFromMap({required String idCourse}) async {
+    final result=await FirebaseFun.fetchCourseById(idCourse: idCourse);
+    if(result['status']){
+      if(result['body']!=null)
+      {
+        Course course=Course.fromJson(result['body']);
+        mapCourses[idCourse]=course;
+      }else{
+        mapCourses[idCourse]=null;
+      }
+    }else
+      mapCourses[idCourse]=null;
+
+    return mapCourses[idCourse];
   }
   // fetchMeals () async {
   //   var result= await FirebaseFun.fetchMeals();

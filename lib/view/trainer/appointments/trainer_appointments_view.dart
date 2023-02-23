@@ -13,6 +13,7 @@ class TrainerAppointmentsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     CourseController courseController= CourseController(context: context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(

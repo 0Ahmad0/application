@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../controller/book_course_controller.dart';
 import 'widgets/appointments_view_body.dart';
 
 class AppointmentsView extends StatelessWidget {
@@ -8,7 +9,7 @@ class AppointmentsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AppointmentsViewBody(),
+      body: AppointmentsViewBody(bookCourseController:BookCourseController(context: context)),
     );
   }
 }

@@ -89,6 +89,8 @@ class AppStringsManager{
   static const String offer_courses_and_assistance = 'يمكنك الانضمام كمدربة قيادة وتقديم الدورات والمساعدة لمن يحتاجها';
   static const String join_now = 'أنضمي الأن';
   static const String add_credit = 'إضافة رصيد';
+  static const String balance_deduction = 'خصم رصيد';
+  static const String to_book_course = 'لحجز دورة';
   static const String balance = 'رصيد';
   static const String all_movements = 'كل الحركات';
   static const String movement = 'الحركة';
@@ -203,6 +205,7 @@ class AppStringsManager{
   static const String enter_strong_password = 'أدخل كلمة مرور أقوى';
 
   static const String conflict_date_trainer = 'التاريخ المدخل يتضارب مع تاريخ موجود مسبقاً';
+  static const String not_enough_money_wallet = 'ليس لديك مبلغ كافٍ في المحفظة';
 
 
 

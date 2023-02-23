@@ -285,10 +285,85 @@ class FirebaseFun{
     final result=await FirebaseFirestore.instance.collection(AppConstants.collectionCourse)
         .where('idTrainer',isEqualTo: idTrainer)
         .get()
+        .then((onValueFetchCourses))
+        .catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+    return result;
+  }
+  static fetchCourseById({required String idCourse})  async {
+    final result=await FirebaseFirestore.instance.collection(AppConstants.collectionCourse)
+        .doc(idCourse).get()
         .then((onValueFetchCourse))
         .catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
     return result;
   }
+
+
+  ///BookCourse
+  static addBookCourse( {required model.BookCourse bookCourse}) async {
+    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionBookCourse).add(
+        bookCourse.toJson()
+    ).then(onValueAddBookCourse).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+    return result;
+  }
+  static updateBookCourse( {required model.BookCourse bookCourse}) async {
+    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionBookCourse).doc(
+        bookCourse.id
+    ).update(bookCourse.toJson()).then(onValueUpdateBookCourse).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+    return result;
+  }
+  static deleteBookCourse( {required model.BookCourse bookCourse}) async {
+    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionBookCourse).doc(
+        bookCourse.id
+    ).delete().then(onValueDeleteBookCourse).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+    return result;
+  }
+  static fetchBookCourseByField({required String field,required String value})  async {
+    final result=await FirebaseFirestore.instance.collection(AppConstants.collectionBookCourse)
+        .where(field,isEqualTo: value)
+        .get()
+        .then((onValueFetchBookCourses))
+        .catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+    return result;
+  }
+  static fetchBookCourseByFieldOrderBy({required String field,required String value, String orderBy='dateTime'})  async {
+    final result=await FirebaseFirestore.instance.collection(AppConstants.collectionBookCourse)
+        .where(field,isEqualTo: value)
+        .get()
+        .then((onValueFetchBookCourses))
+        .catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+    return result;
+  }
+
+  ///Notification
+  static addNotification( {required model.Notification notification}) async {
+    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionNotification).add(
+        notification.toJson()
+    ).then(onValueAddNotification).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+    return result;
+  }
+  static updateNotification( {required model.Notification notification}) async {
+    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionNotification).doc(
+        notification.id
+    ).update(notification.toJson()).then(onValueUpdateNotification).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+    return result;
+  }
+  static deleteNotification( {required model.Notification notification}) async {
+    final result= await FirebaseFirestore.instance.collection(AppConstants.collectionNotification).doc(
+        notification.id
+    ).delete().then(onValueDeleteNotification).catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+    return result;
+  }
+  static fetchCourseByNotification({required String field,required String value})  async {
+    final result=await FirebaseFirestore.instance.collection(AppConstants.collectionNotification)
+        .where(field,isEqualTo: value)
+        .get()
+        .then((onValueFetchNotifications))
+        .catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
+    return result;
+  }
+
+
+
   // static fetchDateOsByUser({required String idUser})  async {
   //   final result=await FirebaseFirestore.instance.collection(AppConstants.collectionDateO)
   //       .where('idUser',isEqualTo: idUser)
@@ -347,7 +422,7 @@ class FirebaseFun{
   //       .catchError(onError).timeout(timeOut,onTimeout: onTimeOut);
   //   return result;
   // }
-  //
+
 
 
 
@@ -585,6 +660,73 @@ class FirebaseFun{
       'body':value.docs
     };
   }
+
+
+  static Future<Map<String,dynamic>>onValueAddBookCourse(value) async{
+    return {
+      'status':true,
+      'message':'BookCourse successfully add',
+      'body':{}
+    };
+  }
+  static Future<Map<String,dynamic>>onValueUpdateBookCourse(value) async{
+    return {
+      'status':true,
+      'message':'BookCourse successfully update',
+      'body':{}
+    };
+  }
+  static Future<Map<String,dynamic>>onValueDeleteBookCourse(value) async{
+    return {
+      'status':true,
+      'message':'BookCourse successfully delete',
+      'body':{}
+    };
+  }
+  static Future<Map<String,dynamic>> onValueFetchBookCourses(value) async{
+    // print(true);
+    print("BookCourses count : ${value.docs.length}");
+
+    return {
+      'status':true,
+      'message':'BookCourses successfully fetch',
+      'body':value.docs
+    };
+  }
+
+  static Future<Map<String,dynamic>>onValueAddNotification(value) async{
+    return {
+      'status':true,
+      'message':'Notification successfully add',
+      'body':{}
+    };
+  }
+  static Future<Map<String,dynamic>>onValueUpdateNotification(value) async{
+    return {
+      'status':true,
+      'message':'Notification successfully update',
+      'body':{}
+    };
+  }
+  static Future<Map<String,dynamic>>onValueDeleteNotification(value) async{
+    return {
+      'status':true,
+      'message':'Notification successfully delete',
+      'body':{}
+    };
+  }
+  static Future<Map<String,dynamic>> onValueFetchNotifications(value) async{
+    // print(true);
+    print("Notifications count : ${value.docs.length}");
+
+    return {
+      'status':true,
+      'message':'Notifications successfully fetch',
+      'body':value.docs
+    };
+  }
+
+
   static Future<Map<String,dynamic>>onValueAddChat(value) async{
     return {
       'status':true,
@@ -633,7 +775,7 @@ class FirebaseFun{
       'body':value.docs
     };
   }
-  static Future<Map<String,dynamic>> onValueFetchCourse(value) async{
+  static Future<Map<String,dynamic>> onValueFetchCourses(value) async{
     // print(true);
     print("Courses count : ${value.docs.length}");
 
@@ -641,6 +783,17 @@ class FirebaseFun{
       'status':true,
       'message':'Courses successfully fetch',
       'body':value.docs
+    };
+  }
+  static Future<Map<String,dynamic>> onValueFetchCourse(value) async{
+    // print(true);
+    // print("Course  : ${value}");
+    // print("Course  : ${value.data()}");
+
+    return {
+      'status':true,
+      'message':'Course successfully fetch',
+      'body':value.data()
     };
   }
 

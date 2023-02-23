@@ -43,7 +43,8 @@ class _SplashViewState extends State<SplashView> {
       Get.updateLocale(Locale('ar'));
     }else
     {
-      Get.updateLocale(Locale('en'));
+      Get.updateLocale(Locale('ar'));
+    //  Get.updateLocale(Locale('en'));
     }
 
     ///end

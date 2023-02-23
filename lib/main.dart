@@ -18,6 +18,7 @@ import 'package:get/get.dart';
 import '/view/resourse/theme_manager.dart';
 import 'package:sizer/sizer.dart';
 import 'controller/provider/auth_provider.dart';
+import 'controller/provider/book_course_provider.dart';
 import 'controller/provider/chat_provider.dart';
 import 'controller/provider/complete_info_5_provider.dart';
 import 'controller/provider/date_trainer_provider.dart';
@@ -26,7 +27,7 @@ import 'controller/provider/process_provider.dart';
 import 'controller/provider/profile_provider.dart';
 import 'controller/utils/create_environment_provider.dart';
 import 'firebase_options.dart';
-
+import 'package:intl/date_symbol_data_local.dart';
 Future<void> main()async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -60,6 +61,7 @@ Future<void> main()async{
 
   print(_locationData.latitude);
   print(_locationData.longitude);
+  await initializeDateFormatting();
   runApp(
     EasyLocalization(
       path: 'assets/translations',
@@ -90,13 +92,14 @@ class MyApp extends StatelessWidget {
       ListenableProvider<ProcessProvider>(create: (_)=>ProcessProvider()),
     //  ListenableProvider<ChatProvider>(create: (_)=>ChatProvider()),
       ListenableProvider<CreateEnvironmentProvider>(create: (_)=>CreateEnvironmentProvider()),
-      ListenableProvider<WalletProvider>(create: (_)=>WalletProvider()),
-      ListenableProvider<ReportProvider>(create: (_)=>ReportProvider()),
-      ListenableProvider<CompleteInfo5Provider>(create: (_)=>CompleteInfo5Provider()),
-      ListenableProvider<AccountProvider>(create: (_)=>AccountProvider()),
-      ListenableProvider<DateTrainerProvider>(create: (_)=>DateTrainerProvider()),
-      ListenableProvider<CourseProvider>(create: (_)=>CourseProvider()),
-      ListenableProvider<HomeProvider>(create: (_)=>HomeProvider()),
+        ListenableProvider<WalletProvider>(create: (_)=>WalletProvider()),
+        ListenableProvider<ReportProvider>(create: (_)=>ReportProvider()),
+        ListenableProvider<CompleteInfo5Provider>(create: (_)=>CompleteInfo5Provider()),
+        ListenableProvider<AccountProvider>(create: (_)=>AccountProvider()),
+        ListenableProvider<DateTrainerProvider>(create: (_)=>DateTrainerProvider()),
+        ListenableProvider<CourseProvider>(create: (_)=>CourseProvider()),
+        ListenableProvider<HomeProvider>(create: (_)=>HomeProvider()),
+        ListenableProvider<BookCourseProvider>(create: (_)=>BookCourseProvider()),
     ],
         child:
         Sizer(

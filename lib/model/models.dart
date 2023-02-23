@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pinkey/view/resourse/string_manager.dart';
 
 class Meal {
   String name;
@@ -548,7 +549,7 @@ class Course {
      this.priceInTrainerCar,
      this.priceInPersonalCar,
     required this.description,
-     this.state='new',
+     this.state='جارية',
 
   });
 
@@ -624,6 +625,208 @@ class Courses {
   }
   factory Courses.init()=>Courses(listCourse: []);
 }
+
+//Notification
+class Notification {
+  String id;
+  String idNotification;
+  String idUser;
+  DateTime dateTime;
+  String subtitle;
+  String title;
+  String message;
+  bool checkSend;
+  bool checkRec;
+  Notification({
+    this.id="",
+     this.idNotification='',
+    required this.idUser,
+    required this.subtitle,
+    required this.dateTime,
+    required this.title,
+    required this.message,
+    this.checkSend=false,
+    this.checkRec=false,
+  });
+
+  factory Notification.fromJson(json) {
+    return Notification(
+      id: json['id'],
+      idNotification: json['idNotification'],
+      idUser: json['idUser'],
+      subtitle: json['subtitle'],
+      title: json['title'],
+      message: json['message'],
+      checkSend: json['checkSend'],
+      checkRec: json['checkRec'],
+      dateTime: json['dateTime'].toDate(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'idNotification': idNotification,
+      'idUser': idUser,
+      'subtitle': subtitle,
+      'title': title,
+      'message': message,
+      'checkSend': checkSend,
+      'checkRec': checkRec,
+      'dateTime': Timestamp.fromDate(dateTime),
+    };
+  }
+  factory Notification.init(){
+    return Notification(idUser: '', subtitle: '', dateTime: DateTime.now(), title: '', message: '');
+  }
+}
+
+//Notifications
+class Notifications {
+
+  List<Notification> listNotification;
+
+  //DateTime date;
+  Notifications({
+    required this.listNotification});
+
+  factory Notifications.fromJson(json) {
+    List<Notification> temp = [];
+    for (int i = 0; i < json.length; i++) {
+      Notification tempElement = Notification.fromJson(json[i]);
+      tempElement.id = json[i].id;
+      temp.add(tempElement);
+    }
+    return Notifications(
+        listNotification: temp);
+  }
+
+  Map<String, dynamic> toJson() {
+    List<Map<String, dynamic>> temp = [];
+    for (var element in listNotification) {
+      temp.add(element.toJson());
+    }
+    return {
+      'listNotification': temp,
+    };
+  }
+  factory Notifications.init()=>Notifications(listNotification: []);
+}
+
+
+//BookCourse
+class BookCourse {
+  String id;
+  String idCourse;
+  String idTrainer;
+  String idUser;
+  String idUserState;
+  String typeCar;
+  num price;
+  TimeOfDay? from;
+  TimeOfDay? to;
+  DateTime dateTime;
+  List<DateTime> listDateTime;
+  String state;
+  bool checkState;
+  BookCourse({
+    this.id="",
+    required this.idCourse,
+    required this.idTrainer,
+    required this.idUser,
+     this.idUserState='',
+    required this.typeCar,
+    required this.dateTime,
+    required this.price,
+     this.from,
+     this.to,
+     this.state='ongoing',
+     this.checkState=false,
+    required this.listDateTime,
+  });
+
+  factory BookCourse.fromJson(json) {
+    List<DateTime> temp = [];
+    for (int i = 0; i < json['listDateTime'].length; i++) {
+      DateTime tempElement = json['listDateTime'][i].toDate();
+      temp.add(tempElement);
+    }
+    return BookCourse(
+      id: json['id'],
+      idCourse: json['idCourse'],
+      idUser: json['idUser'],
+      idTrainer: json['idTrainer'],
+      typeCar: json['typeCar'],
+      price: json['price'],
+      state: json['state'],
+      idUserState: json['idUserState'],
+      checkState: json['checkState'],
+      listDateTime: temp,
+      dateTime: json['dateTime'].toDate(),
+      from: (json["from"]==null)?json["from"]: TimeOfDay.fromDateTime(json["from"].toDate()),
+      to: (json["to"]==null)?json["to"]:TimeOfDay.fromDateTime(json["to"].toDate()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    List<Timestamp> temp = [];
+    for (var element in listDateTime) {
+      temp.add(Timestamp.fromDate(element));
+    }
+    return {
+      'id': id,
+      'idTrainer': idTrainer,
+      'idUser': idUser,
+      'idCourse': idCourse,
+      'typeCar': typeCar,
+      'state': state,
+      'checkState': checkState,
+      'price': price,
+      'idUserState': idUserState,
+      'listDateTime': temp,
+      'dateTime': Timestamp.fromDate(dateTime),
+      'from': (from==null)?from:DateTime(dateTime.year,dateTime.month,dateTime.day,from!.hour,from!.minute),
+      'to': (to==null)?to:DateTime(dateTime.year,dateTime.month,dateTime.day,to!.hour,to!.minute),
+    };
+  }
+  factory BookCourse.init(){
+    return BookCourse(idCourse: '', idTrainer: '', idUser: '', typeCar: '',
+        dateTime: DateTime.now(), price: 0, listDateTime: [],state: AppStringsManager.ongoing);
+  }
+}
+
+//BookCourses
+class BookCourses {
+
+  List<BookCourse> listBookCourse;
+
+  //DateTime date;
+  BookCourses({
+    required this.listBookCourse});
+
+  factory BookCourses.fromJson(json) {
+    List<BookCourse> temp = [];
+    for (int i = 0; i < json.length; i++) {
+      BookCourse tempElement = BookCourse.fromJson(json[i]);
+      tempElement.id = json[i].id;
+      temp.add(tempElement);
+    }
+    return BookCourses(
+        listBookCourse: temp);
+  }
+
+  Map<String, dynamic> toJson() {
+    List<Map<String, dynamic>> temp = [];
+    for (var element in listBookCourse) {
+      temp.add(element.toJson());
+    }
+    return {
+      'listBookCourse': temp,
+    };
+  }
+  factory BookCourses.init()=>BookCourses(listBookCourse: []);
+}
+
 
 /*
 flutter pub run easy_localization:generate -S "assets/translations/" -O "lib/translations"

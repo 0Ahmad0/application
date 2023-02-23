@@ -521,6 +521,7 @@ final addReviewController = TextEditingController();
                       height: AppSize.s50,
                       text: AppStringsManager.course_booking,
                       onPressed: () {
+                        courseController.courseProvider.course=courseController.courseProvider.courses.listCourse[index];
                         Get.to(() => const BookCourseView());
                       })
               ],

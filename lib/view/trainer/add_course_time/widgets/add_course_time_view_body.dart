@@ -17,7 +17,7 @@ import '/view/trainer/add_course_time/add_course_time_view.dart';
 class AddCourseTimeViewBody extends StatelessWidget {
    AddCourseTimeViewBody({Key? key,required this.courseController,  required this.add}):super(key: key) {
      courseDateController = TextEditingController(text: DateFormat.yMd().format(courseController.courseProvider.course.dateTime));
-      courseDayController = TextEditingController(text: DateFormat('','ar').add_EEEE().format(courseController.courseProvider.course.dateTime));
+
 
    }
    final bool add;
@@ -30,10 +30,12 @@ class AddCourseTimeViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    courseDayController = TextEditingController(text: DateFormat('','ar').add_EEEE().format(courseController.courseProvider.course.dateTime));
     if(!add){
       courseFromController = TextEditingController(text :courseController.courseProvider.course.from!.format(context));
       courseToController = TextEditingController(text :courseController.courseProvider.course.to!.format(context));
     }
+
     return Padding(
       padding: const EdgeInsets.all(AppPadding.p16),
       child: Form(
