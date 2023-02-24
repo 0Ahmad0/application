@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pinkey/controller/book_course_controller.dart';
 import 'package:pinkey/controller/provider/book_course_provider.dart';
+import 'package:pinkey/controller/provider/chat_provider.dart';
 import 'package:pinkey/controller/provider/profile_provider.dart';
 import 'package:pinkey/model/utils/consts_manager.dart';
 import 'package:provider/provider.dart';
@@ -96,6 +97,9 @@ Widget buildCourses(BuildContext context,{required BookCourseProvider value}){
   Widget buildCoursesDetails(BuildContext context,
       {onProgress = false, required color, required statusText,required BookCourse bookCourse}) {
     ProfileProvider profileProvider=Provider.of<ProfileProvider>(context,listen: false);
+    ChatProvider chatProvider=Provider.of<ChatProvider>(context);
+    if(bookCourseController.courseProvider.mapCourses[bookCourse.idCourse]!=null)
+    bookCourseController.courseProvider.mapCourses[bookCourse.idCourse]=Course.init();
     return Container(
       padding: const EdgeInsets.all(AppPadding.p8),
       margin: const EdgeInsets.symmetric(vertical: AppMargin.m10),
@@ -215,7 +219,8 @@ Widget buildCourses(BuildContext context,{required BookCourseProvider value}){
                     fontSize: 10.sp,
                     text: AppStringsManager.start_conversation,
                     onPressed: () {
-                      Get.to(()=>ChatRoom(),transition: Transition.downToUp);
+                      chatProvider.chat.listIdUser=[bookCourse.idUser,bookCourse.idTrainer];
+                      Get.to(()=>ChatRoom(recId: (profileProvider.user.id==bookCourse.idUser?bookCourse.idTrainer:bookCourse.idUser),),transition: Transition.downToUp);
                     },
                   ),
                 ),

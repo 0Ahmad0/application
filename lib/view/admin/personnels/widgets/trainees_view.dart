@@ -2,10 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pinkey/controller/provider/profile_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../controller/provider/account_provider.dart';
+import '../../../../controller/provider/chat_provider.dart';
 import '../../../../model/models.dart';
 import '../../../../model/utils/const.dart';
 import '../../../../model/utils/consts_manager.dart';
@@ -121,6 +123,8 @@ class BuildPersonalTraineeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AccountProvider accountProvider = Provider.of<AccountProvider>(context);
+    ChatProvider chatProvider=Provider.of<ChatProvider>(context);
+    ProfileProvider profileProvider=Provider.of<ProfileProvider>(context);
     return Container(
       padding: const EdgeInsets.all(AppPadding.p12),
       margin: const EdgeInsets.symmetric(vertical: AppPadding.p4),
@@ -171,7 +175,7 @@ class BuildPersonalTraineeItem extends StatelessWidget {
                       fontSize: 10.sp,
                       text: AppStringsManager.send_message,
                       onPressed: () async {
-
+                        chatProvider.chat.listIdUser=[profileProvider.user.id,user.id];
                       }),
                 ),
               ),

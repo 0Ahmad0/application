@@ -6,6 +6,8 @@ import 'package:pinkey/controller/provider/account_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../controller/provider/chat_provider.dart';
+import '../../../../controller/provider/profile_provider.dart';
 import '../../../../model/models.dart';
 import '../../../../model/utils/const.dart';
 import '../../../../model/utils/consts_manager.dart';
@@ -123,6 +125,8 @@ class BuildPersonalTrainerItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AccountProvider accountProvider = Provider.of<AccountProvider>(context);
+    ChatProvider chatProvider=Provider.of<ChatProvider>(context);
+    ProfileProvider profileProvider=Provider.of<ProfileProvider>(context);
     return Container(
       padding: const EdgeInsets.all(AppPadding.p12),
       margin: const EdgeInsets.symmetric(vertical: AppPadding.p4),
@@ -199,7 +203,9 @@ class BuildPersonalTrainerItem extends StatelessWidget {
                               height: AppSize.s40,
                               fontSize: 10.sp,
                               text: AppStringsManager.send_message,
-                              onPressed: () {}),
+                              onPressed: () {
+                                chatProvider.chat.listIdUser=[profileProvider.user.id,user.id];
+                              }),
                         ),
                       ),
                       const SizedBox(

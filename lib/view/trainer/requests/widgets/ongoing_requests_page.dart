@@ -127,7 +127,7 @@ class OngoingRequestsPage extends StatelessWidget {
                       fontSize: 10.sp,
                       text: AppStringsManager.start_conversation,
                       onPressed: () {
-                        Get.to(() => ChatRoom(),);
+                      //  Get.to(() => ChatRoom(),);
                       },
                     ),
                   ),

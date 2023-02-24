@@ -221,6 +221,7 @@ class AppStringsManager{
 
 
 
+  static const String loading = 'جاري التحميل';
   static const String filed_Required = 'هذا الحقل مطلوب';
   static const String cvv_3letter = 'الطول الاعظم هو 3';
   static const String card_number_16letter = 'يجب أن يكون الرقم من 16';

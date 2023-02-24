@@ -91,7 +91,7 @@ class MyApp extends StatelessWidget {
       ListenableProvider<AuthProvider>(create: (_) => AuthProvider()),
       ListenableProvider<ProfileProvider>(create: (_)=>ProfileProvider()),
       ListenableProvider<ProcessProvider>(create: (_)=>ProcessProvider()),
-    //  ListenableProvider<ChatProvider>(create: (_)=>ChatProvider()),
+      ListenableProvider<ChatProvider>(create: (_)=>ChatProvider()),
       ListenableProvider<CreateEnvironmentProvider>(create: (_)=>CreateEnvironmentProvider()),
         ListenableProvider<WalletProvider>(create: (_)=>WalletProvider()),
         ListenableProvider<ReportProvider>(create: (_)=>ReportProvider()),

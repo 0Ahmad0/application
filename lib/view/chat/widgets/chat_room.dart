@@ -1,6 +1,17 @@
+import 'dart:io';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pinkey/model/utils/consts_manager.dart';
+import 'package:provider/provider.dart';
+import '../../../controller/provider/chat_provider.dart';
+import '../../../controller/provider/process_provider.dart';
+import '../../../controller/provider/profile_provider.dart';
+import '../../../model/models.dart';
+import '../../../model/utils/const.dart';
+import '../../app/picture/cach_picture_widget.dart';
 import '/view/manager/const.dart';
 import '/view/resourse/string_manager.dart';
 import '/view/resourse/string_manager.dart';
@@ -17,13 +28,41 @@ import '../../resourse/style_manager.dart';
 import '../../resourse/values_manager.dart';
 import 'dart:ui' as ui;
 
-class ChatRoom extends StatelessWidget {
-  ChatRoom({super.key});
+class ChatRoom extends StatefulWidget {
+  ChatRoom({super.key, required this.recId});
+  final String recId;
+  @override
+  State<ChatRoom> createState() => _ChatRoomState();
+}
 
+class _ChatRoomState extends State<ChatRoom> {
   final messageController = TextEditingController();
+  var getChat;
+  late ProfileProvider profileProvider;
+  late ChatProvider chatProvider;
+  late ProcessProvider processProvider;
+  final textController=TextEditingController();
+  @override
+  void initState() {
+    profileProvider = Provider.of<ProfileProvider>(context, listen: false);
+    chatProvider = Provider.of<ChatProvider>(context, listen: false);
 
+    chatProvider.fetchChatByListIdUser( listIdUser: chatProvider.chat.listIdUser);
+    getChatFun();
+    super.initState();
+  }
+
+  getChatFun() async {
+    // chatProvider.fetchChatByListIdUser( listIdUser: chatProvider.chat.listIdUser);
+    getChat = chatProvider.fetchChatStream( idChat: chatProvider.chat.id);
+    return getChat;
+  }
   @override
   Widget build(BuildContext context) {
+    chatProvider = Provider.of<ChatProvider>(context);
+    processProvider = Provider.of<ProcessProvider>(context);
+
+
     return Scaffold(
       appBar: AppBar(
           leading: BackButton(
@@ -31,36 +70,123 @@ class ChatRoom extends StatelessWidget {
           ),
           elevation: 0.0,
           backgroundColor: ColorManager.white,
-          title: ListTile(
-            title: Text('عبير عبد الغني'),
-            leading: ClipOval(
-              child: Image.asset('assets/images/1.png',
-                width: 10.w,
-                height: 10.w,
-              ),
-            ),
+          title: FutureBuilder(
+            //prints the messages to the screen0
+              future: chatProvider.fetchUserById(id: widget.recId),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return
+                    const Text(AppStringsManager.loading);
 
-            subtitle: Text('رخصة عمل حر', style: getRegularStyle(
-                color: ColorManager.hintColor,
-                fontSize: 10.sp
-            ),),
-          )),
+                }
+                else  {
+                  if (snapshot.hasError) {
+                    return const Text('Error');
+                  } else if (snapshot.hasData) {
+
+
+                    return
+                      ListTile(
+                        title: Text(
+                            chatProvider.user.name
+                          // processProvider.fetchLocalNameUser(idUser:widget.recId),
+                        ),
+                        leading: ClipOval(
+                          child:
+                          CacheNetworkImage(
+                            photoUrl:   // "https://th.bing.com/th/id/R.1b3a7efcd35343f64a9ae6ad5b5f6c52?rik=HGgUvyvtG4jbAQ&riu=http%3a%2f%2fwww.riyadhpost.live%2fuploads%2f7341861f7f918c109dfc33b73d8356b2.jpg&ehk=3Z4lADOKvoivP8Tbzi2Y56dxNrCWd0r7w7CHQEvpuUg%3d&risl=&pid=ImgRaw&r=0",
+                            '${chatProvider.user.photoUrl}',
+                            width: 10.w,
+                            height: 10.w,
+                            boxFit: BoxFit.fill,
+                            waitWidget:  Image.asset(
+                              AssetsManager.trainerIMG,
+                            ),
+                            errorWidget:  Image.asset(
+                                AssetsManager.trainerIMG
+                              //'assets/images/profile.png',
+                            ),
+                          )
+                        ),
+
+                        subtitle: Text('رخصة عمل حر', style: getRegularStyle(
+                            color: ColorManager.hintColor,
+                            fontSize: 10.sp
+                        ),),
+                      );
+                    /// }));
+                  } else {
+                    return const Text('Empty data');
+                  }
+                }
+
+              })
+      )
+      ,
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          ListView.builder(
-            padding: const EdgeInsets.only(
-              bottom: 80,
-              left: AppPadding.p12,
-              right: AppPadding.p12,
-            ),
-            itemCount: 12,
-            itemBuilder: (context, index) {
-              return MessageFile(
-                index: index,
-              );
-            },
-          ),
+          StreamBuilder<QuerySnapshot>(
+            //prints the messages to the screen0
+              stream: getChat,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return
+                    Const.SHOWLOADINGINDECATOR();
+
+                }
+                else if (snapshot.connectionState ==
+                    ConnectionState.active) {
+                  if (snapshot.hasError) {
+                    return const Text('Error');
+                  } else if (snapshot.hasData) {
+                    Const.SHOWLOADINGINDECATOR();
+                    chatProvider.chat.messages.clear();
+                  //  print("dd ${chatProvider.chatSend.messages.length}");
+                    if(snapshot.data!.docs!.length>1){
+                      chatProvider.chat.messages=Messages.fromJson(snapshot.data!.docs!).listMessage;
+                      chatProvider.chat.messages.addAll(chatProvider.chatSend.messages);
+                    }
+
+                    return
+                      ListView.builder(
+                        padding: const EdgeInsets.only(
+                          bottom: 80,
+                          left: AppPadding.p12,
+                          right: AppPadding.p12,
+                        ),
+                        itemCount: chatProvider.chat.messages.length,
+                        itemBuilder: (context, index) {
+                          return MessageFile(
+                            message: chatProvider.chat.messages[index],
+                            chatProvider: chatProvider,
+                            index: index,
+                          );
+                        },
+                      );
+                    //   ListView.builder(
+                    //   padding: const EdgeInsets.only(
+                    //     bottom: AppPadding.p60,
+                    //     left: AppPadding.p12,
+                    //     right: AppPadding.p12,
+                    //   ),
+                    //   itemCount: chatProvider.chat.messages.length,
+                    //   itemBuilder: (context, index) {
+                    //     return MessageFile(
+                    //       chatProvider: chatProvider,
+                    //       index: index,
+                    //     );
+                    //   },
+                    // );
+                    /// }));
+                  } else {
+                    return const Text('Empty data');
+                  }
+                }
+                else {
+                  return Text('State: ${snapshot.connectionState}');
+                }
+              }),
           Container(
             padding: const EdgeInsets.all(AppPadding.p8),
             decoration: BoxDecoration(color: ColorManager.white, boxShadow: [
@@ -93,7 +219,10 @@ class ChatRoom extends StatelessWidget {
                                   source: ImageSource.gallery,
                                 );
                                 if (file != null) {
-                                  print('yes');
+                                  print(file.path);
+                                  await chatProvider.sendMessage(context, idChat: chatProvider.chat.id,
+                                      message: Message(textMessage: '', typeMessage: TypeMessage.image.name,
+                                          senderId: profileProvider.user.id, receiveId: widget.recId, sendingTime: DateTime.now(),localUrl: file.path));
                                 }
                               },
                               icon: SvgPicture.asset(
@@ -104,7 +233,11 @@ class ChatRoom extends StatelessWidget {
                   width: AppSize.s10,
                 ),
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
+
+                     chatProvider.sendMessage(context, idChat: chatProvider.chat.id,
+                        message: Message(textMessage: messageController.text, typeMessage: TypeMessage.text.name,
+                            senderId: profileProvider.user.id, receiveId: widget.recId, sendingTime: DateTime.now()));
                     messageController.clear();
                   },
                   child: CircleAvatar(
@@ -126,8 +259,10 @@ var BorderType = OutlineInputBorder(
     borderSide: BorderSide(color: Colors.transparent));
 
 class MessageFile extends StatelessWidget {
-  const MessageFile({super.key, required this.index});
-
+   MessageFile({super.key, required this.index, required this.chatProvider, required this.message});
+  final ChatProvider chatProvider;
+  late ProfileProvider profileProvider;
+  final Message message;
   final int index;
 
   @override
@@ -141,7 +276,9 @@ class MessageFile extends StatelessWidget {
           title: "AppStrings.areYouSure",
           desc: "AppStrings.deleteThisMessage",
           btnCancelOnPress: () {},
-          btnOkOnPress: () {},
+          btnOkOnPress: () async {
+            await chatProvider.deleteMessage(context, idChat: chatProvider.chat.id, message: message);
+          },
         )
           ..show();
       },
@@ -177,30 +314,9 @@ class MessageFile extends StatelessWidget {
                       bottomRight: Radius.circular(AppSize.s6),
                     ),
                   ),
-                  child: ListTile(
-                      title: Padding(
-                        padding: const EdgeInsets.all(AppPadding.p4),
-                        child: ReadMoreText(
-                          "Message Message Message Message Message Message Message Message Message Message Message MessageMessage Message Message Message Message Message Message Message ",
-                          trimLines: ConstApp.readMoreTextHeight,
-                          colorClickableText: Colors.pink,
-                          trimMode: TrimMode.Line,
-                          trimCollapsedText: AppStringsManager.show_more,
-                          trimExpandedText: AppStringsManager.show_less,
-                          moreStyle: getRegularStyle(color: index.isOdd
-                              ? ColorManager.black
-                              : ColorManager.white,
-                              fontSize: 10.sp),
-                          lessStyle: getRegularStyle(color: index.isOdd
-                              ? ColorManager.black
-                              : ColorManager.white,
-                              fontSize: 10.sp),
-                          style: getRegularStyle(
-                              color: index.isEven
-                                  ? ColorManager.black
-                                  : ColorManager.white),
-                        ),
-                      )),
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppPadding.p4),
+                     child : childMessage(context,message)),
                 ),
               ),
             ],
@@ -214,7 +330,7 @@ class MessageFile extends StatelessWidget {
             ),
             child: Text(
               '${DateFormat('', 'ar').add_EEEE().add_jm().format(
-                  DateTime.now())}',
+                  message.sendingTime)}',
               textAlign: index.isOdd ? TextAlign.start : TextAlign.end,
               style: getLightStyle(color: Color(0xffAFAFAF), fontSize: 10.sp),
             ),
@@ -226,4 +342,104 @@ class MessageFile extends StatelessWidget {
       ),
     );
   }
+  childMessage(BuildContext context,Message message)   {
+    File file= File(message.localUrl);
+    if( file.existsSync())
+      return childMessageOnline(context,message);
+    else
+      return childMessageLocal(context,message);
+  }
+  childMessageOnline(BuildContext context,Message message)  {
+   switch(message.typeMessage){
+     case 'text':
+       return ListTile(
+           title: ReadMoreText(
+             message.textMessage,
+             //'${message.typeMessage} ${index}',
+             //"Message Message Message Message Message Message Message Message Message Message Message MessageMessage Message Message Message Message Message Message Message ",
+             trimLines: ConstApp.readMoreTextHeight,
+             colorClickableText: Colors.pink,
+             trimMode: TrimMode.Line,
+             trimCollapsedText: AppStringsManager.show_more,
+             trimExpandedText: AppStringsManager.show_less,
+             moreStyle: getRegularStyle(color: index.isOdd
+                 ? ColorManager.black
+                 : ColorManager.white,
+                 fontSize: 10.sp),
+             lessStyle: getRegularStyle(color: index.isOdd
+                 ? ColorManager.black
+                 : ColorManager.white,
+                 fontSize: 10.sp),
+             style: getRegularStyle(
+                 color: index.isEven
+                     ? ColorManager.black
+                     : ColorManager.white),
+           ));
+     case 'image':
+       return Container(
+         width: 60.w,
+         height: 50.w,
+         child: Padding(
+         padding: const EdgeInsets.all(AppPadding.p4),
+           ///TODO add statck
+           /// خلفية + ضبابية + دويرة صغيرة بتحتوي ايقونة تحميل وتحتا نص
+           child: Stack(
+             alignment: Alignment.center,
+             children: [
+
+               CacheNetworkImage(
+                 photoUrl:   // "https://th.bing.com/th/id/R.1b3a7efcd35343f64a9ae6ad5b5f6c52?rik=HGgUvyvtG4jbAQ&riu=http%3a%2f%2fwww.riyadhpost.live%2fuploads%2f7341861f7f918c109dfc33b73d8356b2.jpg&ehk=3Z4lADOKvoivP8Tbzi2Y56dxNrCWd0r7w7CHQEvpuUg%3d&risl=&pid=ImgRaw&r=0",
+                 '${message.url}',
+                 width: 60.w,
+                 height: 50.w,
+                 boxFit: BoxFit.cover,
+                 waitWidget:  Const.SHOWLOADINGINDECATOR(),
+                 errorWidget:  Icon(Icons.error),
+               )
+             ],
+           ),
+         ),
+       );
+   }
+  }
+   childMessageLocal(BuildContext context,Message message)  {
+     switch(message.typeMessage){
+       case 'text':
+         return ListTile(
+             title: Padding(
+               padding: const EdgeInsets.all(AppPadding.p4),
+               child: ReadMoreText(
+                 '${message.typeMessage} ${index}',
+                 //"Message Message Message Message Message Message Message Message Message Message Message MessageMessage Message Message Message Message Message Message Message ",
+                 trimLines: ConstApp.readMoreTextHeight,
+                 colorClickableText: Colors.pink,
+                 trimMode: TrimMode.Line,
+                 trimCollapsedText: AppStringsManager.show_more,
+                 trimExpandedText: AppStringsManager.show_less,
+                 moreStyle: getRegularStyle(color: index.isOdd
+                     ? ColorManager.black
+                     : ColorManager.white,
+                     fontSize: 10.sp),
+                 lessStyle: getRegularStyle(color: index.isOdd
+                     ? ColorManager.black
+                     : ColorManager.white,
+                     fontSize: 10.sp),
+                 style: getRegularStyle(
+                     color: index.isEven
+                         ? ColorManager.black
+                         : ColorManager.white),
+               ),
+             ));
+       case 'image':
+         return Container(
+           width: 60.w,
+           height: 50.w,
+           child: Padding(
+             padding: const EdgeInsets.all(AppPadding.p4),
+             child: Image.asset(message.url),
+           ),
+         );;
+     }
+   }
+
 }
