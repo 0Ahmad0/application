@@ -218,8 +218,11 @@ Widget buildCourses(BuildContext context,{required BookCourseProvider value}){
                     height: AppSize.s50,
                     fontSize: 10.sp,
                     text: AppStringsManager.start_conversation,
-                    onPressed: () {
+                    onPressed: () async {
                       chatProvider.chat.listIdUser=[bookCourse.idUser,bookCourse.idTrainer];
+                      Const.LOADIG(context);
+                      await  chatProvider.fetchChatByListIdUser(listIdUser: chatProvider.chat.listIdUser);
+                      Get.back();
                       Get.to(()=>ChatRoom(recId: (profileProvider.user.id==bookCourse.idUser?bookCourse.idTrainer:bookCourse.idUser),),transition: Transition.downToUp);
                     },
                   ),

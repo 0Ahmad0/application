@@ -8,6 +8,7 @@ import 'package:pinkey/controller/manager/role.dart';
 import 'package:pinkey/controller/profile_controller.dart';
 import 'package:pinkey/controller/provider/profile_provider.dart';
 import 'package:pinkey/model/utils/consts_manager.dart';
+import 'package:pinkey/view/chat/chat_view.dart';
 import 'package:pinkey/view/complaint/complaint_view.dart';
 import 'package:pinkey/view/login/login_view.dart';
 import 'package:pinkey/view/profile/profile_view.dart';
@@ -166,6 +167,28 @@ class MenuViewBody extends StatelessWidget {
             subtitle: AppStringsManager.wallet_subtitile,
           ),
         ),
+
+        Visibility(
+          visible: not_login,
+          child: const SizedBox(
+            height: AppSize.s20,
+          ),
+        ),
+        ///
+        Visibility(
+          visible: not_login,
+          child: buildMenuListTile(
+            onTap: () {
+
+              Get.to(()=>ChatView(),transition: Transition.upToDown);
+            },
+            //TODO add image chat
+            image: AssetsManager.sendIconIMG,
+            title: AppStringsManager.chat,
+            subtitle: AppStringsManager.chat_subtitle,
+          ),
+        ),
+
         Visibility(
           visible: not_login,
           child: const SizedBox(

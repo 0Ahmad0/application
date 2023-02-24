@@ -3,12 +3,12 @@ import '/model/utils/consts_manager.dart';
 class Role{
    static Map mapRole={
      '${AppConstants.collectionVisitor}':[homeView,loginMenu],
-     '${AppConstants.collectionUser}':[my_profile,notificationMenu,homeView,complaintMenu,notification,
+     '${AppConstants.collectionUser}':[my_profile,notificationMenu,chatMenu,homeView,complaintMenu,notification,
        locationMenu,bookCourse,location,appointmentsView],
-     '${AppConstants.collectionTrainer}':[my_profile,notificationMenu,trainerAppointmentsView,myCoursesView
+     '${AppConstants.collectionTrainer}':[my_profile,notificationMenu,chatMenu,trainerAppointmentsView,myCoursesView
        ,locationMenu,complaintMenu,location,appointmentsView],
      '${AppConstants.collectionAdmin}':[my_profile,adminComplaintsView,
-       adminRequestView],
+       adminRequestView,chatMenu],
    };
    ///,appointmentsView,requestsView
    static List allRole=[
@@ -24,6 +24,7 @@ class Role{
    static const  complaintMenu='complaintMenu';
    static const  loginMenu='loginMenu';
    static const  locationMenu='locationMenu';
+   static const  chatMenu='chatMenu';
    //navBar
    static const  menuView='menuView';
    static const  homeView='homeView';

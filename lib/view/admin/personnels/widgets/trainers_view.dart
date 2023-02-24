@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import 'package:pinkey/controller/provider/account_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -12,6 +15,7 @@ import '../../../../model/models.dart';
 import '../../../../model/utils/const.dart';
 import '../../../../model/utils/consts_manager.dart';
 import '../../../app/picture/cach_picture_widget.dart';
+import '../../../chat/widgets/chat_room.dart';
 import '../../../manager/widgets/button_app.dart';
 import '../../../resourse/assets_manager.dart';
 import '../../../resourse/color_manager.dart';
@@ -203,8 +207,13 @@ class BuildPersonalTrainerItem extends StatelessWidget {
                               height: AppSize.s40,
                               fontSize: 10.sp,
                               text: AppStringsManager.send_message,
-                              onPressed: () {
+                              onPressed: () async {
                                 chatProvider.chat.listIdUser=[profileProvider.user.id,user.id];
+                                Const.LOADIG(context);
+                                await  chatProvider.fetchChatByListIdUser(listIdUser: chatProvider.chat.listIdUser);
+                                Get.back();
+                                Get.to(()=>ChatRoom(recId:user.id,),transition: Transition.downToUp);
+
                               }),
                         ),
                       ),

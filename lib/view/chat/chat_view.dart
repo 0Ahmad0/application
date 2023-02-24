@@ -6,6 +6,8 @@ import '../../controller/provider/process_provider.dart';
 import '../../controller/provider/profile_provider.dart';
 import '../../model/models.dart';
 import '../../model/utils/const.dart';
+import '../resourse/color_manager.dart';
+import '../resourse/string_manager.dart';
 import '/view/resourse/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -40,49 +42,55 @@ class _ChatViewState extends State<ChatView> {
   @override
   Widget build(BuildContext context) {
     chatProvider = Provider.of<ChatProvider>(context);
-    return StreamBuilder<QuerySnapshot>(
-      //prints the messages to the screen0
-        stream: getChats,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return
-              Const.SHOWLOADINGINDECATOR();
+    return Scaffold(
+      appBar: AppBar(
+        title:  Text(AppStringsManager.chat),
+        leading: const BackButton(color: ColorManager.black,),
+      ),
+      body: StreamBuilder<QuerySnapshot>(
+        //prints the messages to the screen0
+          stream: getChats,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return
+                Const.SHOWLOADINGINDECATOR();
 
-          }
-          else if (snapshot.connectionState ==
-              ConnectionState.active) {
-            if (snapshot.hasError) {
-              return const Text('Error');
-            } else if (snapshot.hasData) {
-              Const.SHOWLOADINGINDECATOR();
-              if(snapshot.data!.docs!.length>0){
-                chatProvider.chats=Chats.fromJson(snapshot.data!.docs!);
-              }
-
-              return ListView.separated(
-                itemCount: chatProvider.chats.listChat.length,
-                itemBuilder: (ctx,index)=> ChatItem(
-                  chatProvider: chatProvider,
-                  index: index,
-                  name: (profileProvider.user.id.contains(chatProvider.chats.listChat[index].listIdUser[0]))
-                      ?chatProvider.chats.listChat[index].listIdUser[1]
-                      :chatProvider.chats.listChat[index].listIdUser[0],//"${index+10*2/3} Alwaseem",
-                  img: AssetsManager.logoIMG,
-                  lastMSG: chatProvider.chats.listChat[index].id,//'last message',
-                ),
-                separatorBuilder: (BuildContext context, int index)=>Divider(
-                  color: Theme.of(context).primaryColor,
-                ),
-              );
-              /// }));
-            } else {
-              return const Text('Empty data');
             }
-          }
-          else {
-            return Text('State: ${snapshot.connectionState}');
-          }
-        });
+            else if (snapshot.connectionState ==
+                ConnectionState.active) {
+              if (snapshot.hasError) {
+                return const Text('Error');
+              } else if (snapshot.hasData) {
+                Const.SHOWLOADINGINDECATOR();
+                if(snapshot.data!.docs!.length>0){
+                  chatProvider.chats=Chats.fromJson(snapshot.data!.docs!);
+                }
+
+                return ListView.separated(
+                  itemCount: chatProvider.chats.listChat.length,
+                  itemBuilder: (ctx,index)=> ChatItem(
+                    chatProvider: chatProvider,
+                    index: index,
+                    name: (profileProvider.user.id.contains(chatProvider.chats.listChat[index].listIdUser[0]))
+                        ?chatProvider.chats.listChat[index].listIdUser[1]
+                        :chatProvider.chats.listChat[index].listIdUser[0],//"${index+10*2/3} Alwaseem",
+                    img: AssetsManager.logoIMG,
+                    lastMSG: chatProvider.chats.listChat[index].id,//'last message',
+                  ),
+                  separatorBuilder: (BuildContext context, int index)=>Divider(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                );
+                /// }));
+              } else {
+                return const Text('Empty data');
+              }
+            }
+            else {
+              return Text('State: ${snapshot.connectionState}');
+            }
+          }),
+    );;
   }
 }
 
@@ -98,9 +106,16 @@ class ChatItem extends StatelessWidget {
   Widget build(BuildContext context) {
     processProvider= Provider.of<ProcessProvider>(context);
     return ListTile(
-      onTap: (){
+      onTap: () async {
         chatProvider.chat= chatProvider.chats.listChat[index];
-        Get.to(()=>ChatRoom(recId: name,));},
+
+        Const.LOADIG(context);
+        await  chatProvider.fetchChatByListIdUser(listIdUser: chatProvider.chat.listIdUser);
+        Get.back();
+        Get.to(()=>ChatRoom(recId:name,),transition: Transition.downToUp);
+
+       // Get.to(()=>ChatRoom(recId: name,));
+        },
       leading: CircleAvatar(
         backgroundImage: AssetImage(img??AssetsManager.logoIMG),
 

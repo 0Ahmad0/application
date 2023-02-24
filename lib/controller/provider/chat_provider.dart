@@ -147,6 +147,7 @@ class ChatProvider with ChangeNotifier{
                 'Error');
           } else if (snapshot
               .hasData) {
+
             Message message =Message.fromJson(snapshot.data);
             // Map<String,dynamic> data=snapshot.data as Map<String,dynamic>;
             //homeProvider.sessions=Sessions.fromJson(data['body']);
@@ -213,6 +214,8 @@ class ChatProvider with ChangeNotifier{
         var  url=await uploadFile(filePath: message.localUrl, typePathStorage: 'Chat/Image');
         if(url!=null){
           message.url=url.toString();
+          File file=File(message.localUrl);
+          message.sizeFile=await file.length();
         }
         else result=onError('fail upload image');
       }

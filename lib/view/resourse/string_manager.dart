@@ -76,6 +76,7 @@ class AppStringsManager{
   static const String privacy_policy_subtitle = 'إجراءات التطبيق في خصوصياته';
   static const String profile = 'الملف الشخصي';
   static const String profile_subtitle = 'يمكنك شراء الدورات من خلال محفظتك';
+  static const String chat_subtitle = 'قم بمراسلة المستخدمين والتحدث معهم';
   static const String wallet = 'المحفظة';
   static const String wallet_subtitile = 'يمكنك شراء الدورات من خلال محفظتك';
   static const String send_complaint = 'إرسال شكوى';
@@ -214,6 +215,7 @@ class AppStringsManager{
 
   static const String conflict_date_trainer = 'التاريخ المدخل يتضارب مع تاريخ موجود مسبقاً';
   static const String not_enough_money_wallet = 'ليس لديك مبلغ كافٍ في المحفظة';
+  static const String chat = 'المحادثة';
 
 
 

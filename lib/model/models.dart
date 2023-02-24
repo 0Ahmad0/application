@@ -874,13 +874,15 @@ class Message {
        tempUrl=json["url"];
      }
      String tempLocalUrl="";
-     if(json.data().containsKey("localUrl")){
-       tempLocalUrl=json["localUrl"];
-     }
+     tempLocalUrl=json["localUrl"];
+     // if(json.containsKey("localUrl")){
+     //   tempLocalUrl=json["localUrl"];
+     // }
      int tempSizeFile=0;
-     if(json.data().containsKey("sizeFile")){
-       tempSizeFile=json["sizeFile"];
-     }
+     tempSizeFile=json["sizeFile"];
+     // if(json.containsKey("sizeFile")){
+     //   tempSizeFile=json["sizeFile"];
+     // }
     // String tempUrlTempPhoto="";
     // if(json.data().containsKey("urlTempPhoto")){
     //   tempUrlTempPhoto=json["urlTempPhoto"];

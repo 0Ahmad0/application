@@ -3,6 +3,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:location/location.dart';
 import 'package:pinkey/controller/provider/account_provider.dart';
 import 'package:pinkey/controller/provider/course_provider.dart';
+import 'package:pinkey/controller/provider/downloder_provider.dart';
 import 'package:pinkey/controller/provider/report_provider.dart';
 import 'package:pinkey/controller/provider/wallet_provider.dart';
 import 'package:pinkey/translations/codegen_loader.g.dart';
@@ -102,6 +103,7 @@ class MyApp extends StatelessWidget {
         ListenableProvider<HomeProvider>(create: (_)=>HomeProvider()),
         ListenableProvider<BookCourseProvider>(create: (_)=>BookCourseProvider()),
         ListenableProvider<NotificationProvider>(create: (_)=>NotificationProvider()),
+        ListenableProvider<DownloaderProvider>(create: (_)=>DownloaderProvider()),
     ],
         child:
         Sizer(

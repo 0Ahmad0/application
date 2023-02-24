@@ -2,9 +2,12 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:circle_progress_bar/circle_progress_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:filesize/filesize.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../controller/provider/downloder_provider.dart';
 import '/model/utils/consts_manager.dart';
 import 'package:provider/provider.dart';
 import '../../../controller/provider/chat_provider.dart';
@@ -27,6 +30,7 @@ import '../../../model/utils/app_sizer.dart';
 import '../../resourse/color_manager.dart';
 import '../../resourse/style_manager.dart';
 import '../../resourse/values_manager.dart';
+import 'package:path_provider/path_provider.dart';
 import 'dart:ui' as ui;
 
 class ChatRoom extends StatefulWidget {
@@ -44,15 +48,17 @@ class _ChatRoomState extends State<ChatRoom> {
   late ProfileProvider profileProvider;
   late ChatProvider chatProvider;
   late ProcessProvider processProvider;
+  late DownloaderProvider downloaderProvider;
   final textController = TextEditingController();
-
+  fetchTempDir() async {
+    downloaderProvider.tempDir = await getTemporaryDirectory();
+  }
   @override
   void initState() {
     profileProvider = Provider.of<ProfileProvider>(context, listen: false);
     chatProvider = Provider.of<ChatProvider>(context, listen: false);
-
-    chatProvider.fetchChatByListIdUser(
-        listIdUser: chatProvider.chat.listIdUser);
+    downloaderProvider = Provider.of<DownloaderProvider>(context, listen: false);
+   // chatProvider.fetchChatByListIdUser(listIdUser: chatProvider.chat.listIdUser);
     getChatFun();
     super.initState();
   }
@@ -67,7 +73,9 @@ class _ChatRoomState extends State<ChatRoom> {
   Widget build(BuildContext context) {
     chatProvider = Provider.of<ChatProvider>(context);
     processProvider = Provider.of<ProcessProvider>(context);
-
+    profileProvider = Provider.of<ProfileProvider>(context);
+    downloaderProvider = Provider.of<DownloaderProvider>(context);
+    fetchTempDir();
     return Scaffold(
       appBar: AppBar(
           leading: BackButton(
@@ -135,11 +143,11 @@ class _ChatRoomState extends State<ChatRoom> {
                     if (snapshot.data!.docs!.length > 1) {
                       chatProvider.chat.messages =
                           Messages.fromJson(snapshot.data!.docs!).listMessage;
-                      chatProvider.chat.messages
-                          .addAll(chatProvider.chatSend.messages);
+                    //  chatProvider.chat.messages.addAll(chatProvider.chatSend.messages);
                     }
 
                     return ListView.builder(
+
                       padding: const EdgeInsets.only(
                         bottom: 80,
                         left: AppPadding.p12,
@@ -205,7 +213,7 @@ class _ChatRoomState extends State<ChatRoom> {
                               source: ImageSource.gallery,
                             );
                             if (file != null) {
-                              print(file.path);
+                             // print(file.path);
                               await chatProvider.sendMessage(context,
                                   idChat: chatProvider.chat.id,
                                   message: Message(
@@ -267,6 +275,8 @@ class MessageFile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    profileProvider=Provider.of<ProfileProvider>(context, listen: false);
+   // print(index);
     return GestureDetector(
       onLongPress: () {
         AwesomeDialog(
@@ -287,8 +297,8 @@ class MessageFile extends StatelessWidget {
         children: [
           Row(
             children: [
-              index.isOdd ? CircleAvatar() : const SizedBox(),
-              index.isOdd
+              (profileProvider.user.id==message.senderId) ? CircleAvatar() : const SizedBox(),
+              (profileProvider.user.id==message.senderId)
                   ? const SizedBox(
                       width: AppSize.s8,
                     )
@@ -299,11 +309,11 @@ class MessageFile extends StatelessWidget {
                   margin: EdgeInsets.only(
                     top: AppMargin.m10,
                     bottom: AppMargin.m4,
-                    left: index.isEven ? 0 : AppSizer.getW(context) / 5,
-                    right: index.isOdd ? 0 : AppSizer.getW(context) / 5,
+                    left: (profileProvider.user.id!=message.senderId) ? 0 : AppSizer.getW(context) / 5,
+                    right: (profileProvider.user.id==message.senderId) ? 0 : AppSizer.getW(context) / 5,
                   ),
                   decoration: BoxDecoration(
-                    color: index.isEven
+                    color: (profileProvider.user.id!=message.senderId)
                         ? ColorManager.thirdlyColor
                         : Theme.of(context).primaryColor,
                     borderRadius: BorderRadius.only(
@@ -314,22 +324,28 @@ class MessageFile extends StatelessWidget {
                   ),
                   child: Padding(
                       padding: const EdgeInsets.all(AppPadding.p4),
-                      child: childMessage(context, message)),
+                      child:
+    ChangeNotifierProvider<DownloaderProvider>.value(
+    value: Provider.of<DownloaderProvider>(context),
+    child: Consumer<DownloaderProvider>(
+    builder: (context, value, child) =>
+    //(value.checkCompleteDownload[message.id] != true)
+                      childMessage(context, message)))),
                 ),
               ),
             ],
           ),
           Container(
-            padding: index.isOdd
+            padding: (profileProvider.user.id==message.senderId)
                 ? EdgeInsets.symmetric(horizontal: AppSizer.getW(context) / 8)
                 : EdgeInsets.zero,
             margin: EdgeInsets.only(
-              left: index.isEven ? 0 : AppSizer.getW(context) / 5,
-              right: index.isOdd ? 0 : AppSizer.getW(context) / 5,
+              left: (profileProvider.user.id!=message.senderId)? 0 : AppSizer.getW(context) / 5,
+              right: (profileProvider.user.id==message.senderId)? 0 : AppSizer.getW(context) / 5,
             ),
             child: Text(
               '${DateFormat('', 'ar').add_EEEE().add_jm().format(message.sendingTime)}',
-              textAlign: index.isOdd ? TextAlign.start : TextAlign.end,
+              textAlign: (profileProvider.user.id==message.senderId)? TextAlign.start : TextAlign.end,
               style: getLightStyle(color: Color(0xffAFAFAF), fontSize: 10.sp),
             ),
           ),
@@ -350,6 +366,7 @@ class MessageFile extends StatelessWidget {
   }
 
   childMessageOnline(BuildContext context, Message message) {
+    DownloaderProvider downloaderProvider=Provider.of<DownloaderProvider>(context);
     switch (message.typeMessage) {
       case 'text':
         return ListTile(
@@ -363,13 +380,13 @@ class MessageFile extends StatelessWidget {
           trimCollapsedText: AppStringsManager.show_more,
           trimExpandedText: AppStringsManager.show_less,
           moreStyle: getRegularStyle(
-              color: index.isOdd ? ColorManager.black : ColorManager.white,
+              color: (profileProvider.user.id==message.senderId) ? ColorManager.black : ColorManager.white,
               fontSize: 10.sp),
           lessStyle: getRegularStyle(
-              color: index.isOdd ? ColorManager.black : ColorManager.white,
+              color: (profileProvider.user.id==message.senderId)? ColorManager.black : ColorManager.white,
               fontSize: 10.sp),
           style: getRegularStyle(
-              color: index.isEven ? ColorManager.black : ColorManager.white),
+              color:(profileProvider.user.id!=message.senderId) ? ColorManager.black : ColorManager.white),
         ));
       case 'image':
         return Stack(
@@ -394,13 +411,46 @@ class MessageFile extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: (){
-
+                    downloaderProvider.downloadFile(message);
+                    downloaderProvider.notifyListeners();
                   },
                   child: CircleAvatar(
-                    child: Icon(Icons.download_rounded),
+                    child:CircleProgressBar(
+                        strokeWidth: AppSize.s4,
+                        value: downloaderProvider.downloadProgress[message.id] == null
+                            ? 0
+                            : downloaderProvider.downloadProgress[message.id]!,
+                        foregroundColor: Theme.of(context).primaryColor,
+                        child: downloaderProvider.checkClickDownload[message.id] == true
+                            ? Container(
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.all(AppPadding.p4),
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).cardColor,
+                                shape: BoxShape.circle),
+                            child: Text(
+                              "${(downloaderProvider.downloadProgress[message.id]! * 100).toStringAsFixed(1)}%",
+                              style: getLightStyle(
+                                  color: ColorManager.black, fontSize: AppSize.s8),
+                            ))
+                            : GestureDetector(
+                          onTap: () => downloaderProvider.downloadFile(message),
+                          child: Container(
+                            padding: EdgeInsets.all(
+                                message.typeMessage.contains("audio")
+                                    ? AppPadding.p10
+                                    : 0),
+                            child: Icon(Icons.download_rounded),
+                          ),
+                        ))
+
+                    ,
                   ),
                 ),
-                Chip(label: Text('134 kb'))
+                Chip(label: Text(
+                  filesize(message.sizeFile)
+                    //'134 kb'
+                ))
               ],
             )
           ],
@@ -415,7 +465,8 @@ class MessageFile extends StatelessWidget {
             title: Padding(
           padding: const EdgeInsets.all(AppPadding.p4),
           child: ReadMoreText(
-            '${message.typeMessage} ${index}',
+            message.textMessage,
+            //'${message.typeMessage} ${index}',
             //"Message Message Message Message Message Message Message Message Message Message Message MessageMessage Message Message Message Message Message Message Message ",
             trimLines: ConstApp.readMoreTextHeight,
             colorClickableText: Colors.pink,
@@ -423,13 +474,13 @@ class MessageFile extends StatelessWidget {
             trimCollapsedText: AppStringsManager.show_more,
             trimExpandedText: AppStringsManager.show_less,
             moreStyle: getRegularStyle(
-                color: index.isOdd ? ColorManager.black : ColorManager.white,
+                color: (profileProvider.user.id==message.senderId)? ColorManager.black : ColorManager.white,
                 fontSize: 10.sp),
             lessStyle: getRegularStyle(
-                color: index.isOdd ? ColorManager.black : ColorManager.white,
+                color: (profileProvider.user.id==message.senderId)? ColorManager.black : ColorManager.white,
                 fontSize: 10.sp),
             style: getRegularStyle(
-                color: index.isEven ? ColorManager.black : ColorManager.white),
+                color: (profileProvider.user.id!=message.senderId) ? ColorManager.black : ColorManager.white),
           ),
         ));
       case 'image':
