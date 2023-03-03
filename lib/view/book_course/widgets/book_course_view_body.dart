@@ -3,9 +3,12 @@ import 'package:get/get.dart';
 import 'package:pinkey/model/models.dart';
 import 'package:pinkey/view/payment_for_course/payment_for_course_view.dart';
 import 'package:pinkey/view/resourse/assets_manager.dart';
+import 'package:pinkey/view/resourse/string_manager.dart';
 import 'package:sizer/sizer.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../controller/book_course_controller.dart';
+import '../../../model/utils/const.dart';
 import '../../manager/widgets/button_app.dart';
 import '../../resourse/color_manager.dart';
 import '../../resourse/style_manager.dart';
@@ -22,6 +25,7 @@ class BookCourseViewBody extends StatefulWidget {
 
 class _BookCourseViewBodyState extends State<BookCourseViewBody> {
   int _selectedIndex = 0;
+  List<DateTime> listDate=[];
   @override
   void initState() {
     // TODO: implement initState
@@ -32,6 +36,7 @@ class _BookCourseViewBodyState extends State<BookCourseViewBody> {
   Widget build(BuildContext context) {
     // print(widget.bookCourseController.listDateTime);
     // print(widget.bookCourseController.listTimeOfDay);
+   // print(widget.bookCourseController.listDateTime);
     return ListView(
       padding: const EdgeInsets.all(AppPadding.p20),
       children: [
@@ -55,18 +60,32 @@ class _BookCourseViewBodyState extends State<BookCourseViewBody> {
                     color: ColorManager.lightGray.withOpacity(.3),
                     blurRadius: AppSize.s4)
               ]),
-          // child: SfDateRangePicker(
-          //   initialDisplayDate: DateTime.now(),
-          //
-          //
-          //   onSelectionChanged: (date) {
-          //     print(date.value);
-          //   },
-          //   selectionMode: DateRangePickerSelectionMode.multiple,
-          //   initialSelectedRange: PickerDateRange(
-          //       DateTime.now().subtract(const Duration(days: 4)),
-          //       DateTime.now().add(const Duration(days: 3))),
-          // ),
+          child: SfDateRangePicker(
+            initialDisplayDate: DateTime.now(),
+
+            onSelectionChanged: (date) {
+              // for(DateTime dateTime1 in (List<DateTime>)(date.value)){
+              //   bool checkDate=false;
+              //   for(DateTime dateTime2 in widget.bookCourseController.listDateTime)
+              //     if(widget.bookCourseController.compareDateYMD(dateTime1: dateTime1, dateTime2: dateTime2)==0)
+              //       checkDate=true;
+              //     if(!checkDate)
+              //       date.value.remove(dateTime1);
+              //   checkDate=false;
+              // }
+              listDate=date.value;
+              print(listDate);
+            },
+            selectionMode: DateRangePickerSelectionMode.multiple,
+            minDate: widget.bookCourseController.listDateTime.first,
+            maxDate: widget.bookCourseController.listDateTime.last,
+            initialSelectedRange: PickerDateRange(
+                widget.bookCourseController.listDateTime.first,
+                widget.bookCourseController.listDateTime.last
+                // DateTime.now().subtract(const Duration(days: 4)),
+                // DateTime.now().add(const Duration(days: 3))
+            ),
+          ),
         ),
         const SizedBox(
           height: AppSize.s20,
@@ -123,10 +142,15 @@ class _BookCourseViewBodyState extends State<BookCourseViewBody> {
         ButtonApp(
           text: "استمرار",
           onPressed: (){
-            widget.bookCourseController.bookCourseProvider.bookCourse=BookCourse(idCourse:'' , idTrainer: '', idUser: '',
-                typeCar: '', dateTime: DateTime.now(), price: 0, listDateTime: widget.bookCourseController.listDateTime
-            ,from: widget.bookCourseController.listTimeOfDay[_selectedIndex],to: widget.bookCourseController.listTimeOfDay[_selectedIndex]);
-            Get.to(()=>PaymentForCourseView(),transition: Transition.circularReveal);
+            if(listDate.length>0){
+              widget.bookCourseController.bookCourseProvider.bookCourse=BookCourse(idCourse:'' , idTrainer: '', idUser: '',
+                  typeCar: '', dateTime: DateTime.now(), price: 0, listDateTime: listDate
+                  ,from: widget.bookCourseController.listTimeOfDay[_selectedIndex],to: widget.bookCourseController.listTimeOfDay[_selectedIndex]);
+              Get.to(()=>PaymentForCourseView(),transition: Transition.circularReveal);
+            }else{
+              Const.TOAST(context,textToast:AppStringsManager.should_select_date );
+            }
+
           },
         ),
       ],

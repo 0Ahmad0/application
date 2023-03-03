@@ -214,10 +214,11 @@ class _ChatRoomState extends State<ChatRoom> {
                             );
                             if (file != null) {
                              // print(file.path);
+                              print(file.name);
                               await chatProvider.sendMessage(context,
                                   idChat: chatProvider.chat.id,
                                   message: Message(
-                                      textMessage: '',
+                                      textMessage: '${file.name}',
                                       typeMessage: TypeMessage.image.name,
                                       senderId: profileProvider.user.id,
                                       receiveId: widget.recId,
@@ -358,8 +359,11 @@ class MessageFile extends StatelessWidget {
   }
 
   childMessage(BuildContext context, Message message) {
+
+    DownloaderProvider downloaderProvider=Provider.of<DownloaderProvider>(context);
+    message.localUrl='${downloaderProvider.tempDir.path}/${message.textMessage}';
     File file = File(message.localUrl);
-    if (file.existsSync())
+    if (!file.existsSync())
       return childMessageOnline(context, message);
     else
       return childMessageLocal(context, message);
@@ -396,11 +400,11 @@ class MessageFile extends StatelessWidget {
               imageFilter: ImageFilter.blur(sigmaX: 10.0, sigmaY:10.0,
               tileMode: TileMode.decal),
               child: CacheNetworkImage(
-                photoUrl: // "https://th.bing.com/th/id/R.1b3a7efcd35343f64a9ae6ad5b5f6c52?rik=HGgUvyvtG4jbAQ&riu=http%3a%2f%2fwww.riyadhpost.live%2fuploads%2f7341861f7f918c109dfc33b73d8356b2.jpg&ehk=3Z4lADOKvoivP8Tbzi2Y56dxNrCWd0r7w7CHQEvpuUg%3d&risl=&pid=ImgRaw&r=0",
+                photoUrl:// "https://firebasestorage.googleapis.com/v0/b/pinkey-fead2.appspot.com/o/Chat%2FImageimage_picker5514877828718555731.png?alt=media&token=2fbefb80-1fd9-4622-b9f6-b180798bf57b",
                     '${message.url}',
                 width: 60.w,
                 height: 50.w,
-                boxFit: BoxFit.fill,
+                boxFit: BoxFit.cover,
                 waitWidget: Const.SHOWLOADINGINDECATOR(),
                 errorWidget: const Icon(Icons.error),
               ),
@@ -434,7 +438,10 @@ class MessageFile extends StatelessWidget {
                                   color: ColorManager.black, fontSize: AppSize.s8),
                             ))
                             : GestureDetector(
-                          onTap: () => downloaderProvider.downloadFile(message),
+                          onTap: () async {
+                            await downloaderProvider.downloadFile(message);
+                            message.localUrl='${downloaderProvider.tempDir.path}/${message.textMessage}';
+                          },
                           child: Container(
                             padding: EdgeInsets.all(
                                 message.typeMessage.contains("audio")
@@ -459,6 +466,7 @@ class MessageFile extends StatelessWidget {
   }
 
   childMessageLocal(BuildContext context, Message message) {
+
     switch (message.typeMessage) {
       case 'text':
         return ListTile(
@@ -487,9 +495,20 @@ class MessageFile extends StatelessWidget {
         return Container(
           width: 60.w,
           height: 50.w,
+
           child: Padding(
             padding: const EdgeInsets.all(AppPadding.p4),
-            child: Image.asset(message.url),
+            child:
+            CacheNetworkImage(
+              photoUrl: '${message.url}',
+              width: 10.w,
+              height: 10.w,
+              boxFit: BoxFit.cover,
+              waitWidget: Const.SHOWLOADINGINDECATOR(),
+              errorWidget: const Icon(Icons.error),
+
+          ),
+           // Image.file(File(message.localUrl)),
           ),
         );
         ;

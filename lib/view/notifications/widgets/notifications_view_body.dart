@@ -28,9 +28,11 @@ class NotificationViewBody extends StatefulWidget {
 class _NotificationViewBodyState extends State<NotificationViewBody> {
 
   var getNotification;
+
   getNotificationFun()  {
     getNotification = FirebaseFirestore.instance.collection(AppConstants.collectionNotification)
         .where('checkRec',isEqualTo: false)
+    .where('idUser',isEqualTo: widget.profileProvider.user.id)
         .snapshots();
     return getNotification;
   }

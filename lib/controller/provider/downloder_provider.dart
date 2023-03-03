@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 
 import 'package:firebase_storage/firebase_storage.dart';
@@ -24,6 +25,7 @@ class DownloaderProvider with ChangeNotifier{
     downloadProgress[message.id]=0;
     notifyListeners();
     final tempDir= await getTemporaryDirectory();
+
     final path = "${tempDir.path}/${message.textMessage}";
     var result =await Dio().download(
         message.url,

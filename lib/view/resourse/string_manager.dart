@@ -216,6 +216,7 @@ class AppStringsManager{
   static const String conflict_date_trainer = 'التاريخ المدخل يتضارب مع تاريخ موجود مسبقاً';
   static const String not_enough_money_wallet = 'ليس لديك مبلغ كافٍ في المحفظة';
   static const String chat = 'المحادثة';
+  static const String  should_select_date = 'يجب عليك تحديد تاريخ';
 
 
 
