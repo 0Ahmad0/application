@@ -45,12 +45,12 @@ final AuthController authController;
               authController.authProvider.text=AppStringsManager.login_to_complete_book;
               Get.to(()=>LoginView());
             }),
-            const SizedBox(height: AppSize.s10,),
-            ButtonApp(text: AppStringsManager.login_admin, onPressed: () async {
-              //await CreateEnvironmentProvider().createAdmins(context);
-              authController.authProvider.text=AppStringsManager.login_to_managment_account;
-                Get.to(()=>LoginView());
-            }),
+            // const SizedBox(height: AppSize.s10,),
+            // ButtonApp(text: AppStringsManager.login_admin, onPressed: () async {
+            //   //await CreateEnvironmentProvider().createAdmins(context);
+            //   authController.authProvider.text=AppStringsManager.login_to_managment_account;
+            //     Get.to(()=>LoginView());
+            // }),
             const SizedBox(height: AppSize.s10,),
             ButtonApp(text: AppStringsManager.login_visit, onPressed: () async {
              await  authController.visitor();

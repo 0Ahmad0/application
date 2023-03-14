@@ -147,7 +147,7 @@ class _ChatRoomState extends State<ChatRoom> {
                     }
 
                     return ListView.builder(
-
+                      
                       padding: const EdgeInsets.only(
                         bottom: 80,
                         left: AppPadding.p12,

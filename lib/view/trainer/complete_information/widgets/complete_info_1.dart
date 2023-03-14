@@ -271,7 +271,7 @@ class CompleteInfo1 extends StatelessWidget {
                   validator: (String? value){
                     if(value!.trim().isEmpty){
                       return AppStringsManager.field_required;
-                    }else if(value.length < 12){
+                    }else if(value.length != 10){
                       return AppStringsManager.enter_valid_id;
                     }
                   },
