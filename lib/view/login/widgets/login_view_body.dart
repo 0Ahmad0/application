@@ -91,6 +91,7 @@ class LoginViewBody extends StatelessWidget {
               style: getRegularStyle(
                   color: Theme.of(context).textTheme.subtitle1!.color,
                   fontSize: 12.sp),
+
             ),
             const SizedBox(
               height: AppSize.s10,
