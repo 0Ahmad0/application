@@ -20,6 +20,7 @@ class AppStringsManager{
   static const String personals = 'الأفراد';
 
   static const String type = 'إدخال';
+  static const String or = 'أو';
   static const String forget_password = 'نسيتي كلمة المرور؟';
   static const String login = 'تسجبل دخول';
   static const String login_visit = 'دخول كزائر';

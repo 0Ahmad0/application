@@ -80,7 +80,7 @@ class LoginViewBody extends StatelessWidget {
             TextFiledApp(
               controller: emailController,
                 iconData: Icons.phone_android,
-                hintText: AppStringsManager.type + " " +AppStringsManager.phone_number ),
+                hintText: AppStringsManager.type + " " +AppStringsManager.phone_number+ " " +AppStringsManager.or+ " " +AppStringsManager.email ),
             const SizedBox(
               height: AppSize.s40,
             ),
