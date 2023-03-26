@@ -126,7 +126,10 @@ class CompleteInfo2 extends StatelessWidget {
                 label: Text('${result == null ? "":result!.files.first.name}'),
               ),
             ),
-            const SizedBox(height: AppSize.s20,),
+            Text(AppStringsManager.accepted_files,
+              style: getRegularStyle(color: ColorManager.hintColor,
+                  fontSize: 10.sp),
+            ),
 
           ],
         ),

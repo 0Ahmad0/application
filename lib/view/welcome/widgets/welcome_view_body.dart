@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinkey/view/navbar/navbar.dart';
+import 'package:pinkey/view/resourse/color_manager.dart';
 
 import 'package:sizer/sizer.dart';
 
@@ -29,15 +30,16 @@ final AuthController authController;
           children: [
             FadeInDown(
               child: Container(
-                width: 50.w,
-                height: 50.w,
-                decoration: BoxDecoration(
+                  width: 35.w,
+                  height: 35.w,
+                  decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: AssetImage(AssetsManager.logoIMG)
-                    )
-                ),
-              ),
+                    color: ColorManager.primaryColor
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppPadding.p20),
+                    child: Image.asset(AssetsManager.logoIMG),
+                  )),
             ),
             const SizedBox(height: AppSize.s10,),
             ButtonApp(text: AppStringsManager.login, onPressed: () async {

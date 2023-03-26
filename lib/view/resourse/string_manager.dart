@@ -8,6 +8,8 @@ class AppStringsManager{
   static const String show_trainee_details = 'مشاهدة تفاصيل الطالبة';
   static const String splashText = 'للتدريب على قيادة السيارات';
   static const String app_name = 'بنكي';
+  static const String send = 'إرسال';
+  static const String accepted_files = 'الملفات المسموح رفعها[PNG , JPEG , PDF]';
   static const String welcome_back = 'أهلا بعودتك';
   static const String login_to_complete_book = 'قومي بتسجيل الدخول حتى تستطيعي إجراء حجوزاتك';
   static const String login_to_managment_account = 'قومي بتسجيل الدخول حتى تستطيعي إدارة الحساب';

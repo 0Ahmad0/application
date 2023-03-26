@@ -18,7 +18,7 @@ class FormValidator {
 
   ///@Phone Validator
   static String? phoneValidator(String? value) {
-    if (!value!.isPhoneNumber) {
+    if (value!.length != 10 || !value.startsWith('05')) {
       return AppStringsManager.enter_valid_phone;
     }
     if (value.trim().isEmpty) {

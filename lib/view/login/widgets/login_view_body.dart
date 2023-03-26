@@ -68,7 +68,8 @@ class LoginViewBody extends StatelessWidget {
               height: AppSize.s30,
             ),
             Text(
-              AppStringsManager.phone_number,
+              AppStringsManager.phone_number + " " +AppStringsManager.or+ " "
+                  +AppStringsManager.email ,
               style: getRegularStyle(
                   color: Theme.of(context).textTheme.subtitle1!.color,
                   fontSize: 12.sp),
@@ -80,7 +81,8 @@ class LoginViewBody extends StatelessWidget {
             TextFiledApp(
               controller: emailController,
                 iconData: Icons.phone_android,
-                hintText: AppStringsManager.type + " " +AppStringsManager.phone_number+ " " +AppStringsManager.or+ " " +AppStringsManager.email ),
+                hintText: AppStringsManager.type + " " +AppStringsManager.phone_number+ " " +AppStringsManager.or+ " "
+                    +AppStringsManager.email ),
             const SizedBox(
               height: AppSize.s40,
             ),
@@ -177,8 +179,8 @@ class LoginViewBody extends StatelessWidget {
                   hintText: AppStringsManager.recovery_email),
               Spacer(),
               ButtonApp(
-                  textColor: Theme.of(context).textTheme.bodyMedium!.color,
-                  text: AppStringsManager.yes,
+                  textColor: ColorManager.white,
+                  text: AppStringsManager.send,
                   onPressed: () async {
                     await authController.sendPasswordResetEmail(context, email: forgetPasswordController.text);
                     Get.back();

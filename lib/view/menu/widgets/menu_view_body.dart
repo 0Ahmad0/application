@@ -384,13 +384,6 @@ class buildMenuListTile extends StatelessWidget {
         child: SvgPicture.asset(image,color: ColorManager.black,),
       ),
       title: Text(title),
-      subtitle: Padding(
-        padding: const EdgeInsets.symmetric(vertical: AppPadding.p10),
-        child: Text(
-          subtitle,
-          style: TextStyle(color: ColorManager.lightGray),
-        ),
-      ),
       trailing: Icon(
         Icons.arrow_back_ios_new,
         color: ColorManager.black,
