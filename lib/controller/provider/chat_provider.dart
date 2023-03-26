@@ -239,7 +239,7 @@ class ChatProvider with ChangeNotifier{
 
 
     //print(result);
-    result['status']??Const.TOAST(context,textToast: FirebaseFun.findTextToast(result['message'].toString()));
+ //   result['status']??Const.TOAST(context,textToast: FirebaseFun.findTextToast(result['message'].toString()));
     return result;
   }
 

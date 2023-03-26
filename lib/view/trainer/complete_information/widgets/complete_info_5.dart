@@ -78,14 +78,14 @@ class CompleteInfo5 extends StatelessWidget {
                     color: ColorManager.hintColor, fontSize: 12.sp),
               ),
               BuildUploadeFile(
-                  file: completeInfo5Provider.imageIDFile, text: AppStringsManager.image_id),
+                  file: completeInfo5Provider.imageIDFile, text: '${AppStringsManager.image_id}'+' '+'*'),
               BuildUploadeFile(
-                  file: completeInfo5Provider.carLicenceFile, text: AppStringsManager.car_license),
+                  file: completeInfo5Provider.carLicenceFile, text: AppStringsManager.car_license+' '+'*'),
               BuildUploadeFile(
                   file: completeInfo5Provider.carRegistrationFile,
-                  text: AppStringsManager.car_registration),
+                  text: AppStringsManager.car_registration+' '+'*'),
               BuildUploadeFile(
-                  file: completeInfo5Provider.carImageFile, text: AppStringsManager.car_image),
+                  file: completeInfo5Provider.carImageFile, text: AppStringsManager.car_image+' '+'*'),
               BuildUploadeFile(
                   file: completeInfo5Provider.selfEmploymentLicenseFile,
                   text: AppStringsManager.self_employment_license),
@@ -111,9 +111,11 @@ class CompleteInfo5 extends StatelessWidget {
               if ((completeInfo5Provider.files[completeInfo5Provider.imageIDFile] == null) ||
                   (completeInfo5Provider.files[completeInfo5Provider.carLicenceFile] == null) ||
                   (completeInfo5Provider.files[completeInfo5Provider.carRegistrationFile] == null) ||
-                  (completeInfo5Provider.files[completeInfo5Provider.carImageFile] == null) ||
-                  (completeInfo5Provider.files[completeInfo5Provider.selfEmploymentLicenseFile] == null) ||
-                  (completeInfo5Provider.files[completeInfo5Provider.otherImageFile ]== null)) {
+                  (completeInfo5Provider.files[completeInfo5Provider.carImageFile] == null)
+                  //||(completeInfo5Provider.files[completeInfo5Provider.selfEmploymentLicenseFile] == null) ||
+                 // (completeInfo5Provider.files[completeInfo5Provider.otherImageFile ]== null)
+              )
+              {
 
                 Get.snackbar(AppStringsManager.error,
                     AppStringsManager.please_uploade_all_images);
