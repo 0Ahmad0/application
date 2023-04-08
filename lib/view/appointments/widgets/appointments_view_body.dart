@@ -121,7 +121,10 @@ Widget buildCourses(BuildContext context,{required BookCourseProvider value}){
                     const SizedBox(
                       width: AppSize.s4,
                     ),
-                    const Text(AppStringsManager.trainer_courses_name),
+                     Text(
+                        bookCourseController.courseProvider.mapCourses[bookCourse.idCourse]!.name
+                       // AppStringsManager.trainer_courses_name
+                      ),
                     const SizedBox(
                       width: AppSize.s4,
                     ),
