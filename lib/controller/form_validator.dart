@@ -65,6 +65,8 @@ class FormValidator {
       return AppStringsManager.filed_Required;
     if(val.length != 16)
       return AppStringsManager.card_number_16letter;
+    if(checkLuhn(val))
+      return AppStringsManager.card_number_not_valid;
 
     return null;
   }
@@ -80,4 +82,30 @@ class FormValidator {
     }
     return null;
   }
+
+  static bool checkLuhn(String cardNo)
+  {
+    int nDigits = cardNo.length;
+
+    int nSum = 0;
+    bool isSecond = false;
+    for (int i = nDigits - 1; i >= 0; i--)
+    {
+
+      int d = cardNo[i] as int ;
+
+      if (isSecond == true)
+        d = d * 2;
+
+      // We add two digits to handle
+      // cases that make two digits
+      // after doubling
+      nSum += (d / 10) as int;
+      nSum += d % 10;
+
+      isSecond = !isSecond;
+    }
+    return (nSum % 10 == 0);
+  }
+
 }

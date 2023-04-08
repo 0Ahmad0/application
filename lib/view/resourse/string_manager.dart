@@ -231,5 +231,6 @@ class AppStringsManager{
   static const String filed_Required = 'هذا الحقل مطلوب';
   static const String cvv_3letter = 'الطول الاعظم هو 3';
   static const String card_number_16letter = 'يجب أن يكون الرقم من 16';
+  static const String card_number_not_valid = 'رقم البطاقة غير صالح';
 
 }
