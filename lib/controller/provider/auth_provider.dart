@@ -29,13 +29,17 @@ class AuthProvider with ChangeNotifier{
   var phoneNumber = TextEditingController();
   var password = TextEditingController();
   var confirmPassword = TextEditingController();
+
   List<String> listTypeUserWithActive=[AppConstants.collectionTrainer];
+
   models.User user= models.User(id: "id",uid: "uid", name: "name", email: "email", phoneNumber: "phoneNumber", password: "password",photoUrl: "photoUrl",typeUser: "typeUser",dateBirth: DateTime.now(),gender: "Male");
+
   visitor(context) async{
     final profileProvider = Provider.of<ProfileProvider>(context,listen: false);
     user=User(id: '', uid: '', name: AppConstants.collectionVisitor, email: '', phoneNumber: '', password: '', typeUser: AppConstants.collectionVisitor, photoUrl: '', gender: '', dateBirth: DateTime.now());
     profileProvider.updateUser(user: user);
   }
+
   signup(context) async{
     final profileProvider = Provider.of<ProfileProvider>(context,listen: false);
     bool checkPhoneOrEmailFound =await FirebaseFun.checkPhoneOrEmailFound(email:user.email, phone: user.phoneNumber);
@@ -62,6 +66,7 @@ class AuthProvider with ChangeNotifier{
     Const.TOAST(context,textToast: FirebaseFun.findTextToast(result['message'].toString()));
     return result;
   }
+
   signupAD(context) async{
     bool checkPhoneOrEmailFound =await FirebaseFun.checkPhoneOrEmailFound(email:user.email, phone: user.phoneNumber);
     var result;
@@ -81,6 +86,7 @@ class AuthProvider with ChangeNotifier{
     Const.TOAST(context,textToast: FirebaseFun.findTextToast(result['message'].toString()));
     return result;
   }
+
   login(context) async{
     var result=await loginWithPhoneNumber(context);
     if(!result['status'])
@@ -102,6 +108,7 @@ class AuthProvider with ChangeNotifier{
     }
     return result;
   }
+
   loginWithPhoneNumber(context) async{
 
     var resultUser =await FirebaseFun.loginWithPhoneNumber(phoneNumber: user.email, password: user.password,typeUser: AppConstants.collectionUser);
@@ -119,6 +126,7 @@ class AuthProvider with ChangeNotifier{
    // result=await loginWithEmil(context);
     return resultUser;
   }
+
   _baseLogin(context,{required var resultUserAfterLog}) async{
 
     final profileProvider = Provider.of<ProfileProvider>(context,listen: false);
@@ -150,7 +158,6 @@ class AuthProvider with ChangeNotifier{
     return result;
   }
 
-
   loginUid(String uid) async{
     var result = await fetchUser(uid: uid);
     if(result['status']){
@@ -171,13 +178,13 @@ class AuthProvider with ChangeNotifier{
     }*/
     // user.uid=result['body']['uid'];
   }
+
   fetchUser({required String uid}) async {
     var result= await FirebaseFun.fetchUser(uid: uid, typeUser: AppConstants.collectionUser);
     // print(result);
     if(result['status']&&result['body']==null){
       result = await FirebaseFun.fetchUser(uid: uid, typeUser: AppConstants.collectionTrainer);
       if(result['status']&&result['body']==null){
-
         result = await FirebaseFun.fetchUser(uid: uid, typeUser: AppConstants.collectionAdmin);
         if(result['status']&&result['body']==null){
           result={
@@ -190,13 +197,13 @@ class AuthProvider with ChangeNotifier{
     return result;
   }
 
-
- sendPasswordResetEmail(context,{required String resetEmail}) async{
+  sendPasswordResetEmail(context,{required String resetEmail}) async{
     var result =await FirebaseFun.sendPasswordResetEmail(email: resetEmail);
     print(result);
     Const.TOAST(context,textToast: FirebaseFun.findTextToast(result['message'].toString()));
     return result;
   }
+
   recoveryPassword(context,{required User user}) async{
     var result =await FirebaseFun.updatePassword(newPassword: user.password);
     if(result["status"])
@@ -205,6 +212,7 @@ class AuthProvider with ChangeNotifier{
     Const.TOAST(context,textToast: FirebaseFun.findTextToast(result['message'].toString()));
     return result;
   }
+
   onError(error){
     print(false);
     print(error);
@@ -240,6 +248,7 @@ class AuthProvider with ChangeNotifier{
     }
     return result;
   }
+
   loginWithPhoneNumberByTypeUser(context,{required String typeUser}) async{
 
     var resultUser =await FirebaseFun.loginWithPhoneNumber(phoneNumber: user.email, password: user.password,typeUser: typeUser);
@@ -251,6 +260,7 @@ class AuthProvider with ChangeNotifier{
     result=await loginWithEmilByTypeUser(context,typeUser: typeUser);
     return result;
   }
+
   fetchUserByTypeUser({required String uid,required typeUser}) async {
     var  result = await FirebaseFun.fetchUser(uid: uid, typeUser: typeUser);
     if(result['status']&&result['body']==null){
@@ -261,6 +271,7 @@ class AuthProvider with ChangeNotifier{
     }
     return result;
   }
+
   Future uploadImage(context,XFile image, {String folder = 'profileImage'}) async {
     //Const.LOADIG(context);
     var url=await FirebaseFun.uploadImage(image: image,folder: folder);
@@ -273,6 +284,7 @@ class AuthProvider with ChangeNotifier{
 
     //Navigator.of(context).pop();
   }
+
   Future uploadFile(context,File file, {String folder = 'file'}) async {
     //Const.LOADIG(context);
     var url=await FirebaseFun.uploadImage(image: XFile(file.path),folder: folder);

@@ -12,8 +12,8 @@ import 'new_request_page.dart';
 import 'ongoing_requests_page.dart';
 
 class RequestsViewBody extends StatefulWidget {
-   RequestsViewBody({Key? key, required this.accountProvider}) : super(key: key);
-final AccountProvider accountProvider;
+  RequestsViewBody({Key? key, required this.accountProvider}) : super(key: key);
+  final AccountProvider accountProvider;
   @override
   State<RequestsViewBody> createState() => _RequestsViewBodyState();
 }
@@ -60,12 +60,12 @@ class _RequestsViewBodyState extends State<RequestsViewBody> {
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        _selectedIndex = i ;
+                        _selectedIndex = i;
                         _pageController.animateToPage(_selectedIndex,
-                            duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut);
 
-                       setState(() {
-                        });
+                        setState(() {});
                       },
                       child: AnimatedContainer(
                         alignment: Alignment.center,
@@ -78,12 +78,14 @@ class _RequestsViewBodyState extends State<RequestsViewBody> {
                               : ColorManager.borderColor,
                           borderRadius: BorderRadius.circular(50.sp),
                         ),
-                        child: Text(requestType[i],style: getRegularStyle(
-                          color: _selectedIndex == i
-                              ? ColorManager.white
-                              : ColorManager.lightGray,
-                          fontSize: 10.sp
-                        ),),
+                        child: Text(
+                          requestType[i],
+                          style: getRegularStyle(
+                              color: _selectedIndex == i
+                                  ? ColorManager.white
+                                  : ColorManager.lightGray,
+                              fontSize: 10.sp),
+                        ),
                       ),
                     ),
                   )
@@ -93,14 +95,12 @@ class _RequestsViewBodyState extends State<RequestsViewBody> {
           const SizedBox(
             height: AppSize.s10,
           ),
-          Expanded(child: PageView(
+          Expanded(
+              child: PageView(
             controller: _pageController,
-            onPageChanged: (index){
+            onPageChanged: (index) {
               _selectedIndex = index;
-              setState(() {
-
-              });
-
+              setState(() {});
             },
             children: [
               NewRequestPage(),

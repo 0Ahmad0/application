@@ -16,6 +16,7 @@ class Role{
      menuView,
    ];
    static const login='login';
+
    static const signup='signup';
    static const recovery_password='recovery_password';
    //menu

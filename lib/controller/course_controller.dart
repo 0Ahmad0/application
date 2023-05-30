@@ -78,7 +78,6 @@ class CourseController{
       return 0;
 
   }
-
   TimeOfDay stringToTimeOfDay(String time) {
     // final format = DateFormat.jm(); //"6:00 AM"
     // return TimeOfDay.fromDateTime(format.parse(tod));

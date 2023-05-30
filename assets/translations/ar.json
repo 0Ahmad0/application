@@ -9,11 +9,9 @@
   "password": "كلمة المرور",
   "type": "إدخال",
   "forget_password": "نسيتي كلمة المرور؟",
-  "login": "تسجبل دخول",
+  "login": "تسجيل دخول",
   "do_not_have_account": "لا أملك حساب في التطبيق؟ ",
   "sign_up": "إنشاء حساب",
-
-
   "loading": "جاري التحميل ...",
   "active": "نشط",
   "non_active": "غير نشط",

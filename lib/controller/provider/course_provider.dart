@@ -55,6 +55,4 @@ class CourseProvider extends ChangeNotifier{
   //   }
   //   return result;
   // }
-
-
 }

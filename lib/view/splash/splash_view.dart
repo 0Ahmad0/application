@@ -27,63 +27,59 @@ class _SplashViewState extends State<SplashView> {
     super.initState();
 
     Future.delayed(const Duration(seconds: 5), () {
+      AuthProvider authProvider =
+          Provider.of<AuthProvider>(context, listen: false);
+      ProfileProvider profileProvider =
+          Provider.of<ProfileProvider>(context, listen: false);
 
-      AuthProvider authProvider= Provider.of<AuthProvider>(context,listen: false);
-      ProfileProvider profileProvider= Provider.of<ProfileProvider>(context,listen: false);
-
-      init(context,authProvider,profileProvider);
+      init(context, authProvider, profileProvider);
     });
-
   }
 
-  init(context,authProvider,profileProvider) async {
+  init(context, authProvider, profileProvider) async {
     await AppStorage.init();
+
     ///TODO language
-    if(Advance.language){
+    if (Advance.language) {
       Get.updateLocale(Locale('ar'));
-    }else
-    {
+    } else {
       Get.updateLocale(Locale('ar'));
-    //  Get.updateLocale(Locale('en'));
+      //  Get.updateLocale(Locale('en'));
     }
 
     ///end
-    if(Advance.isLogined&&Advance.token!=""){
+    if (Advance.isLogined && Advance.token != "") {
       final result = await authProvider.fetchUser(uid: Advance.uid);
-      if(result['status']){
-
-        if(authProvider.listTypeUserWithActive.contains(result['body']['typeUser'])&&(!result['body']['active']||result['body']['band'])){
+      if (result['status']) {
+        if (authProvider.listTypeUserWithActive
+                .contains(result['body']['typeUser']) &&
+            (!result['body']['active'] || result['body']['band'])) {
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                  builder: (ctx) => WelcomeView()));}
-        else{
-    profileProvider.updateUser(user:User.fromJson(result['body']));
-    final WalletProvider walletProvider= Provider.of<WalletProvider>(context,listen: false);
-    await walletProvider.fetchMyWallet(context);
-    Navigator.of(context).pushReplacement(
-    MaterialPageRoute(
-    builder: (ctx) => NavbarView()));
-    }
-
-      }else{
+              MaterialPageRoute(builder: (ctx) => WelcomeView()));
+        } else {
+          profileProvider.updateUser(user: User.fromJson(result['body']));
+          final WalletProvider walletProvider =
+              Provider.of<WalletProvider>(context, listen: false);
+          await walletProvider.fetchMyWallet(context);
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (ctx) => NavbarView()));
+        }
+      } else {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-                builder: (ctx) => WelcomeView()));
-
+            MaterialPageRoute(builder: (ctx) => WelcomeView()));
       }
-
-    }else{
+    } else {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => WelcomeView()
-            //HomeView()
-            // LoginView()
-          ));
+              //HomeView()
+              // LoginView()
+              ));
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: SplashViewBody());
   }
 }
-
